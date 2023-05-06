@@ -28,7 +28,6 @@ function LoginScreen() {
         const user: User = res.data.user;
         setUser(user);
         toast.success("Login successful");
-        console.log(user);
       })
       .catch((err) => {
         console.log(err);
