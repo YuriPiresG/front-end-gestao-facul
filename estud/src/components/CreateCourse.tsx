@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { Stack } from "@mantine/core";
 
 interface FormEvent extends React.ChangeEvent<HTMLSelectElement> {
   target: HTMLSelectElement;
@@ -51,19 +52,20 @@ function CreateCourse() {
   return (
     <>
       <form>
-        <label htmlFor="name">Nome do curso</label>
-        <input type="text" name="name" id="name" />
-        <label htmlFor="coordinatorId">Id do coordenador</label>
-        <input type="number" name="coordinatorId" id="coordinatorId" />
-        <label htmlFor="durationHours">Quantidade de horas</label>
-        <input type="number" name="durationHours" id="durationHours" />
-        <label htmlFor="quantityClass">Quantidade de aulas</label>
-        <input type="number" name="quantityClass" id="quantityClass" />
-        <label htmlFor="quantitySemester">Quantidade de Semestres</label>
-        <input type="number" name="quantitySemester" id="quantitySemester" />
-        <label htmlFor="periods">Períodos</label>
-        <input type="text" name="periods" id="periods" />
-        {/* <label>
+        <Stack>
+          <label htmlFor="name">Nome do curso</label>
+          <input type="text" name="name" id="name" />
+          <label htmlFor="coordinatorId">Id do coordenador</label>
+          <input type="number" name="coordinatorId" id="coordinatorId" />
+          <label htmlFor="durationHours">Quantidade de horas</label>
+          <input type="number" name="durationHours" id="durationHours" />
+          <label htmlFor="quantityClass">Quantidade de aulas</label>
+          <input type="number" name="quantityClass" id="quantityClass" />
+          <label htmlFor="quantitySemester">Quantidade de Semestres</label>
+          <input type="number" name="quantitySemester" id="quantitySemester" />
+          <label htmlFor="periods">Períodos</label>
+          <input type="text" name="periods" id="periods" />
+          {/* <label>
           Periods:
           <select multiple onChange={handlePeriodsChange}>
             <option>M1</option>
@@ -72,7 +74,8 @@ function CreateCourse() {
             <option>T2</option>
           </select>
         </label> */}
-        <button type="submit">Criar curso</button>
+          <button type="submit">Criar curso</button>
+        </Stack>
       </form>
     </>
   );
