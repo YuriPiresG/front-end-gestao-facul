@@ -22,12 +22,12 @@ export const useLogin = () => {
       const user: User = response.data.user;
       localStorage.setItem("access_token", response.data.access_token);
       queryClient.setQueryData(["me"], user);
-      toast.success("Login successful");
+      toast.success("Login bem sucedido");
       navigate("/home");
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Invalid username or password");
+      toast.error("Username ou senha incorretos");
     },
   });
 };

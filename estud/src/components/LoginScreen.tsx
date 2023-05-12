@@ -34,7 +34,7 @@ function LoginScreen() {
       <form className="form-login" onSubmit={handleSubmit}>
         <Stack>
           <h1 className="login-header">Course Planner</h1>
-            <Image src={coruja} alt="Coruja" width={150} height={150} />
+            <Image src={coruja} alt="Coruja" width={150} height={150} style={{}} />
           <TextInput
             label="Username"
             type="text"
