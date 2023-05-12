@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import { User } from "../hooks/useUser";
 import { Table } from '@mantine/core';
+import { useQuery } from "@tanstack/react-query";
+import { User } from "../hooks/useUser";
+import { api } from "../lib/api";
 
 interface Course {
   id: number;
@@ -27,7 +25,6 @@ const useCourses = () => {
 
 function GetCourses() {
   const { data: courses, isLoading } = useCourses();
-  console.log(courses);
   return (
     <div>
       <h2>Course List</h2>

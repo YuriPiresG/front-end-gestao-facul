@@ -1,10 +1,15 @@
+import {
+  Button,
+  Center,
+  PasswordInput,
+  Stack,
+  TextInput,
+  Image,
+} from "@mantine/core";
 import React, { useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
-import DirectorScreen from "./DirectorScreen";
-import CoordinatorScreen from "./CoordinatorScreen";
-import { Button, Center, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { useLogin } from "../hooks/useLogin";
+import coruja from "../assets/coruja.png";
+import { Link } from "react-router-dom";
 
 interface User {
   name: string;
@@ -29,6 +34,7 @@ function LoginScreen() {
       <form className="form-login" onSubmit={handleSubmit}>
         <Stack>
           <h1 className="login-header">Course Planner</h1>
+            <Image src={coruja} alt="Coruja" width={150} height={150} />
           <TextInput
             label="Username"
             type="text"
