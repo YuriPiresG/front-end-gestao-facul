@@ -27,17 +27,17 @@ function GetCourses() {
   const { data: courses, isLoading } = useCourses();
   return (
     <div>
-      <h2>Course List</h2>
+      <h2>Lista de cursos</h2>
       <Table>
         <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
-            <th>Coordinator ID</th>
-            <th>Duration Hours</th>
-            <th>Quantity Class</th>
-            <th>Quantity Semester</th>
-            <th>Periods</th>
+            <th>Nome</th>
+            <th>ID do Coordenador</th>
+            <th>Duração(horas)</th>
+            <th>Quantidade de aulas</th>
+            <th>Quantidade de semestres</th>
+            <th>Períodos</th>
           </tr>
         </thead>
         <tbody>
