@@ -2,13 +2,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 
-export const useLogout = () => {
+export const useHome = () => {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
-    const logout = () => {
-      localStorage.removeItem("access_token");
-      navigate("/");
+    const home = () => {
+      navigate("/home");
     };
-    return logout;
+    return home;
   };
   

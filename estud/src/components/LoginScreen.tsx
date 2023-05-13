@@ -1,15 +1,14 @@
 import {
   Button,
   Center,
+  Image,
   PasswordInput,
   Stack,
   TextInput,
-  Image,
 } from "@mantine/core";
 import React, { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
 import coruja from "../assets/coruja.png";
-import { Link } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
 interface User {
   name: string;
@@ -34,7 +33,9 @@ function LoginScreen() {
       <form className="form-login" onSubmit={handleSubmit}>
         <Stack>
           <h1 className="login-header">Course Planner</h1>
-            <Image src={coruja} alt="Coruja" width={150} height={150} style={{}} />
+        </Stack>
+        <Image src={coruja} alt="Coruja" width={150} height={150} style={{marginLeft:"4vh"}}/>
+        <Stack>
           <TextInput
             label="Username"
             type="text"

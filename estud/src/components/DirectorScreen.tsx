@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 import CreateCourse from "./CreateCourse";
 import DeleteCourse from "./DeleteCourse";
+import UpdateCourse from "./UpdateCourse";
 
 function DirectorScreen() {
   const user = useUser();
@@ -18,11 +19,12 @@ function DirectorScreen() {
       direction="column"
       wrap="wrap"
     >
-        <CreateCourse /> <br />
+        <CreateCourse /> 
         <Link to="/get-courses" className="link">
-          <Button> Ver cursos existentes </Button>
-        </Link> <br />
-        <DeleteCourse />
+          <Button color="yellow"> Ver cursos existentes </Button>
+        </Link> 
+        <DeleteCourse /> 
+        <UpdateCourse />
         </Flex>
       </div>
     </>

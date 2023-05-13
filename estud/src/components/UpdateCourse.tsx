@@ -1,8 +1,10 @@
-import { Button, Group, Input, Modal, MultiSelect, Stack } from "@mantine/core";
+//TODO: Mudar o atualizar o curso para um modo que o usuario consiga selecionar o curso entre os disponiveis
+
+import { Button, Group, Input, Modal, Stack, MultiSelect } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useCourse } from "../hooks/useCourse";
+import { useUpdateCourse } from "../hooks/useUpdateCourse";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
@@ -26,7 +28,7 @@ const periodsOptions = [
   { value: "N2", label: "N2" },
 ];
 
-function CreateCourse() {
+function UpdateCourse() {
   const [opened, { open, close }] = useDisclosure(false);
   const [name, setName] = useState("");
   const [coordinatorId, setCoordinatorId] = useState<number>(0);
@@ -37,7 +39,7 @@ function CreateCourse() {
   const handlePeriodsChange = (selectedItems: any[]) => {
     setPeriods(selectedItems.map((item) => item.value) as string[]);
   };
-  const { mutateAsync, isLoading } = useCourse();
+  const { mutateAsync, isLoading } = useUpdateCourse();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     await mutateAsync({
@@ -65,7 +67,7 @@ function CreateCourse() {
   };
   return (
     <>
-      <Modal  opened={opened} onClose={handleClose} title="Criar um curso">
+      <Modal opened={opened} onClose={handleClose} title="Atualizar um curso">
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
@@ -111,8 +113,8 @@ function CreateCourse() {
                 multiple
                 required
               />
-              <Button color="green" type="submit" loading={isLoading}>
-                Criar
+              <Button color="blue" type="submit" loading={isLoading}>
+                Atualizar
               </Button>
             </Stack>
           </form>
@@ -120,9 +122,11 @@ function CreateCourse() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green">Criar um curso</Button>
+        <Button onClick={open} color="blue">
+          Atualizar um curso
+        </Button>
       </Group>
     </>
   );
 }
-export default CreateCourse;
+export default UpdateCourse;
