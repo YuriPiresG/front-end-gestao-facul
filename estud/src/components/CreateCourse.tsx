@@ -1,10 +1,8 @@
-import axios from "axios";
+import { Button, Group, Input, Modal, MultiSelect, Stack } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Stack, Modal, Button, Group, Input } from "@mantine/core";
 import { useCourse } from "../hooks/useCourse";
-import { useDisclosure } from "@mantine/hooks";
-import { Form, useForm } from "@mantine/form";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
@@ -19,6 +17,15 @@ interface Course {
   periods: string[];
 }
 
+const periodsOptions = [
+  { value: "M1", label: "M1" },
+  { value: "M2", label: "M2" },
+  { value: "T1", label: "T1" },
+  { value: "T2", label: "T2" },
+  { value: "N1", label: "N1" },
+  { value: "N2", label: "N2" },
+];
+
 function CreateCourse() {
   const [opened, { open, close }] = useDisclosure(false);
   const [name, setName] = useState("");
@@ -27,6 +34,9 @@ function CreateCourse() {
   const [quantityClass, setQuantityClass] = useState<number>(0);
   const [quantitySemester, setQuantitySemester] = useState<number>(0);
   const [periods, setPeriods] = useState<string[]>([]);
+  const handlePeriodsChange = (selectedItems: any[]) => {
+    setPeriods(selectedItems.map((item) => item.value) as string[]);
+  };
   const { mutateAsync, isLoading } = useCourse();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -41,30 +51,39 @@ function CreateCourse() {
     close();
     toast.success("Curso criado com sucesso!");
   };
+  const resetForm = () => {
+    setName("");
+    setCoordinatorId(0);
+    setDurationHours(0);
+    setQuantityClass(0);
+    setQuantitySemester(0);
+    setPeriods([]);
+  };
+  const handleClose = () => {
+    resetForm();
+    close();
+  };
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Criar um curso">
+      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
               <Input
                 type="text"
                 placeholder="Nome do curso"
-                value={name}
                 onChange={(event) => setName(event.target.value)}
               />
               <Input
                 type="number"
                 placeholder="ID do coordenador"
-                value={coordinatorId}
                 onChange={(event) =>
                   setCoordinatorId(Number(event.target.value))
                 }
               />
               <Input
                 type="number"
-                placeholder="Duração do curso"
-                value={durationHours}
+                placeholder="Duração do curso em horas"
                 onChange={(event) =>
                   setDurationHours(Number(event.target.value))
                 }
@@ -72,7 +91,6 @@ function CreateCourse() {
               <Input
                 type="number"
                 placeholder="Quantidade de aulas"
-                value={quantityClass}
                 onChange={(event) =>
                   setQuantityClass(Number(event.target.value))
                 }
@@ -80,18 +98,20 @@ function CreateCourse() {
               <Input
                 type="number"
                 placeholder="Quantidade de semestres"
-                value={quantitySemester}
                 onChange={(event) =>
                   setQuantitySemester(Number(event.target.value))
                 }
               />
-              <Input
-                type="text"
-                placeholder="Períodos"
+              <MultiSelect
+                label="Períodos"
+                placeholder="Selecione os períodos"
+                data={periodsOptions}
                 value={periods}
-                onChange={(event) => setPeriods(event.target.value.split(","))}
+                onChange={(values) => setPeriods(values)}
+                multiple
+                required
               />
-              <Button type="submit" loading={isLoading} >
+              <Button type="submit" loading={isLoading}>
                 Criar
               </Button>
             </Stack>
@@ -100,9 +120,7 @@ function CreateCourse() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} style={{ right: "68vh" }}>
-          Criar um curso
-        </Button>
+        <Button onClick={open}>Criar um curso</Button>
       </Group>
     </>
   );
