@@ -86,7 +86,7 @@ function CreateUser() {
         <Button
           onClick={open}
           color="green"
-          style={{ right: "78vh", top: "1vh" }}
+          style={{ left: "60vh" }}
         >
           Criar um usuário
         </Button>
