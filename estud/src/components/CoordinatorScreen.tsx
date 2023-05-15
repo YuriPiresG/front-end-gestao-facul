@@ -1,6 +1,7 @@
 import { Button, Flex } from "@mantine/core";
 import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
+import CreateMatrix from "./CreateMatrix";
 
 
 function CoordinatorScreen() {
@@ -21,6 +22,7 @@ function CoordinatorScreen() {
           <Link to="/get-courses" className="link">
             <Button color="yellow"> Ver cursos existentes </Button>
           </Link>
+          <CreateMatrix />
         </Flex>
       </div>
     </>
