@@ -47,7 +47,7 @@ export const Layout = () => {
                 src={null}
                 alt="Usuário"
                 size={50}
-                style={{ left: "192vh", bottom: "3vh" }}
+                style={{ bottom: "3vh", left: "193vh" }}
                 color="indigo"
               />
             </Link>
