@@ -20,6 +20,9 @@ function AdminScreen() {
             <Link to="/users/create" className="link">
                 <Button color="yellow"> Criar usuario </Button>
             </Link>
+            <Link to="/users/get" className="link">
+                <Button color="yellow"> Ver usuario </Button>
+            </Link>
         </Flex>
       </div>
     </>

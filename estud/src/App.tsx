@@ -10,6 +10,7 @@ import { Layout } from "./components/Layout";
 import LoginScreen from "./components/LoginScreen";
 import GetMe from "./components/GetMe";
 import CreateUser from "./components/CreateUser";
+import GetUsers from "./components/GetUsers";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "users/create",
         element: <CreateUser />,
+      },
+      {
+        path: "users/get",
+        element: <GetUsers />,
       },
     ],
   },
