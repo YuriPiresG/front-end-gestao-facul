@@ -4,12 +4,14 @@ import { api } from "../lib/api";
 import DeleteUser from "./DeleteUser";
 import CreateUser from "./CreateUser";
 import { useState } from "react";
+import UpdateUser from "./UpdateUser";
 
 interface User {
   id: number;
   username: string;
   name: string;
   email: string;
+  password: string;
   role: number;
 }
 
@@ -31,6 +33,17 @@ function GetUsers() {
   const [selectedUserToUpdate, setSelectedUserToUpdate] = useState<User | null>(
     null
   );
+  const getRoleLabel = (role: number) => {
+    if (role === 0) {
+      return "Administrador";
+    } else if (role === 1) {
+      return "Diretor";
+    } else if (role === 2) {
+      return "Coordenador";
+    } else {
+      return "Professor";
+    }
+  };
   return (
     <div>
       <CreateUser />
@@ -53,9 +66,11 @@ function GetUsers() {
               <td>{user.username}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.role}</td>
+              <td>{getRoleLabel(user.role)}</td>
               <td>
-                <Button>EDITAR</Button>
+                <Button onClick={() => setSelectedUserToUpdate(user)}>
+                  EDITAR
+                </Button>
               </td>
               <td>
                 <Button
@@ -69,7 +84,7 @@ function GetUsers() {
           ))}
         </tbody>
       </Table>
-      
+
       {selectedUserToDelete && (
         <DeleteUser
           open={!!selectedUserToDelete}
@@ -77,6 +92,15 @@ function GetUsers() {
             setSelectedUserToDelete(null);
           }}
           user={selectedUserToDelete as any}
+        />
+      )}
+      {selectedUserToUpdate && (
+        <UpdateUser
+          open={!!selectedUserToUpdate}
+          close={() => {
+            setSelectedUserToUpdate(null);
+          }}
+          user={selectedUserToUpdate as any}
         />
       )}
     </div>
