@@ -103,7 +103,7 @@ function CreateMatrix() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green">
+        <Button onClick={open} color="green" style={{ left: "60vh" }}>
           Criar uma matriz
         </Button>
       </Group>

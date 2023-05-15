@@ -6,6 +6,7 @@ import { api } from "../lib/api";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
 import CreateCourse from "./CreateCourse";
+import CreateMatrix from "./CreateMatrix";
 
 interface Course {
   id: number;
@@ -37,6 +38,7 @@ function GetCourses() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <div>
+      <CreateMatrix /><br />
       <CreateCourse />
       <h2>Lista de cursos</h2>
       <Table>
