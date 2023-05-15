@@ -6,7 +6,7 @@ function useUpdateCourse() {
     return useMutation({
         mutationFn: async (data: any) => {
             const response = await api.put(`/course/${data.id}`, data);
-            queryClient.invalidateQueries(["course"]);
+            queryClient.refetchQueries(["courses"]);
         }
     });
 }

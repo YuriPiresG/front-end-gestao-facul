@@ -11,8 +11,9 @@ interface FormEvent extends React.FormEvent<HTMLFormElement> {
 }
 
 interface Course {
+  id: number;
   name: string;
-  coordinatorId: number;
+  coordinatorId: { id: number };
   durationHours: number;
   quantityClass: number;
   quantitySemester: number;
@@ -28,14 +29,29 @@ const periodsOptions = [
   { value: "N2", label: "N2" },
 ];
 
-function UpdateCourse() {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [name, setName] = useState("");
-  const [coordinatorId, setCoordinatorId] = useState<number>(0);
-  const [durationHours, setDurationHours] = useState<number>(0);
-  const [quantityClass, setQuantityClass] = useState<number>(0);
-  const [quantitySemester, setQuantitySemester] = useState<number>(0);
-  const [periods, setPeriods] = useState<string[]>([]);
+interface Props {
+  course: Course;
+  open: boolean;
+  close: () => void;
+}
+
+function UpdateCourse(props: Props) {
+  const [name, setName] = useState(props.course.name);
+  const [coordinatorId, setCoordinatorId] = useState<number>(
+    props.course?.coordinatorId?.id
+  );
+  const [durationHours, setDurationHours] = useState<number>(
+    props.course.durationHours
+  );
+  const [quantityClass, setQuantityClass] = useState<number>(
+    props.course.quantityClass
+  );
+  const [quantitySemester, setQuantitySemester] = useState<number>(
+    props.course.quantitySemester
+  );
+  const [periods, setPeriods] = useState<string[]>(
+    props.course.periods.map((period) => period)
+  );
   const handlePeriodsChange = (selectedItems: any[]) => {
     setPeriods(selectedItems.map((item) => item.value) as string[]);
   };
@@ -43,6 +59,7 @@ function UpdateCourse() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     await mutateAsync({
+      id: props.course.id,
       name,
       coordinatorId,
       durationHours,
@@ -50,8 +67,8 @@ function UpdateCourse() {
       quantitySemester,
       periods,
     });
-    close();
-    toast.success("Curso criado com sucesso!");
+    props.close();
+    toast.success("Curso atualizado com sucesso!");
   };
   const resetForm = () => {
     setName("");
@@ -63,22 +80,34 @@ function UpdateCourse() {
   };
   const handleClose = () => {
     resetForm();
-    close();
+    props.close();
   };
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="Atualizar um curso">
+      <Modal
+        opened={props.open}
+        onClose={handleClose}
+        title="Atualizar um curso"
+      >
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
               <Input
+                type="number"
+                placeholder="Id do curso"
+                value={props.course.id}
+                disabled
+              />
+              <Input
                 type="text"
                 placeholder="Nome do curso"
+                value={name}
                 onChange={(event) => setName(event.target.value)}
               />
               <Input
                 type="number"
                 placeholder="ID do coordenador"
+                value={coordinatorId}
                 onChange={(event) =>
                   setCoordinatorId(Number(event.target.value))
                 }
@@ -86,6 +115,7 @@ function UpdateCourse() {
               <Input
                 type="number"
                 placeholder="Duração do curso em horas"
+                value={durationHours}
                 onChange={(event) =>
                   setDurationHours(Number(event.target.value))
                 }
@@ -93,6 +123,7 @@ function UpdateCourse() {
               <Input
                 type="number"
                 placeholder="Quantidade de aulas"
+                value={quantityClass}
                 onChange={(event) =>
                   setQuantityClass(Number(event.target.value))
                 }
@@ -100,6 +131,7 @@ function UpdateCourse() {
               <Input
                 type="number"
                 placeholder="Quantidade de semestres"
+                value={quantitySemester}
                 onChange={(event) =>
                   setQuantitySemester(Number(event.target.value))
                 }
@@ -120,12 +152,6 @@ function UpdateCourse() {
           </form>
         </Modal.Body>
       </Modal>
-
-      <Group position="center">
-        <Button onClick={open} color="blue">
-          Atualizar um curso
-        </Button>
-      </Group>
     </>
   );
 }

@@ -120,7 +120,7 @@ function CreateCourse() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green">Criar um curso</Button>
+        <Button onClick={open} color="green" style={{right:'78vh', top:'1vh'}}>Criar um curso</Button>
       </Group>
     </>
   );

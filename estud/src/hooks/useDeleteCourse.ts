@@ -6,7 +6,7 @@ function useDeleteCourse() {
     return useMutation({
         mutationFn: async (id: number) => {
             const response = await api.delete(`/course/${id}`);
-            queryClient.invalidateQueries(["course"]);
+            queryClient.refetchQueries(["courses"]);
         }
     });
 }

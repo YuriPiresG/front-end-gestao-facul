@@ -4,6 +4,7 @@ import { useUser } from "../hooks/useUser";
 import { useLogout } from "../hooks/useLogout";
 import { useHome } from "../hooks/useHome";
 
+
 export const Layout = () => {
   const user = useUser();
   const logout = useLogout();
