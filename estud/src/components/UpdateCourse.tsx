@@ -1,7 +1,6 @@
 //TODO: Mudar o atualizar o curso para um modo que o usuario consiga selecionar o curso entre os disponiveis
 
-import { Button, Group, Input, Modal, Stack, MultiSelect } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Button, Input, Modal, MultiSelect, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useUpdateCourse } from "../hooks/useUpdateCourse";
@@ -52,9 +51,6 @@ function UpdateCourse(props: Props) {
   const [periods, setPeriods] = useState<string[]>(
     props.course.periods.map((period) => period)
   );
-  const handlePeriodsChange = (selectedItems: any[]) => {
-    setPeriods(selectedItems.map((item) => item.value) as string[]);
-  };
   const { mutateAsync, isLoading } = useUpdateCourse();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

@@ -1,7 +1,7 @@
 import { Button, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { User } from "../hooks/useUser";
+import { User, useUser } from "../hooks/useUser";
 import { api } from "../lib/api";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
@@ -17,7 +17,8 @@ interface Course {
   periods: string[];
 }
 
-const useCourses = () => {
+
+export const useGetCourses = () => {
   return useQuery({
     queryKey: ["courses"],
     queryFn: async () => {
@@ -28,12 +29,15 @@ const useCourses = () => {
 };
 
 function GetCourses() {
-  const { data: courses, isLoading } = useCourses();
+  const user = useUser();
+  const isPermitedEdit = user?.role === 0 || user?.role === 1;
+  const { data: courses, isLoading } = useGetCourses();
   const [selectedCourseUpdate, setSelectedCourseUpdate] =
     useState<Course | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <div>
+      <CreateCourse />
       <h2>Lista de cursos</h2>
       <Table>
         <thead>
@@ -59,12 +63,12 @@ function GetCourses() {
               <td>{course.quantitySemester}</td>
               <td>{course.periods.join(", ")}</td>
               <td>
-                <Button onClick={() => setSelectedCourseUpdate(course)}>
+                <Button onClick={() => setSelectedCourseUpdate(course)} disabled={!isPermitedEdit}>
                   EDITAR
                 </Button>
               </td>
               <td>
-                <Button onClick={() => setSelectedCourse(course)} color="red">
+                <Button onClick={() => setSelectedCourse(course)} color="red" disabled={!isPermitedEdit}>
                   DELETAR
                 </Button>
               </td>
@@ -91,7 +95,7 @@ function GetCourses() {
           course={selectedCourse as any}
         />
       )}
-      <CreateCourse />
+      
     </div>
   );
 }

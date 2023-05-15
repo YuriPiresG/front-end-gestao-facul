@@ -1,16 +1,8 @@
-import { Modal, Stack, Input, MultiSelect, Button, Group } from "@mantine/core";
+import { Button, Group, Input, Modal, Stack } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateUser } from "../hooks/useCreateUser";
-
-interface User {
-  username: string;
-  name: string;
-  email: string;
-  password: string;
-  role: number;
-}
 
 function CreateUser() {
   const [opened, { open, close }] = useDisclosure(false);
@@ -83,11 +75,7 @@ function CreateUser() {
       </Modal>
 
       <Group position="center">
-        <Button
-          onClick={open}
-          color="green"
-          style={{ left: "60vh" }}
-        >
+        <Button onClick={open} color="green" style={{ left: "60vh" }}>
           Criar um usuário
         </Button>
       </Group>
