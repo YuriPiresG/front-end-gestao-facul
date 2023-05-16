@@ -1,19 +1,19 @@
 import {
-  Button,
-  Group,
-  Input,
-  Modal,
-  MultiSelect,
-  Select,
-  Stack,
-  TextInput,
+    Button,
+    Group,
+    Input,
+    Modal,
+    MultiSelect,
+    Select,
+    Stack,
+    TextInput,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateMatrix } from "../hooks/useCreateMatrix";
+import { useGetCourses } from "../hooks/useGetCourses";
 import { useGetSubjects } from "../hooks/useGetSubjects";
-import { useGetCourses } from "./GetCourses";
 
 function CreateMatrix() {
   const [opened, { open, close }] = useDisclosure(false);

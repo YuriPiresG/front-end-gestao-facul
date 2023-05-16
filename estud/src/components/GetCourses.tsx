@@ -1,12 +1,11 @@
 import { Button, Table } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
+import { useGetCourses } from "../hooks/useGetCourses";
 import { User, useUser } from "../hooks/useUser";
-import { api } from "../lib/api";
-import DeleteCourse from "./DeleteCourse";
-import UpdateCourse from "./UpdateCourse";
 import CreateCourse from "./CreateCourse";
 import CreateMatrix from "./CreateMatrix";
+import DeleteCourse from "./DeleteCourse";
+import UpdateCourse from "./UpdateCourse";
 
 interface Course {
   id: number;
@@ -18,17 +17,6 @@ interface Course {
   periods: string[];
 }
 
-
-export const useGetCourses = () => {
-  return useQuery({
-    queryKey: ["courses"],
-    queryFn: async () => {
-      const response = await api.get<Course[]>("/course");
-      return response.data;
-    },
-  });
-};
-
 function GetCourses() {
   const user = useUser();
   const isPermitedEdit = user?.role === 0 || user?.role === 1;
@@ -38,7 +26,8 @@ function GetCourses() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <div>
-      <CreateMatrix /><br />
+      <CreateMatrix />
+      <br />
       <CreateCourse />
       <h2>Lista de cursos</h2>
       <Table>
@@ -65,12 +54,19 @@ function GetCourses() {
               <td>{course.quantitySemester}</td>
               <td>{course.periods.join(", ")}</td>
               <td>
-                <Button onClick={() => setSelectedCourseUpdate(course)} disabled={!isPermitedEdit}>
+                <Button
+                  onClick={() => setSelectedCourseUpdate(course)}
+                  disabled={!isPermitedEdit}
+                >
                   EDITAR
                 </Button>
               </td>
               <td>
-                <Button onClick={() => setSelectedCourse(course)} color="red" disabled={!isPermitedEdit}>
+                <Button
+                  onClick={() => setSelectedCourse(course)}
+                  color="red"
+                  disabled={!isPermitedEdit}
+                >
                   DELETAR
                 </Button>
               </td>
@@ -97,7 +93,6 @@ function GetCourses() {
           course={selectedCourse as any}
         />
       )}
-      
     </div>
   );
 }

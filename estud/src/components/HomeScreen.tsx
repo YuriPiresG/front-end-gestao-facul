@@ -1,9 +1,8 @@
-import React from "react";
+import { UserRole } from "../constants/role";
+import { useUser } from "../hooks/useUser";
+import AdminScreen from "./AdminScreen";
 import CoordinatorScreen from "./CoordinatorScreen";
 import DirectorScreen from "./DirectorScreen";
-import { useUser } from "../hooks/useUser";
-import { UserRole } from "../constants/role";
-import AdminScreen from "./AdminScreen";
 
 function HomeScreen() {
   const user = useUser();

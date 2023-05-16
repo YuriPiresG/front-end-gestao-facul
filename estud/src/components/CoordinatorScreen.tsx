@@ -1,7 +1,7 @@
-import { Button, Flex } from "@mantine/core";
+import { Button, Flex, Image } from "@mantine/core";
 import { Link } from "react-router-dom";
+import courseLogo from "../assets/courseLogo.png";
 import { useUser } from "../hooks/useUser";
-import CreateMatrix from "./CreateMatrix";
 import CreateSubject from "./CreateSubject";
 
 function CoordinatorScreen() {
@@ -21,9 +21,18 @@ function CoordinatorScreen() {
           <Link to="/get-courses" className="link">
             <Button color="yellow"> Ver cursos existentes </Button>
           </Link>
-          <CreateMatrix />
           <CreateSubject />
         </Flex>
+        <Image
+          src={courseLogo}
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            right: "10px",
+            maxWidth: "60vh",
+            maxHeight: "50vh",
+          }}
+        />
       </div>
     </>
   );

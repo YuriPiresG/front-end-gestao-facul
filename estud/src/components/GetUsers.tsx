@@ -5,6 +5,7 @@ import DeleteUser from "./DeleteUser";
 import CreateUser from "./CreateUser";
 import { useState } from "react";
 import UpdateUser from "./UpdateUser";
+import CreateProfessor from "./CreateProfessor";
 
 interface User {
   id: number;
@@ -47,6 +48,8 @@ function GetUsers() {
   return (
     <div>
       <CreateUser />
+      <br />
+      <CreateProfessor />
       <h2>Lista de usuários</h2>
       <Table>
         <thead>

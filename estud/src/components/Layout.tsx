@@ -1,8 +1,8 @@
-import { AppShell, Header, Navbar, Avatar, Button, Image } from "@mantine/core";
-import { Outlet, Link } from "react-router-dom";
-import { useUser } from "../hooks/useUser";
-import { useLogout } from "../hooks/useLogout";
+import { AppShell, Avatar, Button, Header, Navbar } from "@mantine/core";
+import { Link, Outlet } from "react-router-dom";
 import { useHome } from "../hooks/useHome";
+import { useLogout } from "../hooks/useLogout";
+import { useUser } from "../hooks/useUser";
 
 export const Layout = () => {
   const user = useUser();
@@ -53,9 +53,9 @@ export const Layout = () => {
           </Header>
         }
       >
-        <Image src="../assets/courseLogo.png" />
         <Outlet />
       </AppShell>
+ 
     </div>
   );
 };
