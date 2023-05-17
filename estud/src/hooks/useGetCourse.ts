@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
 
 export interface Course {
+  id: number;
   name: string;
   coordinatorId: null | number;
   durationHours: number;

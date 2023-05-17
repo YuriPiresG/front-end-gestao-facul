@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import { Course } from "./useGetCourse";
 
-interface Calendar {
+export interface Calendar {
   id: number;
   course: null | Course;
   semester: number;

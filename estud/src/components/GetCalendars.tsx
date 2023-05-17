@@ -1,24 +1,14 @@
 import { Button, Table } from "@mantine/core";
-import { useState } from "react";
-import { useGetCalendars } from "../hooks/useGetCalendars";
+import { Calendar, useGetCalendars } from "../hooks/useGetCalendars";
 import { useUser } from "../hooks/useUser";
-import CreateCourse from "./CreateCourse";
-import CreateMatrix from "./CreateMatrix";
-import DeleteCourse from "./DeleteCourse";
-import UpdateCourse from "./UpdateCourse";
-import { Course } from "../hooks/useGetCourse";
-
-interface Calendar {
-  id: number;
-  course: null | Course;
-  semester: number;
-  isActive: boolean;
-}
+import { useState } from "react";
+import UpdateCalendar from "./UpdateCalendar";
 
 function GetCalendars() {
   const user = useUser();
-  const isPermitedEdit = user?.role === 0 || user?.role === 1;
   const { data: calendars, isLoading } = useGetCalendars();
+  const [selectedCalendarUpdate, setSelectedCalendarUpdate] =
+    useState<Calendar | null>(null);
   const getCalendarStatus = (isActive: boolean) => {
     if (isActive) {
       return "Ativo";
@@ -36,6 +26,7 @@ function GetCalendars() {
             <th>Curso</th>
             <th>Semestre</th>
             <th>Está ativo?</th>
+            <th>Dias da semana</th>
           </tr>
         </thead>
         <tbody>
@@ -46,17 +37,28 @@ function GetCalendars() {
               <td>{calendar.semester}</td>
               <td>{getCalendarStatus(calendar.isActive)}</td>
               <td>
-                <Button disabled={!isPermitedEdit}>EDITAR</Button>
+                <Button>Abrir</Button>
               </td>
               <td>
-                <Button color="red" disabled={!isPermitedEdit}>
-                  DELETAR
+                <Button
+                  onClick={() => setSelectedCalendarUpdate(calendar)}
+                >
+                  EDITAR
                 </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {selectedCalendarUpdate && (
+        <UpdateCalendar
+          open={!!selectedCalendarUpdate}
+          close={() => {
+            setSelectedCalendarUpdate(null);
+          }}
+          calendar={selectedCalendarUpdate as any}
+        />
+      )}
     </div>
   );
 }

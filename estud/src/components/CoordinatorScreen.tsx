@@ -2,7 +2,6 @@ import { Button, Flex, Image } from "@mantine/core";
 import { Link } from "react-router-dom";
 import courseLogo from "../assets/courseLogo.png";
 import { useUser } from "../hooks/useUser";
-import CreateSubject from "./CreateSubject";
 
 function CoordinatorScreen() {
   const user = useUser();
@@ -24,7 +23,6 @@ function CoordinatorScreen() {
           <Link to="/calendars/get" className="link">
             <Button color="yellow"> Ver calendários </Button>
           </Link>
-          <CreateSubject />
         </Flex>
         <Image
           src={courseLogo}

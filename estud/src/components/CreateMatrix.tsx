@@ -94,7 +94,7 @@ function CreateMatrix() {
                 placeholder="Semestre"
                 onChange={(event) => setSemester(Number(event.target.value))}
               />
-              <Button color="blue" type="submit" loading={isLoading}>
+              <Button color="green" type="submit" loading={isLoading}>
                 Criar
               </Button>
             </Stack>

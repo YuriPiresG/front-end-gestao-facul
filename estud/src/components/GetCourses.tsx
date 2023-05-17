@@ -6,6 +6,7 @@ import CreateCourse from "./CreateCourse";
 import CreateMatrix from "./CreateMatrix";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
+import CreateSubject from "./CreateSubject";
 
 interface Course {
   id: number;
@@ -26,9 +27,9 @@ function GetCourses() {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <div>
-      <CreateMatrix />
-      <br />
       <CreateCourse />
+      <br />
+      <CreateSubject />
       <br />
       <CreateMatrix />
       <h2>Lista de cursos</h2>
