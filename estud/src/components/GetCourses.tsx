@@ -29,6 +29,8 @@ function GetCourses() {
       <CreateMatrix />
       <br />
       <CreateCourse />
+      <br />
+      <CreateMatrix />
       <h2>Lista de cursos</h2>
       <Table>
         <thead>

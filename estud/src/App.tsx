@@ -4,13 +4,14 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CreateCourse from "./components/CreateCourse";
+import CreateUser from "./components/CreateUser";
+import GetCalendars from "./components/GetCalendars";
 import GetCourses from "./components/GetCourses";
+import GetMe from "./components/GetMe";
+import GetUsers from "./components/GetUsers";
 import HomeScreen from "./components/HomeScreen";
 import { Layout } from "./components/Layout";
 import LoginScreen from "./components/LoginScreen";
-import GetMe from "./components/GetMe";
-import CreateUser from "./components/CreateUser";
-import GetUsers from "./components/GetUsers";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "users/get",
         element: <GetUsers />,
+      },
+      {
+        path: "calendars/get",
+        element: <GetCalendars />,
       },
     ],
   },

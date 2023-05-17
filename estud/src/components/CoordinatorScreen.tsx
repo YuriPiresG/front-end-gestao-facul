@@ -21,6 +21,9 @@ function CoordinatorScreen() {
           <Link to="/get-courses" className="link">
             <Button color="yellow"> Ver cursos existentes </Button>
           </Link>
+          <Link to="/calendars/get" className="link">
+            <Button color="yellow"> Ver calendários </Button>
+          </Link>
           <CreateSubject />
         </Flex>
         <Image
