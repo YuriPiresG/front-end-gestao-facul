@@ -1,17 +1,30 @@
-import { Button, Group, Input, Modal, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
-import { useCreateUser } from "../hooks/useCreateUser";
+import {
+  Button,
+  Group,
+  Input,
+  Modal,
+  NumberInput,
+  PasswordInput,
+  Stack,
+} from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+import { toast } from "react-toastify";
 import { z } from "zod";
+import { useCreateUser } from "../hooks/useCreateUser";
 
 const createUserSchema = z.object({
   username: z.string().nonempty({ message: "Username não pode estar vazio" }),
   name: z.string().nonempty({ message: "Nome não pode estar vazio" }),
   email: z.string().nonempty({ message: "Email não pode estar vazio" }),
   password: z.string().nonempty({ message: "Senha não pode estar vazio" }),
-  role: z.number().max(3, { message: "Função tem que estar entre 0 e 3" }),
+  role: z
+    .number()
+    .min(0)
+    .max(3, { message: "Função tem que estar entre 0 e 3" })
+    .refine((value) => typeof value === "number", {
+      message: "O valor deve ser um número",
+    }),
 });
 
 type CreateUserForm = z.infer<typeof createUserSchema>;
@@ -20,7 +33,14 @@ function CreateUser() {
   const [opened, { open, close }] = useDisclosure(false);
   const { mutateAsync, isLoading } = useCreateUser();
   const handleSubmit = async (createUserForm: CreateUserForm) => {
-    await mutateAsync(createUserForm);
+    const formValues: CreateUserForm = {
+      username: createUserForm.username,
+      name: createUserForm.name,
+      email: createUserForm.email,
+      password: createUserForm.password,
+      role: Number(createUserForm.role),
+    };
+    await mutateAsync(formValues);
     close();
     toast.success("Usuário criado com sucesso!");
   };
@@ -34,9 +54,16 @@ function CreateUser() {
     },
     validate: zodResolver(createUserSchema),
   });
+  const handleClose = () => {
+    form.reset();
+    close();
+  };
+
+  console.log(form.errors?.role);
+
   return (
     <>
-      <Modal opened={opened} onClose={close} title="Criar um curso">
+      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
         <Modal.Body>
           <form
             onSubmit={form.onSubmit((createUserForm) =>
@@ -59,12 +86,15 @@ function CreateUser() {
                 placeholder="Email"
                 {...form.getInputProps("email")}
               />
-              <Input
-                type="password"
-                placeholder="Senha"
+              <PasswordInput
+                label="Password"
+                placeholder="Password"
                 {...form.getInputProps("password")}
               />
-              <Input
+              <NumberInput
+                label="Função"
+                min={0}
+                max={3}
                 type="number"
                 placeholder="Role"
                 {...form.getInputProps("role")}
