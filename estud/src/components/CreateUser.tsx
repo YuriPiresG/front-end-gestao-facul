@@ -3,68 +3,71 @@ import { useDisclosure } from "@mantine/hooks";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateUser } from "../hooks/useCreateUser";
+import { useForm, zodResolver } from "@mantine/form";
+import { z } from "zod";
+
+const createUserSchema = z.object({
+  username: z.string().nonempty({ message: "Username não pode estar vazio" }),
+  name: z.string().nonempty({ message: "Nome não pode estar vazio" }),
+  email: z.string().nonempty({ message: "Email não pode estar vazio" }),
+  password: z.string().nonempty({ message: "Senha não pode estar vazio" }),
+  role: z.number().max(3, { message: "Função tem que estar entre 0 e 3" }),
+});
+
+type CreateUserForm = z.infer<typeof createUserSchema>;
 
 function CreateUser() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState<number>(0);
   const { mutateAsync, isLoading } = useCreateUser();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      username,
-      name,
-      email,
-      password,
-      role,
-    });
+  const handleSubmit = async (createUserForm: CreateUserForm) => {
+    await mutateAsync(createUserForm);
     close();
     toast.success("Usuário criado com sucesso!");
   };
-  const resetForm = () => {
-    setName("");
-    setUsername("");
-    setEmail("");
-    setPassword("");
-    setRole(0);
-  };
-  const handleClose = () => {
-    resetForm();
-    close();
-  };
+  const form = useForm<CreateUserForm>({
+    initialValues: {
+      username: "",
+      name: "",
+      email: "",
+      password: "",
+      role: 0,
+    },
+    validate: zodResolver(createUserSchema),
+  });
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
+      <Modal opened={opened} onClose={close} title="Criar um curso">
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((createUserForm) =>
+              handleSubmit(createUserForm)
+            )}
+          >
             <Stack spacing="xs">
               <Input
                 type="text"
                 placeholder="Username"
-                onChange={(event) => setUsername(event.target.value)}
+                {...form.getInputProps("username")}
               />
               <Input
                 type="text"
                 placeholder="Nome"
-                onChange={(event) => setName(event.target.value)}
+                {...form.getInputProps("name")}
               />
               <Input
                 type="text"
                 placeholder="Email"
-                onChange={(event) => setEmail(event.target.value)}
+                {...form.getInputProps("email")}
               />
               <Input
                 type="password"
                 placeholder="Senha"
-                onChange={(event) => setPassword(event.target.value)}
+                {...form.getInputProps("password")}
               />
               <Input
                 type="number"
                 placeholder="Role"
-                onChange={(event) => setRole(Number(event.target.value))}
+                {...form.getInputProps("role")}
               />
               <Button color="blue" type="submit" loading={isLoading}>
                 Criar
