@@ -1,23 +1,23 @@
 import {
-    Button,
-    Group,
-    Input,
-    Modal,
-    MultiSelect,
-    Select,
-    Stack,
-    TextInput,
+  Button,
+  Group,
+  Input,
+  Modal,
+  MultiSelect,
+  Select,
+  Stack,
+  TextInput,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateMatrix } from "../hooks/useCreateMatrix";
 import { useGetCourses } from "../hooks/useGetCourses";
-import { useGetSubjects } from "../hooks/useGetSubjects";
+import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
 
 function CreateMatrix() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [selectedSubjects, setSelectedSubjects] = useState<number[]>([]);
+  const [selectedSubjects, setSelectedSubjects] = useState<Subject[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [skillsDescription, setSkillsDescription] = useState<string[]>([]);
   const courseQuery = useGetCourses();
@@ -33,6 +33,7 @@ function CreateMatrix() {
       subjects: selectedSubjects,
       skillsDescription,
       semester,
+      id: 0,
     });
     close();
     toast.success("Usuário criado com sucesso!");

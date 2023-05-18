@@ -56,6 +56,7 @@ function UpdateCalendar(props: Props) {
                 value={props.calendar.id}
                 disabled
               />
+              <label htmlFor="">Id do curso</label>
               <Input
                 type="number"
                 placeholder="Id do curso"

@@ -12,6 +12,7 @@ import GetUsers from "./components/GetUsers";
 import HomeScreen from "./components/HomeScreen";
 import { Layout } from "./components/Layout";
 import LoginScreen from "./components/LoginScreen";
+import GetCourse from "./components/GetCourse";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: "get-courses",
         element: <GetCourses />,
+      },
+      {
+        path: "get-course/:id",
+        element: <GetCourse />,
       },
       {
         path: "home",

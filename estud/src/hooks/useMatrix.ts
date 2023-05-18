@@ -12,7 +12,7 @@ export const useMatrix = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: Matrix) => {
-      const response = await api.post("/matrix", data);
+      const response = await api.get("/matrix");
       queryClient.invalidateQueries(["matrix"]);
     },
   });

@@ -1,9 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
+import { Subject } from "./useGetSubjects";
 
-interface Matrix {
+export interface Matrix {
+  id: number;
   courseId: number;
-  subjects: number[];
+  subjects: Subject[];
   skillsDescription: string[];
   semester: number;
 }

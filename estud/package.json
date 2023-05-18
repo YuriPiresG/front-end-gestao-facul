@@ -13,7 +13,7 @@
     "@emotion/react": "^11.11.0",
     "@mantine/core": "^6.0.10",
     "@mantine/dates": "^6.0.10",
-    "@mantine/form": "^6.0.10",
+    "@mantine/form": "^6.0.11",
     "@mantine/hooks": "^6.0.10",
     "@mantine/modals": "^6.0.10",
     "@tanstack/react-query": "^4.29.5",
@@ -22,7 +22,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.11.1",
-    "react-toastify": "^9.1.2"
+    "react-toastify": "^9.1.2",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

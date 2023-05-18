@@ -39,23 +39,24 @@ export const Layout = () => {
           </Navbar>
         }
         header={
-          <Header height={60} p="xs">
-            Olá, {user?.name}
-            <Link to="/users/me" className="link">
-              <Avatar
-                src={null}
-                alt="Usuário"
-                size={50}
-                style={{ bottom: "3vh", left: "193vh" }}
-                color="indigo"
-              />
+          <Header
+            height={60}
+            p="xs"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <span> Olá, {user?.name}</span>
+            <Link
+              to="/users/me"
+              className="link"
+              style={{ marginLeft: "auto", display: "flex" }}
+            >
+              <Avatar src={null} alt="Usuário" size={50} color="indigo" />
             </Link>
           </Header>
         }
       >
         <Outlet />
       </AppShell>
- 
     </div>
   );
 };

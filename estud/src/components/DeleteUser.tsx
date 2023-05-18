@@ -29,12 +29,6 @@ function DeleteUser(props: Props) {
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
-              <Input
-                type="number"
-                placeholder="ID do curso"
-                value={userId}
-                onChange={(event) => setUserId(Number(event.target.value))}
-              />
               <Button color="red" type="submit" loading={isLoading}>
                 Deletar
               </Button>
