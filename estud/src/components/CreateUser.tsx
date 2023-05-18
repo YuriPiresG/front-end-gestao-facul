@@ -6,6 +6,7 @@ import {
   NumberInput,
   PasswordInput,
   Stack,
+  TextInput,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
@@ -71,19 +72,22 @@ function CreateUser() {
             )}
           >
             <Stack spacing="xs">
-              <Input
+              <TextInput
+                label="Username"
                 type="text"
-                placeholder="Username"
+                placeholder="Usuário"
                 {...form.getInputProps("username")}
               />
-              <Input
+              <TextInput
+                label="Nome"
                 type="text"
-                placeholder="Nome"
+                placeholder="John Doe"
                 {...form.getInputProps("name")}
               />
-              <Input
+              <TextInput
+                label="Email"
                 type="text"
-                placeholder="Email"
+                placeholder="exemplo@exemplo.com"
                 {...form.getInputProps("email")}
               />
               <PasswordInput
