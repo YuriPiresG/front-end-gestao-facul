@@ -1,4 +1,12 @@
-import { Button, Group, Input, Modal, MultiSelect, Stack } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Input,
+  Modal,
+  MultiSelect,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -65,13 +73,14 @@ function CreateCourse() {
   };
   return (
     <>
-      <Modal  opened={opened} onClose={handleClose} title="Criar um curso">
+      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Input
+              <TextInput
+                label="Nome do curso"
                 type="text"
-                placeholder="Nome do curso"
+                placeholder="Engenharia de Software"
                 onChange={(event) => setName(event.target.value)}
               />
               <Input
@@ -120,7 +129,9 @@ function CreateCourse() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green" style={{left:'60vh'}}>Criar um curso</Button>
+        <Button onClick={open} color="green" style={{ left: "60vh" }}>
+          Criar um curso
+        </Button>
       </Group>
     </>
   );

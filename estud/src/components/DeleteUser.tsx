@@ -5,6 +5,7 @@ import { useDeleteUser } from "../hooks/useDeleteUser";
 
 interface User {
   id: number;
+  name: string;
 }
 
 interface Props {
@@ -19,18 +20,22 @@ function DeleteUser(props: Props) {
   const handleDelete = async () => {
     await mutateAsync(userId);
     props.close();
-    toast.success("Curso deletado com sucesso!");
-    toast.error("Erro ao deletar curso!");
+    toast.success("Usuário deletado com sucesso!");
+    toast.error("Erro ao deletar usuário!");
   };
 
   return (
     <>
-      <Modal opened={props.open} onClose={props.close} title="Deletar um usuário">
+      <Modal
+        opened={props.open}
+        onClose={props.close}
+        title={`Tem certeza que deseja deletar ${props.user.name}?`}
+      >
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
               <Button color="red" type="submit" loading={isLoading}>
-                Deletar
+                {`Sim, deletar ${props.user.name}`}
               </Button>
             </Stack>
           </form>

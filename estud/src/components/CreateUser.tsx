@@ -1,12 +1,11 @@
 import {
   Button,
   Group,
-  Input,
   Modal,
   NumberInput,
   PasswordInput,
   Stack,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
