@@ -1,9 +1,12 @@
-//TODO: Mudar o atualizar o curso para um modo que o usuario consiga selecionar o curso entre os disponiveis
-
-import { Button, Input, Modal, MultiSelect, Stack } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  NumberInput,
+  Stack,
+  TextInput
+} from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useUpdateCourse } from "../hooks/useUpdateCourse";
 import { Calendar } from "../hooks/useGetCalendars";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar";
 
@@ -45,25 +48,28 @@ function UpdateCalendar(props: Props) {
       <Modal
         opened={props.open}
         onClose={handleClose}
-        title="Atualizar um curso"
+        title="Atualizar um calendário"
       >
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Input
+              <NumberInput
+                label="Id do calendário"
                 type="number"
                 placeholder="Id do calendário"
                 value={props.calendar.id}
                 disabled
               />
-              <label htmlFor="">Id do curso</label>
-              <Input
+
+              <NumberInput
+                label="Id do curso"
                 type="number"
                 placeholder="Id do curso"
                 value={courseId}
-                onChange={(event) => setCourseId(Number(event.target.value))}
+                onChange={(value) => setCourseId(Number(value))}
               />
-              <Input
+              <TextInput
+                label="Nome do curso"
                 type="string"
                 placeholder="Nome do curso"
                 value={courseName}
@@ -71,11 +77,12 @@ function UpdateCalendar(props: Props) {
                 disabled
               />
 
-              <Input
+              <NumberInput
+                label="Semestre"
                 type="number"
                 placeholder="Semestre"
                 value={semester}
-                onChange={(event) => setSemester(Number(event.target.value))}
+                onChange={(value) => setSemester(Number(value))}
               />
               <Button color="blue" type="submit" loading={isLoading}>
                 Atualizar

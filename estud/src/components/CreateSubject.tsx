@@ -1,4 +1,4 @@
-import { Button, Group, Input, Modal, Stack } from "@mantine/core";
+import { Button, Group, Input, Modal, Stack, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -33,7 +33,8 @@ function CreateSubject() {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Input
+              <TextInput
+                label="Nome da matéria"
                 type="text"
                 placeholder="Nome da matéria"
                 onChange={(event) => setName(event.target.value)}

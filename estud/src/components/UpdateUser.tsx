@@ -1,6 +1,14 @@
 //TODO Ver com o melo, nao esta funcionando
 
-import { Button, Input, Modal, Stack } from "@mantine/core";
+import {
+  Button,
+  Input,
+  Modal,
+  NumberInput,
+  PasswordInput,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useUpdateUser } from "../hooks/useUpdateUser";
@@ -67,43 +75,50 @@ function UpdateUser(props: Props) {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Input
+              <NumberInput
+                label="ID do usuário"
                 type="number"
                 placeholder="ID do usuário"
                 value={props.user.id}
                 disabled
               />
-              <Input
+              <TextInput
+                label="Username"
                 type="text"
                 placeholder="Username"
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
               />
-              <Input
+              <TextInput
+                label="Nome"
                 type="text"
                 placeholder="Nome"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
-              <Input
+              <TextInput
+                label="Email"
                 type="text"
                 placeholder="Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
-              <Input
+              <PasswordInput
+                label="Senha"
                 type="text"
                 placeholder="Senha"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 disabled
               />
-              <Input
+              <NumberInput
+                label="Role"
                 type="number"
                 placeholder="Role"
                 value={role}
-                onChange={(event) => setRole(Number(event.target.value))}
+                onChange={(value) => setRole(Number(value))}
               />
+
               <Button color="blue" type="submit" loading={isLoading}>
                 Atualizar
               </Button>

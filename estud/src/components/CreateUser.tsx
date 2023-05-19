@@ -63,7 +63,7 @@ function CreateUser() {
 
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
+      <Modal opened={opened} onClose={handleClose} title="Criar um usuário">
         <Modal.Body>
           <form
             onSubmit={form.onSubmit((createUserForm) =>

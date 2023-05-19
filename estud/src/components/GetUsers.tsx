@@ -6,6 +6,7 @@ import CreateUser from "./CreateUser";
 import { useState } from "react";
 import UpdateUser from "./UpdateUser";
 import CreateProfessor from "./CreateProfessor";
+import { useUser } from "../hooks/useUser";
 
 interface User {
   id: number;
@@ -37,6 +38,8 @@ function GetUsers() {
   const [selectedUserToUpdate, setSelectedUserToUpdate] = useState<User | null>(
     null
   );
+  const user = useUser();
+  const isPermitedEdit = user?.role === 0 || user?.role === 1;
   const getRoleLabel = (role: number) => {
     if (role === 0) {
       return "Administrador";
@@ -73,7 +76,10 @@ function GetUsers() {
               <td>{user.email}</td>
               <td>{getRoleLabel(user.role)}</td>
               <td>
-                <Button onClick={() => setSelectedUserToUpdate(user)}>
+                <Button
+                  onClick={() => setSelectedUserToUpdate(user)}
+                  disabled={!isPermitedEdit}
+                >
                   EDITAR
                 </Button>
               </td>
@@ -81,6 +87,7 @@ function GetUsers() {
                 <Button
                   color="red"
                   onClick={() => setSelectedUserToDelete(user)}
+                  disabled={!isPermitedEdit}
                 >
                   DELETAR
                 </Button>

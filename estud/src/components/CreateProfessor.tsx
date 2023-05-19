@@ -1,10 +1,16 @@
-import { Button, Group, Input, Modal, MultiSelect, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { useCreateProfessor } from "../hooks/useCreateProfessor";
+import {
+  Button,
+  Input,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Stack,
+} from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { useState } from "react";
+import { toast } from "react-toastify";
 import { z } from "zod";
+import { useCreateProfessor } from "../hooks/useCreateProfessor";
 import { User } from "../hooks/useUser";
 
 enum Periods {
@@ -44,7 +50,6 @@ interface Props {
 }
 
 function CreateProfessor(props: Props) {
-  const [opened, { open, close }] = useDisclosure(false);
   const [userId, setUserId] = useState<number>(props.user.id);
   const { mutateAsync, isLoading } = useCreateProfessor();
   const handleSubmit = async (professorForm: CreateProfessorForm) => {
@@ -59,10 +64,6 @@ function CreateProfessor(props: Props) {
     },
     validate: zodResolver(createProfessorScheme),
   });
-  const handleClose = () => {
-    form.reset();
-    close();
-  };
 
   return (
     <>
@@ -78,7 +79,13 @@ function CreateProfessor(props: Props) {
             )}
           >
             <Stack spacing="xs">
-              <Input type="text" placeholder="Id do usuário" value={userId} />
+              <NumberInput
+                label="Id do usuário"
+                type="number"
+                placeholder="Id do usuário"
+                value={userId}
+                disabled
+              />
               <MultiSelect
                 label="Períodos"
                 placeholder="Selecione os períodos"

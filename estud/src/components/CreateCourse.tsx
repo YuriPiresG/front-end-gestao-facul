@@ -4,6 +4,7 @@ import {
   Input,
   Modal,
   MultiSelect,
+  NumberInput,
   Stack,
   TextInput,
 } from "@mantine/core";
@@ -83,33 +84,29 @@ function CreateCourse() {
                 placeholder="Engenharia de Software"
                 onChange={(event) => setName(event.target.value)}
               />
-              <Input
+              <NumberInput
+                label="ID do coordenador"
                 type="number"
                 placeholder="ID do coordenador"
-                onChange={(event) =>
-                  setCoordinatorId(Number(event.target.value))
-                }
+                onChange={(value) => setCoordinatorId(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Duração do curso em horas"
                 type="number"
                 placeholder="Duração do curso em horas"
-                onChange={(event) =>
-                  setDurationHours(Number(event.target.value))
-                }
+                onChange={(value) => setDurationHours(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Quantidade de aulas"
                 type="number"
                 placeholder="Quantidade de aulas"
-                onChange={(event) =>
-                  setQuantityClass(Number(event.target.value))
-                }
+                onChange={(value) => setQuantityClass(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Quantidade de semestres"
                 type="number"
                 placeholder="Quantidade de semestres"
-                onChange={(event) =>
-                  setQuantitySemester(Number(event.target.value))
-                }
+                onChange={(value) => setQuantitySemester(Number(value))}
               />
               <MultiSelect
                 label="Períodos"

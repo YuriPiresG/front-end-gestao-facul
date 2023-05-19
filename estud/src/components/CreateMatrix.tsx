@@ -4,6 +4,7 @@ import {
   Input,
   Modal,
   MultiSelect,
+  NumberInput,
   Select,
   Stack,
   TextInput,
@@ -55,6 +56,7 @@ function CreateMatrix() {
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
               <Select
+                label="Curso"
                 data={courseId.map((course) => ({
                   value: course.id.toString(),
                   label: course.name,
@@ -68,17 +70,23 @@ function CreateMatrix() {
               />
 
               <MultiSelect
+                label="Matérias"
                 data={subjects.map((subject) => ({
                   value: subject.id.toString(),
                   label: subject.name,
                 }))}
-                value={selectedSubjects.map((id) => id.toString())}
+                value={selectedSubjects.map((subject) => subject.id.toString())}
                 onChange={(values) =>
                   setSelectedSubjects(
-                    values.map((value) => ({
-                      id: parseInt(value, 10),
-                      name: "",
-                    }))
+                    values
+                      .map((value) =>
+                        subjects.find(
+                          (subject) => subject.id === parseInt(value, 10)
+                        )
+                      )
+                      .filter(
+                        (subject): subject is Subject => subject !== undefined
+                      )
                   )
                 }
                 searchable
@@ -87,16 +95,18 @@ function CreateMatrix() {
               />
 
               <TextInput
+                label="Habilidades"
                 type="text"
                 placeholder="Habilidades(Ex: Habilidade 1,Habilidade 2)"
                 value={skillsDescription[0] || ""}
                 onChange={(event) => setSkillsDescription([event.target.value])}
               />
 
-              <Input
+              <NumberInput
+                label="Semestre"
                 type="number"
                 placeholder="Semestre"
-                onChange={(event) => setSemester(Number(event.target.value))}
+                onChange={(value) => setSemester(Number(value))}
               />
               <Button color="green" type="submit" loading={isLoading}>
                 Criar
