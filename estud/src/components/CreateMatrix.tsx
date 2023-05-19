@@ -75,7 +75,10 @@ function CreateMatrix() {
                 value={selectedSubjects.map((id) => id.toString())}
                 onChange={(values) =>
                   setSelectedSubjects(
-                    values.map((value) => parseInt(value, 10))
+                    values.map((value) => ({
+                      id: parseInt(value, 10),
+                      name: "",
+                    }))
                   )
                 }
                 searchable

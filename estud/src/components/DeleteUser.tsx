@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Stack } from "@mantine/core";
+import { Button, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteUser } from "../hooks/useDeleteUser";

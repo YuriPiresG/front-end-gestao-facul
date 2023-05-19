@@ -3,10 +3,30 @@ import { useDisclosure } from "@mantine/hooks";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateProfessor } from "../hooks/useCreateProfessor";
+import { useForm, zodResolver } from "@mantine/form";
+import { z } from "zod";
+import { User } from "../hooks/useUser";
 
-interface FormEvent extends React.FormEvent<HTMLFormElement> {
-  target: HTMLFormElement;
+enum Periods {
+  M1 = "M1",
+  M2 = "M2",
+  T1 = "T1",
+  T2 = "T2",
+  N1 = "N1",
+  N2 = "N2",
 }
+
+const createProfessorScheme = z.object({
+  userId: z
+    .number()
+    .min(0)
+    .refine((value) => typeof value === "number", {
+      message: "O valor deve ser um número",
+    }),
+  periods: z.nativeEnum(Periods).array().nonempty(),
+});
+
+type CreateProfessorForm = z.infer<typeof createProfessorScheme>;
 
 const periodsOptions = [
   { value: "M1", label: "M1" },
@@ -17,53 +37,55 @@ const periodsOptions = [
   { value: "N2", label: "N2" },
 ];
 
-function CreateProfessor() {
-  const [opened, { open, close }] = useDisclosure(false);
-  const [userId, setUserId] = useState<number>(0);
-  const [periods, setPeriods] = useState<string[]>([]);
-  const handlePeriodsChange = (selectedItems: any[]) => {
-    setPeriods(selectedItems.map((item) => item.value) as string[]);
-  };
+interface Props {
+  user: User;
+  open: boolean;
+  close: () => void;
+}
 
+function CreateProfessor(props: Props) {
+  const [opened, { open, close }] = useDisclosure(false);
+  const [userId, setUserId] = useState<number>(props.user.id);
   const { mutateAsync, isLoading } = useCreateProfessor();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      userId,
-      periods,
-    });
+  const handleSubmit = async (professorForm: CreateProfessorForm) => {
+    await mutateAsync(professorForm);
     close();
     toast.success("Professor criado com sucesso!");
   };
-  const resetForm = () => {
-    setPeriods([]);
-  };
+  const form = useForm<CreateProfessorForm>({
+    initialValues: {
+      userId: 0,
+      periods: [Periods.M1],
+    },
+    validate: zodResolver(createProfessorScheme),
+  });
   const handleClose = () => {
-    resetForm();
+    form.reset();
     close();
   };
+
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="Criar um curso">
+      <Modal
+        opened={props.open}
+        onClose={props.close}
+        title="Criar um professor"
+      >
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((professorForm) =>
+              handleSubmit(professorForm)
+            )}
+          >
             <Stack spacing="xs">
-              <Input
-                type="text"
-                placeholder="Id do usuário"
-                onChange={(event) => setUserId(Number(event.target.value))}
-              />
+              <Input type="text" placeholder="Id do usuário" value={userId} />
               <MultiSelect
                 label="Períodos"
                 placeholder="Selecione os períodos"
                 data={periodsOptions}
-                value={periods}
-                onChange={(values) => setPeriods(values)}
                 multiple
                 required
                 maxDropdownHeight={80}
-                
-                
               />
               <Button color="green" type="submit" loading={isLoading}>
                 Criar
@@ -72,12 +94,6 @@ function CreateProfessor() {
           </form>
         </Modal.Body>
       </Modal>
-
-      <Group position="center">
-        <Button onClick={open} color="green" style={{ left: "60vh" }}>
-          Criar um professor
-        </Button>
-      </Group>
     </>
   );
 }

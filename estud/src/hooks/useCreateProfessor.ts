@@ -1,9 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
+import { Periods } from "../constants/periods";
 
 interface Professor {
   userId: number;
-  periods: string[];
+  periods: Periods[];
 }
 
 export const useCreateProfessor = () => {

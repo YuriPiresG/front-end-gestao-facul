@@ -31,6 +31,9 @@ function GetUsers() {
   const [selectedUserToDelete, setSelectedUserToDelete] = useState<User | null>(
     null
   );
+  const [selectedUserToProf, setselectedUserToProf] = useState<User | null>(
+    null
+  );
   const [selectedUserToUpdate, setSelectedUserToUpdate] = useState<User | null>(
     null
   );
@@ -49,7 +52,6 @@ function GetUsers() {
     <div>
       <CreateUser />
       <br />
-      <CreateProfessor />
       <h2>Lista de usuários</h2>
       <Table>
         <thead>
@@ -83,6 +85,14 @@ function GetUsers() {
                   DELETAR
                 </Button>
               </td>
+              <td>
+                <Button
+                  color="yellow"
+                  onClick={() => setselectedUserToProf(user)}
+                >
+                  Tornar professor
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -97,6 +107,16 @@ function GetUsers() {
           user={selectedUserToDelete as any}
         />
       )}
+      {selectedUserToProf && (
+        <CreateProfessor
+          open={!!selectedUserToProf}
+          close={() => {
+            setselectedUserToProf(null);
+          }}
+          user={selectedUserToProf as any}
+        />
+      )}
+
       {selectedUserToUpdate && (
         <UpdateUser
           open={!!selectedUserToUpdate}
