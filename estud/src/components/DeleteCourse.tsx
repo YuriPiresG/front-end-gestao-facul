@@ -1,5 +1,4 @@
-import { Button, Group, Input, Modal, Stack } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { Button, Input, Modal, NumberInput, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteCourse } from "../hooks/useDeleteCourse";
@@ -36,11 +35,12 @@ function DeleteCourse(props: Props) {
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
-              <Input
+              <NumberInput
+                label="Id do curso"
                 type="number"
                 placeholder="ID do curso"
                 value={courseId}
-                onChange={(event) => setCourseId(Number(event.target.value))}
+                onChange={(value) => setCourseId(Number(value))}
               />
               <Button color="red" type="submit" loading={isLoading}>
                 Deletar

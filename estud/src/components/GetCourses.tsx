@@ -24,14 +24,15 @@ function GetCourses() {
   const { data: courses, isLoading } = useGetCourses();
   const [selectedCourseUpdate, setSelectedCourseUpdate] =
     useState<Course | null>(null);
+  const [selectedCourseToMatrix, setselectedCourseToMatrix] =
+    useState<Course | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
     <div>
       <CreateCourse />
       <br />
       <CreateSubject />
-      <br />
-      <CreateMatrix />
+
       <h2>Lista de cursos</h2>
       <Table>
         <thead>
@@ -73,6 +74,14 @@ function GetCourses() {
                   DELETAR
                 </Button>
               </td>
+              <td>
+                <Button
+                  onClick={() => setselectedCourseToMatrix(course)}
+                  color="green"
+                >
+                  Criar Matriz
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -85,6 +94,15 @@ function GetCourses() {
             setSelectedCourseUpdate(null);
           }}
           course={selectedCourseUpdate as any}
+        />
+      )}
+      {selectedCourseToMatrix && (
+        <CreateMatrix
+          open={!!selectedCourseToMatrix}
+          close={() => {
+            setselectedCourseToMatrix(null);
+          }}
+          matrix={selectedCourseToMatrix as any}
         />
       )}
       {selectedCourse && (

@@ -1,7 +1,6 @@
 import {
   Button,
   Group,
-  Input,
   Modal,
   MultiSelect,
   NumberInput,
@@ -15,15 +14,6 @@ import { useCourse } from "../hooks/useCourse";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
-}
-
-interface Course {
-  name: string;
-  coordinatorId: number;
-  durationHours: number;
-  quantityClass: number;
-  quantitySemester: number;
-  periods: string[];
 }
 
 const periodsOptions = [
@@ -43,9 +33,7 @@ function CreateCourse() {
   const [quantityClass, setQuantityClass] = useState<number>(0);
   const [quantitySemester, setQuantitySemester] = useState<number>(0);
   const [periods, setPeriods] = useState<string[]>([]);
-  const handlePeriodsChange = (selectedItems: any[]) => {
-    setPeriods(selectedItems.map((item) => item.value) as string[]);
-  };
+
   const { mutateAsync, isLoading } = useCourse();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

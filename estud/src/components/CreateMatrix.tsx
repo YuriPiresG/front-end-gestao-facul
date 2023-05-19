@@ -1,7 +1,5 @@
 import {
   Button,
-  Group,
-  Input,
   Modal,
   MultiSelect,
   NumberInput,
@@ -9,15 +7,19 @@ import {
   Stack,
   TextInput,
 } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
-import { useCreateMatrix } from "../hooks/useCreateMatrix";
+import { Matrix, useCreateMatrix } from "../hooks/useCreateMatrix";
 import { useGetCourses } from "../hooks/useGetCourses";
 import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
 
-function CreateMatrix() {
-  const [opened, { open, close }] = useDisclosure(false);
+interface Props {
+  matrix: Matrix;
+  open: boolean;
+  close: () => void;
+}
+
+function CreateMatrix(props: Props) {
   const [selectedSubjects, setSelectedSubjects] = useState<Subject[]>([]);
   const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
   const [skillsDescription, setSkillsDescription] = useState<string[]>([]);
@@ -39,36 +41,20 @@ function CreateMatrix() {
     close();
     toast.success("Usuário criado com sucesso!");
   };
-  const resetForm = () => {
-    setSelectedSubjects([]);
-    setSelectedCourseId(null);
-    setSkillsDescription([]);
-    setSemester(0);
-  };
-  const handleClose = () => {
-    resetForm();
-    close();
-  };
+
   return (
     <>
-      <Modal opened={opened} onClose={handleClose} title="Criar uma matriz">
+      <Modal opened={props.open} onClose={props.close} title="Criar uma matriz">
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Select
-                label="Curso"
-                data={courseId.map((course) => ({
-                  value: course.id.toString(),
-                  label: course.name,
-                }))}
-                value={selectedCourseId ? selectedCourseId.toString() : ""}
-                onChange={(value) =>
-                  setSelectedCourseId(value ? parseInt(value, 10) : null)
-                }
-                searchable
-                placeholder="Selecione o curso"
+            <NumberInput
+                label="Id do curso"
+                type="number"
+                placeholder="Id do curso"
+                value={props.matrix.id}
+                disabled
               />
-
               <MultiSelect
                 label="Matérias"
                 data={subjects.map((subject) => ({
@@ -115,12 +101,6 @@ function CreateMatrix() {
           </form>
         </Modal.Body>
       </Modal>
-
-      <Group position="center">
-        <Button onClick={open} color="green" style={{ left: "60vh" }}>
-          Criar uma matriz
-        </Button>
-      </Group>
     </>
   );
 }

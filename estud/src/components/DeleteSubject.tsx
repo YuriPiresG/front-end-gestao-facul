@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Stack } from "@mantine/core";
+import { Button, Input, Modal, NumberInput, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteUser } from "../hooks/useDeleteUser";
@@ -25,15 +25,20 @@ function DeleteSubject(props: Props) {
 
   return (
     <>
-      <Modal opened={props.open} onClose={props.close} title="Deletar um usuário">
+      <Modal
+        opened={props.open}
+        onClose={props.close}
+        title="Deletar um usuário"
+      >
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
-              <Input
+              <NumberInput
+                label="Id do usuário"
                 type="number"
                 placeholder="ID do curso"
                 value={userId}
-                onChange={(event) => setUserId(Number(event.target.value))}
+                onChange={(value) => setUserId(Number(value))}
               />
               <Button color="red" type="submit" loading={isLoading}>
                 Deletar

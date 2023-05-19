@@ -13,6 +13,8 @@ import HomeScreen from "./components/HomeScreen";
 import { Layout } from "./components/Layout";
 import LoginScreen from "./components/LoginScreen";
 import GetCourse from "./components/GetCourse";
+import GetMatrices from "./components/GetMatrices";
+
 
 const queryClient = new QueryClient();
 
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "calendars/get",
         element: <GetCalendars />,
+      },
+      {
+        path: "matrices/get",
+        element: <GetMatrices />,
       },
     ],
   },

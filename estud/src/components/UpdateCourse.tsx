@@ -1,6 +1,11 @@
-//TODO: Mudar o atualizar o curso para um modo que o usuario consiga selecionar o curso entre os disponiveis
-
-import { Button, Input, Modal, MultiSelect, Stack } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Stack,
+  TextInput
+} from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useUpdateCourse } from "../hooks/useUpdateCourse";
@@ -88,49 +93,47 @@ function UpdateCourse(props: Props) {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-              <Input
+              <NumberInput
+                label="Id do curso"
                 type="number"
                 placeholder="Id do curso"
                 value={props.course.id}
                 disabled
               />
-              <Input
+              <TextInput
+                label="Nome do curso"
                 type="text"
                 placeholder="Nome do curso"
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
-              <Input
+              <NumberInput
+                label="Id do coordenador"
                 type="number"
                 placeholder="ID do coordenador"
                 value={coordinatorId}
-                onChange={(event) =>
-                  setCoordinatorId(Number(event.target.value))
-                }
+                onChange={(value) => setCoordinatorId(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Duração do curso em horas"
                 type="number"
                 placeholder="Duração do curso em horas"
                 value={durationHours}
-                onChange={(event) =>
-                  setDurationHours(Number(event.target.value))
-                }
+                onChange={(value) => setDurationHours(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Quantidade de aulas"
                 type="number"
                 placeholder="Quantidade de aulas"
                 value={quantityClass}
-                onChange={(event) =>
-                  setQuantityClass(Number(event.target.value))
-                }
+                onChange={(value) => setQuantityClass(Number(value))}
               />
-              <Input
+              <NumberInput
+                label="Quantidade de semestres"
                 type="number"
                 placeholder="Quantidade de semestres"
                 value={quantitySemester}
-                onChange={(event) =>
-                  setQuantitySemester(Number(event.target.value))
-                }
+                onChange={(value) => setQuantitySemester(Number(value))}
               />
               <MultiSelect
                 label="Períodos"
