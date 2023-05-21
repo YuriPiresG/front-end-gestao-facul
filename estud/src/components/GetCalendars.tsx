@@ -3,6 +3,7 @@ import { Calendar, useGetCalendars } from "../hooks/useGetCalendars";
 import { useUser } from "../hooks/useUser";
 import { useState } from "react";
 import UpdateCalendar from "./UpdateCalendar";
+import CreateCalendar from "./CreateCalendar";
 
 function GetCalendars() {
   const user = useUser();
@@ -18,6 +19,7 @@ function GetCalendars() {
   };
   return (
     <div>
+      <CreateCalendar />
       <h2>Calendários</h2>
       <Table>
         <thead>
@@ -40,9 +42,7 @@ function GetCalendars() {
                 <Button>Abrir</Button>
               </td>
               <td>
-                <Button
-                  onClick={() => setSelectedCalendarUpdate(calendar)}
-                >
+                <Button onClick={() => setSelectedCalendarUpdate(calendar)}>
                   EDITAR
                 </Button>
               </td>
