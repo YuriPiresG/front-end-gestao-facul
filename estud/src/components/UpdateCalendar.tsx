@@ -1,14 +1,9 @@
-import {
-  Button,
-  Modal,
-  NumberInput,
-  Stack,
-  TextInput
-} from "@mantine/core";
+import { Button, Modal, NumberInput, Stack, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Calendar } from "../hooks/useGetCalendars";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar";
+
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;

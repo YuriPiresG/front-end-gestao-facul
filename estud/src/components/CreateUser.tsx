@@ -12,6 +12,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateUser } from "../hooks/useCreateUser";
+import { AiOutlineUserAdd} from "react-icons/ai";
 
 const createUserSchema = z.object({
   username: z.string().nonempty({ message: "Username não pode estar vazio" }),
@@ -112,7 +113,7 @@ function CreateUser() {
 
       <Group position="center">
         <Button onClick={open} color="green" style={{ left: "60vh" }}>
-          Criar um usuário
+          <span>Criar um usuário </span><AiOutlineUserAdd size='4vh' />
         </Button>
       </Group>
     </>

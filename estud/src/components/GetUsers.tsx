@@ -7,6 +7,8 @@ import { useState } from "react";
 import UpdateUser from "./UpdateUser";
 import CreateProfessor from "./CreateProfessor";
 import { useUser } from "../hooks/useUser";
+import { MdEditSquare, MdDeleteForever } from "react-icons/md";
+
 
 interface User {
   id: number;
@@ -80,7 +82,7 @@ function GetUsers() {
                   onClick={() => setSelectedUserToUpdate(user)}
                   disabled={!isPermitedEdit}
                 >
-                  EDITAR
+                  <MdEditSquare size="4vh" />
                 </Button>
               </td>
               <td>
@@ -89,7 +91,7 @@ function GetUsers() {
                   onClick={() => setSelectedUserToDelete(user)}
                   disabled={!isPermitedEdit}
                 >
-                  DELETAR
+                  <MdDeleteForever size="4vh" />
                 </Button>
               </td>
               <td>
