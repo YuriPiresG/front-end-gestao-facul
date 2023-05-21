@@ -1,13 +1,12 @@
-//TODO Ver com o melo, nao esta funcionando
+//TODO Ver com o melo, error de duplicate
 
 import {
   Button,
-  Input,
   Modal,
   NumberInput,
   PasswordInput,
   Stack,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";

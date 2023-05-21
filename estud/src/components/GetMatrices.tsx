@@ -1,8 +1,13 @@
-import { Table } from "@mantine/core";
+import { Button, Table } from "@mantine/core";
 import { useGetMatrices } from "../hooks/useGetMatrices";
+import { useState } from "react";
+import { Matrix } from "../hooks/useCreateMatrix";
+import UpdateMatrix from "./UpdateMatrix";
 
 function GetMatrices() {
   const { data: matrices, isLoading } = useGetMatrices();
+  const [selectedMatrixToUpdate, setSelectedMatrixToUpdate] =
+    useState<Matrix | null>(null);
   console.log(matrices);
   return (
     <div>
@@ -25,10 +30,24 @@ function GetMatrices() {
               <td>
                 {matrix.subjects.map((subject) => subject.name).join(", ")}
               </td>
+              <td>
+                <Button onClick={() => setSelectedMatrixToUpdate(matrix)}>
+                  EDITAR
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {selectedMatrixToUpdate && (
+        <UpdateMatrix
+          open={!!selectedMatrixToUpdate}
+          close={() => {
+            setSelectedMatrixToUpdate(null);
+          }}
+          matrix={selectedMatrixToUpdate as any}
+        />
+      )}
     </div>
   );
 }
