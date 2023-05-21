@@ -14,6 +14,7 @@ import { Layout } from "./components/Layout";
 import LoginScreen from "./components/LoginScreen";
 import GetCourse from "./components/GetCourse";
 import GetMatrices from "./components/GetMatrices";
+import GetSubjects from "./components/GetSubjects";
 
 
 const queryClient = new QueryClient();
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "matrices/get",
         element: <GetMatrices />,
+      },
+      {
+        path: "subjects/get",
+        element: <GetSubjects />,
       },
     ],
   },

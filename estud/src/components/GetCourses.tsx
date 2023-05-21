@@ -7,6 +7,8 @@ import CreateMatrix from "./CreateMatrix";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
 import CreateSubject from "./CreateSubject";
+import GetSubjects from "./GetSubjects";
+import { Link } from "react-router-dom";
 
 interface Course {
   id: number;
@@ -32,6 +34,8 @@ function GetCourses() {
       <CreateCourse />
       <br />
       <CreateSubject />
+      <br />
+      <Link to="/subjects/get"><Button>Ver matérias</Button></Link>
 
       <h2>Lista de cursos</h2>
       <Table>
