@@ -3,10 +3,13 @@ import { useGetMatrices } from "../hooks/useGetMatrices";
 import { useState } from "react";
 import { Matrix } from "../hooks/useCreateMatrix";
 import UpdateMatrix from "./UpdateMatrix";
+import DeleteMatrix from "./DeleteMatrix";
 
 function GetMatrices() {
   const { data: matrices, isLoading } = useGetMatrices();
   const [selectedMatrixToUpdate, setSelectedMatrixToUpdate] =
+    useState<Matrix | null>(null);
+  const [selectedMatrixToDelete, setSelectedMatrixToDelete] =
     useState<Matrix | null>(null);
   console.log(matrices);
   return (
@@ -35,6 +38,11 @@ function GetMatrices() {
                   EDITAR
                 </Button>
               </td>
+              <td>
+                <Button color="red" onClick={() => setSelectedMatrixToDelete(matrix)}>
+                  DELETAR
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -46,6 +54,15 @@ function GetMatrices() {
             setSelectedMatrixToUpdate(null);
           }}
           matrix={selectedMatrixToUpdate as any}
+        />
+      )}
+      {selectedMatrixToDelete && (
+        <DeleteMatrix
+          open={!!selectedMatrixToDelete}
+          close={() => {
+            setSelectedMatrixToDelete(null);
+          }}
+          matrix={selectedMatrixToDelete as any}
         />
       )}
     </div>
