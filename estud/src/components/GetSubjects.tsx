@@ -2,14 +2,19 @@ import { Button, Table } from "@mantine/core";
 import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
 import { useState } from "react";
 import UpdateSubject from "./UpdateSubject";
-import { MdEditSquare } from "react-icons/md";
+import { MdDeleteForever, MdEditSquare } from "react-icons/md";
+import DeleteSubject from "./DeleteSubject";
 
 function GetSubjects() {
   const { data: subjects, isLoading } = useGetSubjects();
   const [selectedSubjectToUpdate, setSelectedSubjectToUpdate] =
     useState<Subject | null>(null);
+  const [selectedSubjectToDelete, setselectedSubjectToDelete] =
+    useState<Subject | null>(null);
 
-  const sortedSubjects = subjects ? [...subjects].sort((a, b) => a.id - b.id) : [];
+  const sortedSubjects = subjects
+    ? [...subjects].sort((a, b) => a.id - b.id)
+    : [];
 
   return (
     <div>
@@ -32,6 +37,11 @@ function GetSubjects() {
                   <MdEditSquare size="4vh" />
                 </Button>
               </td>
+              <td>
+                <Button color="red" onClick={() => setselectedSubjectToDelete(subject)}>
+                  <MdDeleteForever size="4vh" />
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -43,6 +53,15 @@ function GetSubjects() {
             setSelectedSubjectToUpdate(null);
           }}
           subject={selectedSubjectToUpdate as any}
+        />
+      )}
+      {selectedSubjectToDelete && (
+        <DeleteSubject
+          open={!!selectedSubjectToDelete}
+          close={() => {
+            setselectedSubjectToDelete(null);
+          }}
+          subject={selectedSubjectToDelete as any}
         />
       )}
     </div>
