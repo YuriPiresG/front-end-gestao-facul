@@ -15,6 +15,7 @@ import LoginScreen from "./components/LoginScreen";
 import GetCourse from "./components/GetCourse";
 import GetMatrices from "./components/GetMatrices";
 import GetSubjects from "./components/GetSubjects";
+import GetCalendarDays from "./components/GetCalendarDays";
 
 
 const queryClient = new QueryClient();
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "calendars/get",
         element: <GetCalendars />,
+      },
+      {
+        path: "calendar-day/get",
+        element: <GetCalendarDays />,
       },
       {
         path: "matrices/get",

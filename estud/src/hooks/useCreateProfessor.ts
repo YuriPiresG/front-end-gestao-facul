@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import { Periods } from "../constants/periods";
 
-interface Professor {
+export interface Professor {
   userId: number;
   periods: Periods[];
 }
