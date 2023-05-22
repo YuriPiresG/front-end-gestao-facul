@@ -4,11 +4,15 @@ import { useUser } from "../hooks/useUser";
 import { useState } from "react";
 import UpdateCalendar from "./UpdateCalendar";
 import CreateCalendar from "./CreateCalendar";
+import DeleteCalendar from "./DeleteCalendar";
+import { MdEditSquare, MdDeleteForever } from "react-icons/md";
 
 function GetCalendars() {
   const user = useUser();
   const { data: calendars, isLoading } = useGetCalendars();
   const [selectedCalendarUpdate, setSelectedCalendarUpdate] =
+    useState<Calendar | null>(null);
+  const [selectedCalendarToDelete, setSelectedCalendarToDelete] =
     useState<Calendar | null>(null);
   const getCalendarStatus = (isActive: boolean) => {
     if (isActive) {
@@ -43,7 +47,12 @@ function GetCalendars() {
               </td>
               <td>
                 <Button onClick={() => setSelectedCalendarUpdate(calendar)}>
-                  EDITAR
+                <MdEditSquare size="4vh" />
+                </Button>
+              </td>
+              <td>
+                <Button color="red" onClick={() => setSelectedCalendarToDelete(calendar)}>
+                <MdDeleteForever size="4vh" />
                 </Button>
               </td>
             </tr>
@@ -57,6 +66,15 @@ function GetCalendars() {
             setSelectedCalendarUpdate(null);
           }}
           calendar={selectedCalendarUpdate as any}
+        />
+      )}
+      {selectedCalendarToDelete && (
+        <DeleteCalendar
+          open={!!selectedCalendarToDelete}
+          close={() => {
+            setSelectedCalendarToDelete(null);
+          }}
+          calendar={selectedCalendarToDelete as any}
         />
       )}
     </div>

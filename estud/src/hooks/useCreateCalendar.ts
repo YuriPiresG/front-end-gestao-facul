@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../lib/api";
 
 interface Calendar {
-  courseId: number;
+  course: number;
   semester: number;
   isActive: boolean;
 }
