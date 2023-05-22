@@ -6,9 +6,13 @@ import UpdateCalendar from "./UpdateCalendar";
 import CreateCalendar from "./CreateCalendar";
 import DeleteCalendar from "./DeleteCalendar";
 import { MdEditSquare, MdDeleteForever } from "react-icons/md";
+import { CalendarDay } from "../hooks/useGetCalendarDays";
+import CreateCalendarDay from "./CreateCalendarDay";
 
 function GetCalendars() {
   const user = useUser();
+  const [selectedCalendarForDay, setSelectedCalendarForDay] =
+    useState<Calendar | null>(null);
   const { data: calendars, isLoading } = useGetCalendars();
   const [selectedCalendarUpdate, setSelectedCalendarUpdate] =
     useState<Calendar | null>(null);
@@ -43,22 +47,36 @@ function GetCalendars() {
               <td>{calendar.semester}</td>
               <td>{getCalendarStatus(calendar.isActive)}</td>
               <td>
-                <Button>Abrir</Button>
-              </td>
-              <td>
-                <Button onClick={() => setSelectedCalendarUpdate(calendar)}>
-                <MdEditSquare size="4vh" />
+                <Button onClick={() => setSelectedCalendarForDay(calendar)}>
+                  Criar dia
                 </Button>
               </td>
               <td>
-                <Button color="red" onClick={() => setSelectedCalendarToDelete(calendar)}>
-                <MdDeleteForever size="4vh" />
+                <Button onClick={() => setSelectedCalendarUpdate(calendar)}>
+                  <MdEditSquare size="4vh" />
+                </Button>
+              </td>
+              <td>
+                <Button
+                  color="red"
+                  onClick={() => setSelectedCalendarToDelete(calendar)}
+                >
+                  <MdDeleteForever size="4vh" />
                 </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {selectedCalendarForDay && (
+        <CreateCalendarDay
+          open={!!selectedCalendarForDay}
+          close={() => {
+            setSelectedCalendarForDay(null);
+          }}
+          calendarDay={selectedCalendarForDay as any}
+        />
+      )}
       {selectedCalendarUpdate && (
         <UpdateCalendar
           open={!!selectedCalendarUpdate}

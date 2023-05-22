@@ -33,9 +33,9 @@ function GetCourses() {
     <div>
       <CreateCourse />
       <br />
-      <CreateSubject />
-      <br />
-      <Link to="/subjects/get"><Button>Ver matérias</Button></Link>
+      <Link to="/subjects/get">
+        <Button>Ver matérias</Button>
+      </Link>
 
       <h2>Lista de cursos</h2>
       <Table>

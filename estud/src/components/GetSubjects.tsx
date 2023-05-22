@@ -4,6 +4,7 @@ import { useState } from "react";
 import UpdateSubject from "./UpdateSubject";
 import { MdDeleteForever, MdEditSquare } from "react-icons/md";
 import DeleteSubject from "./DeleteSubject";
+import CreateSubject from "./CreateSubject";
 
 function GetSubjects() {
   const { data: subjects, isLoading } = useGetSubjects();
@@ -18,6 +19,7 @@ function GetSubjects() {
 
   return (
     <div>
+      <CreateSubject />
       <br />
       <h2>Lista de matérias</h2>
       <Table>
@@ -38,7 +40,10 @@ function GetSubjects() {
                 </Button>
               </td>
               <td>
-                <Button color="red" onClick={() => setselectedSubjectToDelete(subject)}>
+                <Button
+                  color="red"
+                  onClick={() => setselectedSubjectToDelete(subject)}
+                >
                   <MdDeleteForever size="4vh" />
                 </Button>
               </td>
