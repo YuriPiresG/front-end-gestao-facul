@@ -29,7 +29,7 @@ const createCalendarDayScheme = z.object({
   calendarId: z.number().min(0),
   subject: z.number().min(0),
   period: z.nativeEnum(Periods).array().nonempty(),
-  professor: z.number().min(0).array().nonempty(),
+  professor: z.array(z.number().min(0)).nonempty(),
 });
 
 type CreateCalendarDayForm = z.infer<typeof createCalendarDayScheme>;
@@ -127,12 +127,15 @@ function CreateCalendarDay(props: Props) {
                 placeholder="Id da matéria"
                 {...form.getInputProps("subject")}
               />
-              <NumberInput
-                label="Id do Professor"
-                type="number"
-                placeholder="Id do Professor"
-                {...form.getInputProps("professor")}
-              />
+              {form.values.professor.map((value, index) => (
+                <NumberInput
+                  key={index}
+                  label={`Id do Professor ${index + 1}`}
+                  type="number"
+                  placeholder={`Id do Professor ${index + 1}`}
+                  {...form.getInputProps(`professor.${index}`)}
+                />
+              ))}
               <Button color="green" type="submit" loading={isLoading}>
                 Criar
               </Button>
