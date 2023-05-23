@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";
 import { CalendarDay } from "../hooks/useGetCalendarDays";
+import { useGetSubjects } from "../hooks/useGetSubjects";
 
 enum DayOfTheWeek {
   MONDAY = "MONDAY",
@@ -34,7 +35,7 @@ enum Periods {
 const createCalendarDayScheme = z.object({
   dayOfTheWeek: z.nativeEnum(DayOfTheWeek),
   calendarId: z.number().min(0),
-  subject: z.number().min(0),
+  subject: z.object({ id: z.number().min(0), name: z.string() }),
   period: z.nativeEnum(Periods).array().nonempty(),
   professor: z.array(z.number().min(0)).nonempty(),
 });
@@ -67,6 +68,8 @@ interface Props {
 function CreateCalendarDay(props: Props) {
   const [calendarId, setCalendarId] = useState<number>(props.calendarDay.id);
   const { mutateAsync, isLoading } = useCreateCalendarDay();
+  const subjectsQuery = useGetSubjects();
+  const subjects = subjectsQuery.data ?? [];
   const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
     const formValues: CreateCalendarDayForm = {
       dayOfTheWeek: calendarDayForm.dayOfTheWeek,
@@ -84,7 +87,7 @@ function CreateCalendarDay(props: Props) {
     initialValues: {
       dayOfTheWeek: DayOfTheWeek.MONDAY,
       calendarId: 0,
-      subject: 0,
+      subject: { id: 0, name: "" },
       period: [Periods.M1],
       professor: [0],
     },
@@ -130,12 +133,19 @@ function CreateCalendarDay(props: Props) {
                 maxDropdownHeight={80}
                 {...form.getInputProps("dayOfTheWeek")}
               />
-              <NumberInput
-                label="Id da matéria"
-                type="number"
-                placeholder="Id da matéria"
+              <Select
+                label="Matéria"
+                placeholder="Selecione a matéria"
+                data={subjects.map((subject) => ({
+                  value: subject.id.toString(), // Convert the value to a string
+                  label: subject.name,
+                }))}
+                required
+                maxDropdownHeight={80}
+                searchable
                 {...form.getInputProps("subject")}
               />
+
               {form.values.professor.map((index) => (
                 <NumberInput
                   key={index}

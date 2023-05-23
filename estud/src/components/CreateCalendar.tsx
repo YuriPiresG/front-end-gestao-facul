@@ -88,7 +88,6 @@ function CreateCalendar() {
 
 export default CreateCalendar;
 
-// //TODO: Codigo comentado nao funciona
 // import {
 //     Button,
 //     Checkbox,

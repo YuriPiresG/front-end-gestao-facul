@@ -1,6 +1,5 @@
 import { Table } from "@mantine/core";
 import { useGetCalendarDays } from "../hooks/useGetCalendarDays";
-//TODO ver com o melo pq n retorna professor
 function GetCalendarDays() {
   const { data: calendarDays, isLoading } = useGetCalendarDays();
   console.log(calendarDays);
@@ -27,9 +26,9 @@ function GetCalendarDays() {
               <td>{calendarDay.calendar?.id}</td>
               <td>{calendarDay.subject?.name}</td>
               <td>
-                {calendarDay.professor
+                {/* {calendarDay.professor
                   .map((professor) => professor.userId)
-                  .join(", ")}
+                  .join(", ")} */}
               </td>
               <td>{calendarDay.period?.join(", ")}</td>
             </tr>

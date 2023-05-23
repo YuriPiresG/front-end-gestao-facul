@@ -1,5 +1,3 @@
-//TODO Ver com o melo, error de duplicate
-
 import {
   Button,
   Modal,
