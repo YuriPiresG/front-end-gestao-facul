@@ -1,21 +1,10 @@
-import { Button, Table } from "@mantine/core";
-import { MdDeleteForever, MdEditSquare } from "react-icons/md";
-import { CalendarDay, useGetCalendarDays } from "../hooks/useGetCalendarDays";
-import { useUser } from "../hooks/useUser";
-import CreateCalendarDay from "./CreateCalendarDay";
-import { useState } from "react";
-
+import { Table } from "@mantine/core";
+import { useGetCalendarDays } from "../hooks/useGetCalendarDays";
+//TODO ver com o melo pq n retorna professor
 function GetCalendarDays() {
-  const user = useUser();
   const { data: calendarDays, isLoading } = useGetCalendarDays();
+  console.log(calendarDays);
 
-  const getCalendarStatus = (isActive: boolean) => {
-    if (isActive) {
-      return "Ativo";
-    } else {
-      return "Inativo";
-    }
-  };
   return (
     <div>
       <h2>Dias calendario</h2>
@@ -43,15 +32,10 @@ function GetCalendarDays() {
                   .join(", ")}
               </td>
               <td>{calendarDay.period?.join(", ")}</td>
-              <td>
-                <Button>Criar dia</Button>
-              </td>
             </tr>
           ))}
         </tbody>
       </Table>
-
-
     </div>
   );
 }

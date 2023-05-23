@@ -1,14 +1,12 @@
 import { Button, Table } from "@mantine/core";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useGetCourses } from "../hooks/useGetCourses";
 import { User, useUser } from "../hooks/useUser";
 import CreateCourse from "./CreateCourse";
 import CreateMatrix from "./CreateMatrix";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
-import CreateSubject from "./CreateSubject";
-import GetSubjects from "./GetSubjects";
-import { Link } from "react-router-dom";
 
 interface Course {
   id: number;

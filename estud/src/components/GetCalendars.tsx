@@ -1,13 +1,14 @@
 import { Button, Table } from "@mantine/core";
+import { useState } from "react";
+import { MdDeleteForever, MdEditSquare } from "react-icons/md";
 import { Calendar, useGetCalendars } from "../hooks/useGetCalendars";
 import { useUser } from "../hooks/useUser";
-import { useState } from "react";
-import UpdateCalendar from "./UpdateCalendar";
 import CreateCalendar from "./CreateCalendar";
-import DeleteCalendar from "./DeleteCalendar";
-import { MdEditSquare, MdDeleteForever } from "react-icons/md";
-import { CalendarDay } from "../hooks/useGetCalendarDays";
 import CreateCalendarDay from "./CreateCalendarDay";
+import DeleteCalendar from "./DeleteCalendar";
+import UpdateCalendar from "./UpdateCalendar";
+import GetCalendarDays from "./GetCalendarDays";
+import { Link } from "react-router-dom";
 
 function GetCalendars() {
   const user = useUser();
@@ -18,6 +19,11 @@ function GetCalendars() {
     useState<Calendar | null>(null);
   const [selectedCalendarToDelete, setSelectedCalendarToDelete] =
     useState<Calendar | null>(null);
+  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
+    null
+  );
+  console.log(calendars);
+
   const getCalendarStatus = (isActive: boolean) => {
     if (isActive) {
       return "Ativo";
@@ -28,6 +34,10 @@ function GetCalendars() {
   return (
     <div>
       <CreateCalendar />
+      <br />
+      <Link to="/calendar-day/get">
+        <Button>Ver Dias da semana</Button>
+      </Link>
       <h2>Calendários</h2>
       <Table>
         <thead>
@@ -36,7 +46,9 @@ function GetCalendars() {
             <th>Curso</th>
             <th>Semestre</th>
             <th>Está ativo?</th>
-            <th>Dias da semana</th>
+            <th>Criar um dia da semana</th>
+            <th>Atualizar</th>
+            <th>Deletar</th>
           </tr>
         </thead>
         <tbody>

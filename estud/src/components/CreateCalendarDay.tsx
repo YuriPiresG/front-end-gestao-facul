@@ -1,4 +1,11 @@
-import { Button, Modal, MultiSelect, NumberInput, Stack } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Select,
+  Stack,
+} from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -58,6 +65,7 @@ interface Props {
 }
 
 function CreateCalendarDay(props: Props) {
+  const [calendarId, setCalendarId] = useState<number>(props.calendarDay.id);
   const { mutateAsync, isLoading } = useCreateCalendarDay();
   const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
     const formValues: CreateCalendarDayForm = {
@@ -101,7 +109,8 @@ function CreateCalendarDay(props: Props) {
                 label="Id do calendário"
                 type="number"
                 placeholder="Id do calendário"
-                {...form.getInputProps("calendarId")}
+                value={calendarId}
+                disabled
               />
               <MultiSelect
                 label="Períodos"
@@ -112,7 +121,7 @@ function CreateCalendarDay(props: Props) {
                 maxDropdownHeight={80}
                 {...form.getInputProps("period")}
               />
-              <MultiSelect
+              <Select
                 label="Dia da semana"
                 placeholder="Selecione o dia da semana"
                 data={dayOfTheWeekOptions}
@@ -127,12 +136,12 @@ function CreateCalendarDay(props: Props) {
                 placeholder="Id da matéria"
                 {...form.getInputProps("subject")}
               />
-              {form.values.professor.map((value, index) => (
+              {form.values.professor.map((index) => (
                 <NumberInput
                   key={index}
-                  label={`Id do Professor ${index + 1}`}
+                  label="Id do Professor"
                   type="number"
-                  placeholder={`Id do Professor ${index + 1}`}
+                  placeholder="Id do Professor"
                   {...form.getInputProps(`professor.${index}`)}
                 />
               ))}
