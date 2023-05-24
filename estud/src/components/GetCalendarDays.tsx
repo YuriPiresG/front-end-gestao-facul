@@ -4,6 +4,20 @@ import { MdEditSquare, MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
 import UpdateCalendarDay from "./UpdateCalendarDay";
 
+function translateDayToPortuguese(day: string): string {
+  const translations: Record<string, string> = {
+    MONDAY: "Segunda",
+    TUESDAY: "Terça",
+    WEDNESDAY: "Quarta",
+    THURSDAY: "Quinta",
+    FRIDAY: "Sexta",
+    SATURDAY: "Sábado",
+    SUNDAY: "Domingo",
+  };
+
+  return translations[day] || day;
+}
+
 function GetCalendarDays() {
   const { data: calendarDays, isLoading } = useGetCalendarDays();
   const [selectedCalendarDayToUpdate, setSelectedCalendarDayToUpdate] =
@@ -30,15 +44,10 @@ function GetCalendarDays() {
           {calendarDays?.map((calendarDay) => (
             <tr key={calendarDay.id}>
               <td>{calendarDay.id}</td>
-              <td>{calendarDay.dayOfTheWeek}</td>
+              <td>{translateDayToPortuguese(calendarDay.dayOfTheWeek)}</td>
               <td>{calendarDay.calendar?.id}</td>
               <td>{calendarDay.subject?.name}</td>
               <td>{calendarDay.professor.map((prof) => prof.id).join(", ")}</td>
-              {/* <td>
-                {calendarDay.professor
-                  .map((professor) => professor.userId)
-                  .join(", ")}
-              </td> */}
               <td>{calendarDay.period?.join(", ")}</td>
               <td>
                 <Button
