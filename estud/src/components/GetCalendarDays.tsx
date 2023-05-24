@@ -35,7 +35,7 @@ function GetCalendarDays() {
             <th>Dia da semana</th>
             <th>Id do calendário</th>
             <th>Matéria</th>
-            <th>Professor</th>
+            <th>Id do professor</th>
             <th>Período</th>
             <td>Ações</td>
           </tr>
