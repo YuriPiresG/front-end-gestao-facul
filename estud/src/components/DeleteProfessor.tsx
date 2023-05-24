@@ -26,7 +26,6 @@ function DeleteProfessor(props: Props) {
     toast.success("Professor deletado com sucesso!");
     toast.error("Erro ao deletar professor!");
   };
-  console.log(props.professor.user);
 
   return (
     <>

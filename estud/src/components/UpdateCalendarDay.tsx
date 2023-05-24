@@ -73,7 +73,6 @@ function UpdateCalendarDay(props: Props) {
   const handleClose = () => {
     props.close();
   };
-  console.log(props.calendarDay);
   return (
     <>
       <Modal

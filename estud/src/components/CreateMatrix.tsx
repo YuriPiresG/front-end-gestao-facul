@@ -41,7 +41,6 @@ function CreateMatrix(props: Props) {
     close();
     toast.success("Usuário criado com sucesso!");
   };
-  console.log(subjects);
 
   return (
     <>

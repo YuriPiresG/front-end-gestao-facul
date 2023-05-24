@@ -18,7 +18,6 @@ function GetProfessors() {
     useState<Professor | null>(null);
   const [selectedProfessorToDelete, setSelectedProfessorToDelete] =
     useState<Professor | null>(null);
-  console.log(professors);
   return (
     <div>
       <h2>Lista de professores</h2>

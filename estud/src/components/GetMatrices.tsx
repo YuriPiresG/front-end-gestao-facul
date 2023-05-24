@@ -11,7 +11,6 @@ function GetMatrices() {
     useState<Matrix | null>(null);
   const [selectedMatrixToDelete, setSelectedMatrixToDelete] =
     useState<Matrix | null>(null);
-  console.log(matrices);
   return (
     <div>
       <h2>Lista de matrizes</h2>

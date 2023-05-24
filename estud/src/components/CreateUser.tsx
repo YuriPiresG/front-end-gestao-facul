@@ -60,7 +60,6 @@ function CreateUser() {
     close();
   };
 
-  console.log(form.errors?.role);
 
   return (
     <>

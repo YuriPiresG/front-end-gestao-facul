@@ -4,7 +4,7 @@ import { Periods } from "../constants/periods";
 
 export interface Professor {
   id: number;
-  user: number;
+  userId: number;
   periods: Periods[];
 }
 

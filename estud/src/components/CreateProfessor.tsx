@@ -1,10 +1,9 @@
 import {
   Button,
-  Input,
   Modal,
   MultiSelect,
   NumberInput,
-  Stack,
+  Stack
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useState } from "react";
@@ -29,7 +28,7 @@ const createProfessorScheme = z.object({
     .refine((value) => typeof value === "number", {
       message: "O valor deve ser um número",
     }),
-  user: z
+  userId: z
     .number()
     .min(0)
     .refine((value) => typeof value === "number", {
@@ -66,7 +65,7 @@ function CreateProfessor(props: Props) {
   const form = useForm<CreateProfessorForm>({
     initialValues: {
       id: 0,
-      user: props.user.id,
+      userId: props.user.id,
       periods: [Periods.M1],
     },
     validate: zodResolver(createProfessorScheme),
