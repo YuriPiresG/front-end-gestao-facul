@@ -36,7 +36,6 @@ enum Periods {
 const createCalendarDayScheme = z.object({
   dayOfTheWeek: z.nativeEnum(DayOfTheWeek),
   calendar: z.number().min(0),
-  // subject: z.object({ id: z.number().min(0), name: z.string() }),
   subject: z.string(),
   period: z.nativeEnum(Periods).array().nonempty(),
   professor: z.array(z.number().min(0)).nonempty(),
@@ -103,7 +102,7 @@ function CreateCalendarDay(props: Props) {
       <Modal
         opened={props.open}
         onClose={props.close}
-        title="Criar um calendário"
+        title="Criar um dia de semana"
       >
         <Modal.Body>
           <form
@@ -141,7 +140,7 @@ function CreateCalendarDay(props: Props) {
                 label="Matéria"
                 placeholder="Selecione a matéria"
                 data={subjects.map((subject) => ({
-                  value: subject.id.toString(), // Convert the value to a string
+                  value: subject.id.toString(), 
                   label: subject.name,
                 }))}
                 required
@@ -153,7 +152,7 @@ function CreateCalendarDay(props: Props) {
                 label="Professores"
                 placeholder="Selecione os professores"
                 data={professors.map((professor) => ({
-                  value: professor.id.toString(), // Convert the value to a string
+                  value: professor.id.toString(), 
                   label: professor.id.toString(),
                 }))}
                 required

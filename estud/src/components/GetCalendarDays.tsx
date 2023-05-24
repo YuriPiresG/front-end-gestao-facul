@@ -3,6 +3,7 @@ import { CalendarDay, useGetCalendarDays } from "../hooks/useGetCalendarDays";
 import { MdEditSquare, MdDeleteForever } from "react-icons/md";
 import { useState } from "react";
 import UpdateCalendarDay from "./UpdateCalendarDay";
+import DeleteCalendarDay from "./DeleteCalendarDay";
 
 function translateDayToPortuguese(day: string): string {
   const translations: Record<string, string> = {
@@ -51,7 +52,7 @@ function GetCalendarDays() {
               <td>{calendarDay.period?.join(", ")}</td>
               <td>
                 <Button
-                  onClick={() => setSelectedCalendarDayToUpdate(calendarDay)}
+                  onClick={() => setSelectedCalendarDayToDelete(calendarDay)}
                 >
                   <MdEditSquare size="4vh" />
                 </Button>
@@ -75,6 +76,15 @@ function GetCalendarDays() {
             setSelectedCalendarDayToUpdate(null);
           }}
           calendarDay={selectedCalendarDayToUpdate as any}
+        />
+      )}
+      {selectedCalendarDayToDelete && (
+        <DeleteCalendarDay
+          open={!!selectedCalendarDayToDelete}
+          close={() => {
+            setSelectedCalendarDayToDelete(null);
+          }}
+          calendarDay={selectedCalendarDayToDelete as any}
         />
       )}
     </div>

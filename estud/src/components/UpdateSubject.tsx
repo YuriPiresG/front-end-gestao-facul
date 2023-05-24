@@ -33,7 +33,7 @@ function UpdateSubject(props: Props) {
       name,
     });
     props.close();
-    toast.success("Curso atualizado com sucesso!");
+    toast.success("Matéria atualizada com sucesso!");
   };
 
   return (
