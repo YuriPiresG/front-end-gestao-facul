@@ -31,19 +31,16 @@ function DeleteCourse(props: Props) {
 
   return (
     <>
-      <Modal opened={props.open} onClose={props.close} title="Deletar um Curso">
+      <Modal
+        opened={props.open}
+        onClose={props.close}
+        title={`Deseja deletar ${props.course.name}?`}
+      >
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
-              <NumberInput
-                label="Id do curso"
-                type="number"
-                placeholder="ID do curso"
-                value={courseId}
-                onChange={(value) => setCourseId(Number(value))}
-              />
               <Button color="red" type="submit" loading={isLoading}>
-                Deletar
+              {`Sim desejo deletar ${props.course.name}?`}
               </Button>
             </Stack>
           </form>

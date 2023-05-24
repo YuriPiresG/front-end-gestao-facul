@@ -111,7 +111,7 @@ function CreateUser() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green" style={{ left: "60vh" }}>
+        <Button onClick={open} color="green" style={{ left: "60vh" }} >
           <span>Criar um usuário </span><AiOutlineUserAdd size='4vh' />
         </Button>
       </Group>

@@ -9,7 +9,6 @@ import CreateProfessor from "./CreateProfessor";
 import { useUser } from "../hooks/useUser";
 import { MdEditSquare, MdDeleteForever } from "react-icons/md";
 
-
 interface User {
   id: number;
   username: string;
@@ -55,7 +54,8 @@ function GetUsers() {
   };
   return (
     <div>
-      <CreateUser />
+      {isPermitedEdit && <CreateUser />}
+
       <br />
       <h2>Lista de usuários</h2>
       <Table>
