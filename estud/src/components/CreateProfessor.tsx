@@ -29,7 +29,7 @@ const createProfessorScheme = z.object({
     .refine((value) => typeof value === "number", {
       message: "O valor deve ser um número",
     }),
-  userId: z
+  user: z
     .number()
     .min(0)
     .refine((value) => typeof value === "number", {
@@ -56,7 +56,7 @@ interface Props {
 }
 
 function CreateProfessor(props: Props) {
-  const [userId, setUserId] = useState<number>(props.user.id);
+  const [user, setUser] = useState<number>(props.user.id);
   const { mutateAsync, isLoading } = useCreateProfessor();
   const handleSubmit = async (professorForm: CreateProfessorForm) => {
     await mutateAsync(professorForm);
@@ -66,7 +66,7 @@ function CreateProfessor(props: Props) {
   const form = useForm<CreateProfessorForm>({
     initialValues: {
       id: 0,
-      userId: props.user.id,
+      user: props.user.id,
       periods: [Periods.M1],
     },
     validate: zodResolver(createProfessorScheme),
@@ -90,7 +90,7 @@ function CreateProfessor(props: Props) {
                 label="Id do usuário"
                 type="number"
                 placeholder="Id do usuário"
-                value={userId}
+                value={user}
                 disabled
               />
               <MultiSelect

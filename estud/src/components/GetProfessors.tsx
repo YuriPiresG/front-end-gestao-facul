@@ -1,14 +1,20 @@
-import { Table } from "@mantine/core";
+import { Button, Table } from "@mantine/core";
 import { useState } from "react";
-import { Professor } from "../hooks/useCreateProfessor";
 import { useGetProfessors } from "../hooks/useGetProfessors";
-import UpdateCourse from "./UpdateCourse";
+import UpdateProfessor from "./UpdateProfessor";
+import { Periods } from "../constants/periods";
+import { User } from "../hooks/useUser";
 
+interface Professor {
+  id: number;
+  user: User;
+  periods: Periods[];
+}
 function GetProfessors() {
   const { data: professors, isLoading } = useGetProfessors();
   const [selectedProfessorToUpdate, setSelectedProfessorToUpdate] =
     useState<Professor | null>(null);
-    console.log(professors)
+  console.log(professors);
   return (
     <div>
       <h2>Lista de professores</h2>
@@ -26,43 +32,27 @@ function GetProfessors() {
               <td>{professor.id}</td>
               <td>{professor.user.name}</td>
               <td>{professor.periods.join(", ")}</td>
-              {/* <td>
+              <td>
                 <Button
-                  onClick={() => setSelectedProfessorToUpdate(professor)}
-                  disabled={!isPermitedEdit}
+                  onClick={() => {
+                    setSelectedProfessorToUpdate(professor);
+                  }}
                 >
                   EDITAR
                 </Button>
               </td>
-              <td>
-                <Button
-                  onClick={() => setSelectedCourse(course)}
-                  color="red"
-                  disabled={!isPermitedEdit}
-                >
-                  DELETAR
-                </Button>
-              </td>
-              <td>
-                <Button
-                  onClick={() => setselectedCourseToMatrix(course)}
-                  color="green"
-                >
-                  Criar Matriz
-                </Button>
-              </td> */}
             </tr>
           ))}
         </tbody>
       </Table>
 
       {selectedProfessorToUpdate && (
-        <UpdateCourse
+        <UpdateProfessor
           open={!!selectedProfessorToUpdate}
           close={() => {
             setSelectedProfessorToUpdate(null);
           }}
-          course={selectedProfessorToUpdate as any}
+          professor={selectedProfessorToUpdate as any}
         />
       )}
     </div>

@@ -1,14 +1,14 @@
 import { api } from "../lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-function useUpdateUser() {
+function useUpdateProfessor() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: any) => {
-      const response = await api.put(`/users/${data.id}`, data);
-      queryClient.refetchQueries(["users"]);
+      const response = await api.put(`/professor/${data.id}`, data);
+      queryClient.refetchQueries(["professors"]);
     },
   });
 }
 
-export { useUpdateUser };
+export { useUpdateProfessor };
