@@ -1,7 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
-import { Professor } from "./useCreateProfessor";
+import { Periods } from "../constants/periods";
+import { User } from "./useUser";
 
+
+ interface Professor {
+  id: number;
+  user: User;
+  periods: Periods[];
+}
 
 export const useGetProfessors = () => {
   return useQuery({

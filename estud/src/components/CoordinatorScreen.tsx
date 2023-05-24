@@ -29,6 +29,9 @@ function CoordinatorScreen() {
           <Link to="/matrices/get" className="link">
             <Button color="yellow"> Ver matrizes </Button>
           </Link>
+          <Link to="/professors/get" className="link">
+            <Button color="yellow"> Ver professores </Button>
+          </Link>
         </Flex>
         <Image
           src={courseLogo}
