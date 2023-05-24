@@ -20,6 +20,9 @@ function DirectorScreen() {
           <Link to="/get-courses" className="link">
             <Button color="yellow"> Ver cursos existentes </Button>
           </Link>
+          <Link to="/users/get" className="link">
+            <Button color="yellow"> Ver usuários </Button>
+          </Link>
         </Flex>
       </div>
       <Image

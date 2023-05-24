@@ -39,6 +39,7 @@ function GetProfessors() {
               <td>{professor.periods.join(", ")}</td>
               <td>
                 <Button
+                  style={{ height: "4vh" }}
                   onClick={() => {
                     setSelectedProfessorToUpdate(professor);
                   }}
@@ -48,12 +49,16 @@ function GetProfessors() {
 
                 <Button
                   color="red"
-                  style={{ marginLeft: "1rem" }}
+                  style={{
+                    marginLeft: "1rem",
+                    height: "4vh",
+                    position: "relative",
+                  }}
                   onClick={() => {
                     setSelectedProfessorToDelete(professor);
                   }}
                 >
-                  <MdDeleteForever size="4vh" />
+                  <MdDeleteForever style={{ fontSize: "4vh" }} />
                 </Button>
               </td>
             </tr>
