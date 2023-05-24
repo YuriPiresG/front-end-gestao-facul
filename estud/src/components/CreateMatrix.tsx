@@ -41,6 +41,7 @@ function CreateMatrix(props: Props) {
     close();
     toast.success("Usuário criado com sucesso!");
   };
+  console.log(subjects);
 
   return (
     <>
@@ -48,7 +49,7 @@ function CreateMatrix(props: Props) {
         <Modal.Body>
           <form onSubmit={handleSubmit}>
             <Stack spacing="xs">
-            <NumberInput
+              <NumberInput
                 label="Id do curso"
                 type="number"
                 placeholder="Id do curso"

@@ -4,16 +4,17 @@ import {
   MultiSelect,
   NumberInput,
   Select,
-  Stack,
-  TextInput,
+  Stack
 } from "@mantine/core";
-import { toast } from "react-toastify";
-import { CalendarDay } from "../hooks/useCreateCalendarDay";
-import { useUpdateCalendarDay } from "../hooks/useUpdateCalendarDay";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import { DayOfTheWeek } from "../constants/dayOfTheWeek";
-import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
 import { Periods } from "../constants/periods";
+import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
+import { useUpdateCalendarDay } from "../hooks/useUpdateCalendarDay";
+import { CalendarDay } from "../hooks/useGetCalendarDays";
+import { Calendar } from "../hooks/useGetCalendars";
+import { Professor } from "../hooks/useCreateProfessor";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
@@ -42,16 +43,16 @@ interface Props {
   close: () => void;
 }
 
-function UpdateCalendar(props: Props) {
+function UpdateCalendarDay(props: Props) {
   const [dayOfTheWeek, setDayOfTheWeek] = useState<DayOfTheWeek>(
     props.calendarDay.dayOfTheWeek
   );
-  const [calendarId, setCalendarId] = useState<number>(
-    props.calendarDay.calendarId
+  const [calendarId, setCalendarId] = useState<Calendar>(
+    props.calendarDay.calendar
   );
   const [subject, setSubject] = useState<Subject>(props.calendarDay.subject);
   const [period, setPeriod] = useState<Periods[]>(props.calendarDay.period);
-  const [professor, setProfessor] = useState<number[]>(
+  const [professor, setProfessor] = useState<Professor[]>(
     props.calendarDay.professor
   );
   const subjectsQuery = useGetSubjects();
@@ -72,6 +73,7 @@ function UpdateCalendar(props: Props) {
   const handleClose = () => {
     props.close();
   };
+  console.log(props.calendarDay);
   return (
     <>
       <Modal
@@ -96,7 +98,7 @@ function UpdateCalendar(props: Props) {
                 label="Id do calendário"
                 type="number"
                 placeholder="Id do calendário"
-                value={calendarId}
+                value={calendarId.id}
                 disabled
               />
               <Select
@@ -131,4 +133,4 @@ function UpdateCalendar(props: Props) {
     </>
   );
 }
-export default UpdateCalendar;
+export default UpdateCalendarDay;

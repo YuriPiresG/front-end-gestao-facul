@@ -23,7 +23,7 @@ enum Periods {
 }
 
 const createProfessorScheme = z.object({
-  userId: z
+  id: z
     .number()
     .min(0)
     .refine((value) => typeof value === "number", {
@@ -59,7 +59,7 @@ function CreateProfessor(props: Props) {
   };
   const form = useForm<CreateProfessorForm>({
     initialValues: {
-      userId: 0,
+      id: 0,
       periods: [Periods.M1],
     },
     validate: zodResolver(createProfessorScheme),

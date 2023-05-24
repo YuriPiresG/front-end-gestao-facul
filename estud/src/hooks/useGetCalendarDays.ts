@@ -17,7 +17,7 @@ export interface CalendarDay {
 
 export const useGetCalendarDays = () => {
   return useQuery({
-    queryKey: ["calendar"],
+    queryKey: ["calendar-day"],
     queryFn: async () => {
       const response = await api.get<CalendarDay[]>("/calendar-day");
       return response.data;

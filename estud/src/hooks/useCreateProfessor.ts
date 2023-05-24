@@ -3,6 +3,7 @@ import { api } from "../lib/api";
 import { Periods } from "../constants/periods";
 
 export interface Professor {
+  id: number;
   userId: number;
   periods: Periods[];
 }

@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";
 import { CalendarDay } from "../hooks/useGetCalendarDays";
 import { useGetSubjects } from "../hooks/useGetSubjects";
+import { useGetProfessors } from "../hooks/useGetProfessors";
 
 enum DayOfTheWeek {
   MONDAY = "MONDAY",
@@ -34,8 +35,9 @@ enum Periods {
 
 const createCalendarDayScheme = z.object({
   dayOfTheWeek: z.nativeEnum(DayOfTheWeek),
-  calendarId: z.number().min(0),
-  subject: z.object({ id: z.number().min(0), name: z.string() }),
+  calendar: z.number().min(0),
+  // subject: z.object({ id: z.number().min(0), name: z.string() }),
+  subject: z.string(),
   period: z.nativeEnum(Periods).array().nonempty(),
   professor: z.array(z.number().min(0)).nonempty(),
 });
@@ -70,10 +72,12 @@ function CreateCalendarDay(props: Props) {
   const { mutateAsync, isLoading } = useCreateCalendarDay();
   const subjectsQuery = useGetSubjects();
   const subjects = subjectsQuery.data ?? [];
+  const professorsQuery = useGetProfessors();
+  const professors = professorsQuery.data ?? [];
   const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
     const formValues: CreateCalendarDayForm = {
       dayOfTheWeek: calendarDayForm.dayOfTheWeek,
-      calendarId: calendarDayForm.calendarId,
+      calendar: calendarDayForm.calendar,
       subject: calendarDayForm.subject,
       period: calendarDayForm.period,
       professor: calendarDayForm.professor,
@@ -86,8 +90,8 @@ function CreateCalendarDay(props: Props) {
   const form = useForm<CreateCalendarDayForm>({
     initialValues: {
       dayOfTheWeek: DayOfTheWeek.MONDAY,
-      calendarId: 0,
-      subject: { id: 0, name: "" },
+      calendar: 0,
+      subject: "",
       period: [Periods.M1],
       professor: [0],
     },
@@ -145,16 +149,17 @@ function CreateCalendarDay(props: Props) {
                 searchable
                 {...form.getInputProps("subject")}
               />
-
-              {form.values.professor.map((index) => (
-                <NumberInput
-                  key={index}
-                  label="Id do Professor"
-                  type="number"
-                  placeholder="Id do Professor"
-                  {...form.getInputProps(`professor.${index}`)}
-                />
-              ))}
+              <MultiSelect
+                label="Professores"
+                placeholder="Selecione os professores"
+                data={professors.map((professor) => ({
+                  value: professor.id.toString(), // Convert the value to a string
+                  label: professor.id.toString(),
+                }))}
+                required
+                maxDropdownHeight={80}
+                {...form.getInputProps("professor")}
+              />
               <Button color="green" type="submit" loading={isLoading}>
                 Criar
               </Button>

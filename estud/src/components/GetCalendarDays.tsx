@@ -1,8 +1,15 @@
-import { Table } from "@mantine/core";
-import { useGetCalendarDays } from "../hooks/useGetCalendarDays";
+import { Button, Table } from "@mantine/core";
+import { CalendarDay, useGetCalendarDays } from "../hooks/useGetCalendarDays";
+import { MdEditSquare, MdDeleteForever } from "react-icons/md";
+import { useState } from "react";
+import UpdateCalendarDay from "./UpdateCalendarDay";
+
 function GetCalendarDays() {
   const { data: calendarDays, isLoading } = useGetCalendarDays();
-  console.log(calendarDays);
+  const [selectedCalendarDayToUpdate, setSelectedCalendarDayToUpdate] =
+    useState<CalendarDay | null>(null);
+  const [selectedCalendarDayToDelete, setSelectedCalendarDayToDelete] =
+    useState<CalendarDay | null>(null);
 
   return (
     <div>
@@ -16,6 +23,7 @@ function GetCalendarDays() {
             <th>Matéria</th>
             <th>Professor</th>
             <th>Período</th>
+            <td>Ações</td>
           </tr>
         </thead>
         <tbody>
@@ -25,16 +33,41 @@ function GetCalendarDays() {
               <td>{calendarDay.dayOfTheWeek}</td>
               <td>{calendarDay.calendar?.id}</td>
               <td>{calendarDay.subject?.name}</td>
-              <td>
-                {/* {calendarDay.professor
+              <td>{calendarDay.professor.map((prof) => prof.id).join(", ")}</td>
+              {/* <td>
+                {calendarDay.professor
                   .map((professor) => professor.userId)
-                  .join(", ")} */}
-              </td>
+                  .join(", ")}
+              </td> */}
               <td>{calendarDay.period?.join(", ")}</td>
+              <td>
+                <Button
+                  onClick={() => setSelectedCalendarDayToUpdate(calendarDay)}
+                >
+                  <MdEditSquare size="4vh" />
+                </Button>
+              </td>
+              <td>
+                <Button
+                  color="red"
+                  onClick={() => setSelectedCalendarDayToDelete(calendarDay)}
+                >
+                  <MdDeleteForever size="4vh" />
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      {selectedCalendarDayToUpdate && (
+        <UpdateCalendarDay
+          open={!!selectedCalendarDayToUpdate}
+          close={() => {
+            setSelectedCalendarDayToUpdate(null);
+          }}
+          calendarDay={selectedCalendarDayToUpdate as any}
+        />
+      )}
     </div>
   );
 }

@@ -3,13 +3,15 @@ import { DayOfTheWeek } from "../constants/dayOfTheWeek";
 import { Periods } from "../constants/periods";
 import { api } from "../lib/api";
 import { Subject } from "./useGetSubjects";
+import { Calendar } from "./useGetCalendars";
+import { Professor } from "./useCreateProfessor";
 
-export interface CalendarDay {
 
+interface CalendarDay {
   dayOfTheWeek: DayOfTheWeek;
-  calendarId: number;
-  subject: Subject;
   period: Periods[];
+  calendar: number;
+  subject: string;
   professor: number[];
 }
 
