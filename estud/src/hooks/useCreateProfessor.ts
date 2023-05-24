@@ -13,7 +13,7 @@ export const useCreateProfessor = () => {
   return useMutation({
     mutationFn: async (data: Professor) => {
       const response = await api.post("/professor", data);
-      queryClient.refetchQueries(["professor"]);
+      queryClient.refetchQueries(["users"]);
     },
   });
 };

@@ -29,6 +29,12 @@ const createProfessorScheme = z.object({
     .refine((value) => typeof value === "number", {
       message: "O valor deve ser um número",
     }),
+  userId: z
+    .number()
+    .min(0)
+    .refine((value) => typeof value === "number", {
+      message: "O valor deve ser um número",
+    }),
   periods: z.nativeEnum(Periods).array().nonempty(),
 });
 
@@ -60,6 +66,7 @@ function CreateProfessor(props: Props) {
   const form = useForm<CreateProfessorForm>({
     initialValues: {
       id: 0,
+      userId: props.user.id,
       periods: [Periods.M1],
     },
     validate: zodResolver(createProfessorScheme),
