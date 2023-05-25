@@ -3,96 +3,90 @@ import {
   Modal,
   MultiSelect,
   NumberInput,
-  Select,
   Stack,
   TextInput,
 } from "@mantine/core";
-import { FormEvent, useState } from "react";
+import { useForm, zodResolver } from "@mantine/form";
 import { toast } from "react-toastify";
-import { Matrix, useCreateMatrix } from "../hooks/useCreateMatrix";
-import { useGetCourses } from "../hooks/useGetCourses";
-import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
+import { z } from "zod";
+import { useCreateMatrix } from "../hooks/useCreateMatrix";
+import { useGetSubjects } from "../hooks/useGetSubjects";
+
+const createMatrixSchema = z.object({
+  subject: z.array(z.string()),
+  skillsDescription: z.string().nonempty(),
+  semester: z.number(),
+});
+
+type CreateMatrixForm = z.infer<typeof createMatrixSchema>;
 
 interface Props {
-  matrix: Matrix;
+  courseId: number;
   open: boolean;
   close: () => void;
 }
 
 function CreateMatrix(props: Props) {
-  const [selectedSubjects, setSelectedSubjects] = useState<Subject[]>([]);
-  const [selectedCourseId, setSelectedCourseId] = useState<number | null>(null);
-  const [skillsDescription, setSkillsDescription] = useState<string[]>([]);
-  const courseQuery = useGetCourses();
-  const courseId = courseQuery.data ?? [];
+  const { mutateAsync, isLoading } = useCreateMatrix();
   const subjectsQuery = useGetSubjects();
   const subjects = subjectsQuery.data ?? [];
-  const [semester, setSemester] = useState<number>(0);
-  const { mutateAsync, isLoading } = useCreateMatrix();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      courseId: selectedCourseId!,
-      subjects: selectedSubjects,
-      skillsDescription,
-      semester,
-      id: 0,
-    });
-    close();
-    toast.success("Usuário criado com sucesso!");
+  const form = useForm<CreateMatrixForm>({
+    initialValues: {
+      subject: [""],
+      skillsDescription: "",
+      semester: 0,
+    },
+    validate: zodResolver(createMatrixSchema),
+  });
+  const handleSubmit = async (matrixForm: CreateMatrixForm) => {
+    const formValues = {
+      courseId: props.courseId,
+      semester: matrixForm.semester,
+      skillsDescription: matrixForm.skillsDescription,
+      subjects: matrixForm.subject,
+    };
+    await mutateAsync(formValues);
+    toast.success("Matriz criada com sucesso!");
+    handleClose();
   };
+  function handleClose() {
+    props.close();
+    form.reset();
+  }
 
   return (
     <>
-      <Modal opened={props.open} onClose={props.close} title="Criar uma matriz">
+      <Modal opened={props.open} onClose={handleClose} title="Criar uma matriz">
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((matrixForm) => handleSubmit(matrixForm))}
+          >
             <Stack spacing="xs">
-              <NumberInput
-                label="Id do curso"
-                type="number"
-                placeholder="Id do curso"
-                value={props.matrix.id}
-                disabled
-              />
               <MultiSelect
-                label="Matérias"
+                label="Matéria"
+                placeholder="Selecione a matéria"
                 data={subjects.map((subject) => ({
                   value: subject.id.toString(),
                   label: subject.name,
                 }))}
-                value={selectedSubjects.map((subject) => subject.id.toString())}
-                onChange={(values) =>
-                  setSelectedSubjects(
-                    values
-                      .map((value) =>
-                        subjects.find(
-                          (subject) => subject.id === parseInt(value, 10)
-                        )
-                      )
-                      .filter(
-                        (subject): subject is Subject => subject !== undefined
-                      )
-                  )
-                }
+                required
+                maxDropdownHeight={200}
                 searchable
-                multiple
-                placeholder="Selecione as matérias"
+                {...form.getInputProps("subject")}
               />
 
               <TextInput
                 label="Habilidades"
+                multiple
                 type="text"
                 placeholder="Habilidades(Ex: Habilidade 1,Habilidade 2)"
-                value={skillsDescription[0] || ""}
-                onChange={(event) => setSkillsDescription([event.target.value])}
+                {...form.getInputProps("skillsDescription")}
               />
 
               <NumberInput
                 label="Semestre"
                 type="number"
-                placeholder="Semestre"
-                onChange={(value) => setSemester(Number(value))}
+                {...form.getInputProps("semester")}
               />
               <Button color="green" type="submit" loading={isLoading}>
                 Criar

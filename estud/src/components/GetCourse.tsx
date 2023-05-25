@@ -1,11 +1,25 @@
+import {
+  Box,
+  Button,
+  Card,
+  CardSection,
+  Image,
+  LoadingOverlay,
+  Table,
+} from "@mantine/core";
 import { useParams } from "react-router-dom";
-import { useGetCourse } from "../hooks/useGetCourse";
-import { Box, Button, Card, CardSection, Table, Image } from "@mantine/core";
 import courseLogo from "../assets/courseLogo.png";
+import { useGetCourse } from "../hooks/useGetCourse";
+import { useState } from "react";
+import CreateMatrix from "./CreateMatrix";
+
 
 function GetCourse() {
   const { id } = useParams<{ id: string }>();
   const { data: course, isLoading } = useGetCourse(id || "");
+  const [newMatrix, setNewMatrix] = useState<null | {
+    courseId: number;
+  }>(null);
 
   return (
     <div>
@@ -24,6 +38,7 @@ function GetCourse() {
           borderRadius: theme.radius.md,
         })}
       >
+        <LoadingOverlay visible={isLoading} overlayBlur={2} />
         <h1>Nome do curso: {course?.name}</h1>
         <h2>Coordenador: {course?.coordinatorId?.name}</h2>
         <h3>Duração: {course?.durationHours}</h3>
@@ -32,6 +47,9 @@ function GetCourse() {
         <h3>Períodos: {course?.periods.join(", ")}</h3>
       </Box>
       <h1>Matrizes</h1>
+      <Button onClick={() => setNewMatrix({ courseId: course?.id as number })}>
+        Novo
+      </Button>
       <Table>
         <thead>
           <tr>
@@ -55,7 +73,11 @@ function GetCourse() {
           ))}
         </tbody>
       </Table>
-      <Button>Novo</Button>
+      <CreateMatrix
+        open={!!newMatrix}
+        close={() => setNewMatrix(null)}
+        courseId={newMatrix?.courseId as number}
+      />
     </div>
   );
 }

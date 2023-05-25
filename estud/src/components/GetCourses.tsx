@@ -77,13 +77,9 @@ function GetCourses() {
                 </Button>
               </td>
               <td>
-                <Button
-                  onClick={() => setselectedCourseToMatrix(course)}
-                  color="green"
-                  disabled={isPermitedEdit}
-                >
-                  Criar Matriz
-                </Button>
+                <Link to={`/get-course/${course.id}`}>
+                  <Button>Ver matrizes</Button>
+                </Link>
               </td>
             </tr>
           ))}

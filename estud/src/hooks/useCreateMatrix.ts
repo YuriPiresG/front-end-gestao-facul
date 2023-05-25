@@ -9,11 +9,22 @@ export interface Matrix {
   semester: number;
 }
 
+interface CreateMatrix {
+  courseId: number;
+  subjects: string[];
+  skillsDescription: string;
+  semester: number;
+}
+
 export const useCreateMatrix = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: Matrix) => {
-      const response = await api.post("/matrix", data);
+    mutationFn: async (data: CreateMatrix) => {
+      const response = await api.post("/matrix", {
+        ...data,
+        subjects: data.subjects.map((subject) => +subject),
+        skillsDescription: data.skillsDescription.split(", "),
+      });
       queryClient.refetchQueries(["matrices"]);
     },
   });

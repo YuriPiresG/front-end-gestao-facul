@@ -1,25 +1,18 @@
-import { Button, Table, LoadingOverlay, Box } from "@mantine/core";
+import { Box, Button, LoadingOverlay, Table } from "@mantine/core";
 import { useState } from "react";
 import { MdDeleteForever, MdEditSquare } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { Calendar, useGetCalendars } from "../hooks/useGetCalendars";
-import { useUser } from "../hooks/useUser";
 import CreateCalendar from "./CreateCalendar";
 import DeleteCalendar from "./DeleteCalendar";
 import UpdateCalendar from "./UpdateCalendar";
 
 function GetCalendars() {
-  const user = useUser();
-  const [selectedCalendarForDay, setSelectedCalendarForDay] =
-    useState<Calendar | null>(null);
   const { data: calendars, isLoading } = useGetCalendars();
   const [selectedCalendarUpdate, setSelectedCalendarUpdate] =
     useState<Calendar | null>(null);
   const [selectedCalendarToDelete, setSelectedCalendarToDelete] =
     useState<Calendar | null>(null);
-  const [selectedCalendar, setSelectedCalendar] = useState<Calendar | null>(
-    null
-  );
 
   const getCalendarStatus = (isActive: boolean) => {
     if (isActive) {
