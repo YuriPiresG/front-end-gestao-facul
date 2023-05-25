@@ -11,13 +11,16 @@ interface Props {
 }
 
 function DeleteMatrix(props: Props) {
-  const [matrixId, setMatrixId] = useState<number>(props.matrix.id);
+  const matrixId = props.matrix?.id;
   const { mutateAsync, isLoading } = useDeleteMatrix();
   const handleDelete = async () => {
-    await mutateAsync(matrixId);
-    props.close();
-    toast.success("Matriz deletada com sucesso!");
-    toast.error("Erro ao deletar matriz!");
+    try {
+      await mutateAsync(matrixId);
+      toast.success("Matriz deletada com sucesso!");
+      props.close();
+    } catch (error) {
+      toast.error("Erro ao deletar matriz!");
+    }
   };
 
   return (
@@ -25,13 +28,13 @@ function DeleteMatrix(props: Props) {
       <Modal
         opened={props.open}
         onClose={props.close}
-        title="Certeza que deseja deletar a matriz?"
+        title={`Tem certeza que deseja deletar a matriz ${props.matrix?.id}?`}
       >
         <Modal.Body>
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
               <Button color="red" type="submit" loading={isLoading}>
-                <span>Sim, tenho certeza</span>
+              {`Sim, tenho certeza que desejo deletar a matriz ${props.matrix?.id}`}
               </Button>
             </Stack>
           </form>

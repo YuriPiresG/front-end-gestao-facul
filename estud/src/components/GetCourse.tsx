@@ -12,7 +12,9 @@ import courseLogo from "../assets/courseLogo.png";
 import { useGetCourse } from "../hooks/useGetCourse";
 import { useState } from "react";
 import CreateMatrix from "./CreateMatrix";
-
+import DeleteMatrix from "./DeleteMatrix";
+import { Matrix } from "../hooks/useCreateMatrix";
+import { MdDeleteForever, MdEditSquare } from "react-icons/md";
 
 function GetCourse() {
   const { id } = useParams<{ id: string }>();
@@ -20,6 +22,8 @@ function GetCourse() {
   const [newMatrix, setNewMatrix] = useState<null | {
     courseId: number;
   }>(null);
+  const [selectedMatrixToDelete, setSelectedMatrixToDelete] =
+    useState<Matrix | null>(null);
 
   return (
     <div>
@@ -47,8 +51,8 @@ function GetCourse() {
         <h3>Períodos: {course?.periods.join(", ")}</h3>
       </Box>
       <h1>Matrizes</h1>
-      <Button onClick={() => setNewMatrix({ courseId: course?.id as number })}>
-        Novo
+      <Button color="green" onClick={() => setNewMatrix({ courseId: course?.id as number })}>
+        Nova matriz
       </Button>
       <Table>
         <thead>
@@ -57,6 +61,7 @@ function GetCourse() {
             <th>Semestre</th>
             <th>Descrição de habilidades</th>
             <th>Aulas</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -68,7 +73,11 @@ function GetCourse() {
               <td>
                 {matrix.subjects.map((subject) => subject.name).join(", ")}
               </td>
-              <td></td>
+              <td><Button
+              onClick={() => setSelectedMatrixToDelete(matrix)}>
+                <MdDeleteForever />
+              </Button></td>
+              <td><Button>DELETAR</Button></td>
             </tr>
           ))}
         </tbody>
@@ -77,6 +86,11 @@ function GetCourse() {
         open={!!newMatrix}
         close={() => setNewMatrix(null)}
         courseId={newMatrix?.courseId as number}
+      />
+      <DeleteMatrix
+        open={!!selectedMatrixToDelete}
+        close={() => setSelectedMatrixToDelete(null)}
+        matrix={selectedMatrixToDelete as any}
       />
     </div>
   );

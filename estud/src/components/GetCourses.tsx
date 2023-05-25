@@ -95,15 +95,6 @@ function GetCourses() {
           course={selectedCourseUpdate as any}
         />
       )}
-      {selectedCourseToMatrix && (
-        <CreateMatrix
-          open={!!selectedCourseToMatrix}
-          close={() => {
-            setselectedCourseToMatrix(null);
-          }}
-          matrix={selectedCourseToMatrix as any}
-        />
-      )}
       {selectedCourse && (
         <DeleteCourse
           open={!!selectedCourse}
