@@ -1,6 +1,5 @@
-import { Button, Flex, Image } from "@mantine/core";
+import { Flex, Image } from "@mantine/core";
 import courseLogo from "../assets/courseLogo.png";
-import { Link } from "react-router-dom";
 import { useUser } from "../hooks/useUser";
 
 function DirectorScreen() {
@@ -17,12 +16,6 @@ function DirectorScreen() {
           direction="column"
           wrap="wrap"
         >
-          <Link to="/get-courses" className="link">
-            <Button color="yellow"> Ver cursos existentes </Button>
-          </Link>
-          <Link to="/users/get" className="link">
-            <Button color="yellow"> Ver usuários </Button>
-          </Link>
         </Flex>
       </div>
       <Image

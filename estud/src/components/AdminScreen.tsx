@@ -1,5 +1,4 @@
-import { Button, Flex, Image } from "@mantine/core";
-import { Link } from "react-router-dom";
+import { Flex, Image } from "@mantine/core";
 import courseLogo from "../assets/courseLogo.png";
 import { useUser } from "../hooks/useUser";
 
@@ -17,9 +16,6 @@ function AdminScreen() {
           direction="column"
           wrap="wrap"
         >
-          <Link to="/users/get" className="link">
-            <Button color="yellow"> Ver usuários </Button>
-          </Link>
         </Flex>
         <Image
           src={courseLogo}

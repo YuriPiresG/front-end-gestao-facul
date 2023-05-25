@@ -1,4 +1,4 @@
-import { AppShell, Avatar, Button, Header, Navbar } from "@mantine/core";
+import { AppShell, Avatar, Button, Flex, Header, Navbar } from "@mantine/core";
 import { Link, Outlet } from "react-router-dom";
 import { useHome } from "../hooks/useHome";
 import { useLogout } from "../hooks/useLogout";
@@ -8,6 +8,16 @@ export const Layout = () => {
   const user = useUser();
   const logout = useLogout();
   const home = useHome();
+  let userRole = "DEFAULT";
+  if (user?.role === 0) {
+    userRole = "ADMIN";
+  }
+  if (user?.role === 1) {
+    userRole = "DIRECTOR";
+  }
+  if (user?.role === 2) {
+    userRole = "COORDINATOR";
+  }
 
   const handleLogout = () => {
     logout();
@@ -29,13 +39,54 @@ export const Layout = () => {
         padding="md"
         navbar={
           <Navbar width={{ base: 300 }} height={"100vh"} p="xs">
-            <Navbar.Section>USUARIO</Navbar.Section>
-            <Button onClick={handleLogout} color="red" style={{ top: "85vh" }}>
-              Sair do sistema
-            </Button>
-            <Button onClick={handleHome} color="blue" style={{ top: "75vh" }}>
-              Voltar para o início
-            </Button>
+            <Navbar.Section>
+              <Flex
+                mih={50}
+                gap="xs"
+                justify="flex-start"
+                align="flex-start"
+                direction="column"
+                wrap="wrap"
+              >
+                <Link to="/users/get" className="link">
+                  <Button color="yellow">Ver usuários</Button>
+                </Link>
+
+                <Link to="/get-courses" className="link">
+                  <Button color="yellow"> Ver cursos existentes </Button>
+                </Link>
+
+                {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
+                  <Link to="/calendars/get" className="link">
+                    <Button color="yellow"> Ver calendários </Button>
+                  </Link>
+                )}
+                {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
+                  <Link to="/matrices/get" className="link">
+                    <Button color="yellow"> Ver matrizes </Button>
+                  </Link>
+                )}
+                {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
+                  <Link to="/professors/get" className="link">
+                    <Button color="yellow"> Ver professores </Button>
+                  </Link>
+                )}
+                <Button
+                  onClick={handleLogout}
+                  color="red"
+                  style={{ marginTop: "55vh" }}
+                >
+                  Sair do sistema
+                </Button>
+                <Button
+                  onClick={handleHome}
+                  color="blue"
+                  style={{ marginTop: "auto", marginBottom: "auto" }}
+                >
+                  Voltar para o início
+                </Button>
+              </Flex>
+            </Navbar.Section>
           </Navbar>
         }
         header={
