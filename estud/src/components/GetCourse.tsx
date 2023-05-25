@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetCourse } from "../hooks/useGetCourse";
-import { Button, Table } from "@mantine/core";
+import { Box, Button, Card, CardSection, Table, Image } from "@mantine/core";
+import courseLogo from "../assets/courseLogo.png";
 
 function GetCourse() {
   const { id } = useParams<{ id: string }>();
@@ -8,12 +9,29 @@ function GetCourse() {
 
   return (
     <div>
-      <h1>Nome {course?.name}</h1>
-      <h2>Nome coord{course?.coordinatorId?.name}</h2>
-      <h3>duracao{course?.durationHours}</h3>
-      <h4>Quantity class{course?.quantityClass}</h4>
-      <h5>Semestre{course?.quantitySemester}</h5>
-      <h6>{course?.periods.join(", ")}</h6>
+      <Card shadow="sm" padding="md" radius="md" withBorder>
+        <CardSection>
+          <Image src={courseLogo} width={300} height={100} />
+        </CardSection>
+      </Card>
+      <Box
+        sx={(theme) => ({
+          backgroundColor:
+            theme.colorScheme === "dark"
+              ? theme.colors.dark[6]
+              : theme.colors.gray[3],
+          padding: theme.spacing.xl,
+          borderRadius: theme.radius.md,
+        })}
+      >
+        <h1>Nome do curso: {course?.name}</h1>
+        <h2>Coordenador: {course?.coordinatorId?.name}</h2>
+        <h3>Duração: {course?.durationHours}</h3>
+        <h3>Quantidade de aulas: {course?.quantityClass}</h3>
+        <h3>Semestre: {course?.quantitySemester}</h3>
+        <h3>Períodos: {course?.periods.join(", ")}</h3>
+      </Box>
+      <h1>Matrizes</h1>
       <Table>
         <thead>
           <tr>
