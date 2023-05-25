@@ -1,20 +1,12 @@
-import {
-  Button,
-  Modal,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Stack,
-} from "@mantine/core";
+import { Button, Modal, Select, Stack } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";
-import { CalendarDay } from "../hooks/useGetCalendarDays";
-import { useGetSubjects } from "../hooks/useGetSubjects";
-import { useGetProfessors } from "../hooks/useGetProfessors";
 import { Periods } from "../constants/periods";
+import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";
+import { useGetProfessors } from "../hooks/useGetProfessors";
+import { useGetSubjects } from "../hooks/useGetSubjects";
 
 enum DayOfTheWeek {
   MONDAY = "MONDAY",
@@ -25,13 +17,9 @@ enum DayOfTheWeek {
   SATURDAY = "SATURDAY",
 }
 
-
 const createCalendarDayScheme = z.object({
-  dayOfTheWeek: z.nativeEnum(DayOfTheWeek),
-  calendarId: z.number().min(0),
-  subject: z.string(),
-  period: z.nativeEnum(Periods).array().min(1),
-  professor: z.array(z.string()).min(1),
+  subject: z.string().nonempty(),
+  professor: z.string().nonempty(),
 });
 
 type CreateCalendarDayForm = z.infer<typeof createCalendarDayScheme>;
@@ -54,47 +42,47 @@ const dayOfTheWeekOptions = [
 ];
 
 interface Props {
-  calendarDay: CalendarDay;
+  calendarId: number;
+  period: Periods;
+  dayOfTheWeek: DayOfTheWeek;
   open: boolean;
   close: () => void;
 }
 
 function CreateCalendarDay(props: Props) {
-  const [calendarId, setCalendarId] = useState<number>(props.calendarDay.id);
   const { mutateAsync, isLoading } = useCreateCalendarDay();
   const subjectsQuery = useGetSubjects();
   const subjects = subjectsQuery.data ?? [];
   const professorsQuery = useGetProfessors();
   const professors = professorsQuery.data ?? [];
-  const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
-    const formValues: CreateCalendarDayForm = {
-      dayOfTheWeek: calendarDayForm.dayOfTheWeek,
-      calendarId: calendarDayForm.calendarId,
-      subject: calendarDayForm.subject,
-      period: calendarDayForm.period,
-      professor: calendarDayForm.professor,
-    };
-    await mutateAsync(formValues);
-    close();
-    toast.success("Dia da semana criado com sucesso!");
-  };
-
   const form = useForm<CreateCalendarDayForm>({
     initialValues: {
-      dayOfTheWeek: DayOfTheWeek.MONDAY,
-      calendarId: props.calendarDay.id,
       subject: "",
-      period: [],
-      professor: [],
+      professor: "",
     },
     validate: zodResolver(createCalendarDayScheme),
   });
-  console.log(form.values);
+  const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
+    const formValues = {
+      dayOfTheWeek: props.dayOfTheWeek,
+      calendarId: props.calendarId,
+      subject: calendarDayForm.subject,
+      period: [props.period],
+      professor: [calendarDayForm.professor],
+    };
+    await mutateAsync(formValues);
+    toast.success("Dia da semana criado com sucesso!");
+    handleClose();
+  };
+  function handleClose() {
+    props.close();
+    form.reset();
+  }
   return (
     <>
       <Modal
         opened={props.open}
-        onClose={props.close}
+        onClose={handleClose}
         title="Criar um dia de semana"
       >
         <Modal.Body>
@@ -104,30 +92,21 @@ function CreateCalendarDay(props: Props) {
             )}
           >
             <Stack spacing="xs">
-              <NumberInput
-                label="Id do calendário"
-                type="number"
-                placeholder="Id do calendário"
-                value={calendarId}
-                disabled
-              />
-              <MultiSelect
-                label="Períodos"
+              <Select
+                label="Período"
                 placeholder="Selecione os períodos"
                 data={periodsOptions}
-                multiple
-                required
+                value={props.period}
                 maxDropdownHeight={80}
-                {...form.getInputProps("period")}
+                disabled
               />
               <Select
                 label="Dia da semana"
                 placeholder="Selecione o dia da semana"
                 data={dayOfTheWeekOptions}
-                multiple
-                required
+                value={props.dayOfTheWeek}
                 maxDropdownHeight={80}
-                {...form.getInputProps("dayOfTheWeek")}
+                disabled
               />
               <Select
                 label="Matéria"
@@ -137,11 +116,11 @@ function CreateCalendarDay(props: Props) {
                   label: subject.name,
                 }))}
                 required
-                maxDropdownHeight={80}
+                maxDropdownHeight={200}
                 searchable
                 {...form.getInputProps("subject")}
               />
-              <MultiSelect
+              <Select
                 label="Professores"
                 placeholder="Selecione os professores"
                 data={professors.map((professor) => ({
@@ -149,7 +128,7 @@ function CreateCalendarDay(props: Props) {
                   label: professor.user.name.toString(),
                 }))}
                 required
-                maxDropdownHeight={80}
+                maxDropdownHeight={400}
                 {...form.getInputProps("professor")}
               />
               <Button color="green" type="submit" loading={isLoading}>
