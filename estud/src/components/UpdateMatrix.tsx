@@ -1,6 +1,4 @@
-
-
-import { Button, Modal, NumberInput, Stack, TextInput } from "@mantine/core";
+import { Button, Modal, MultiSelect, NumberInput, Stack, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Matrix } from "../hooks/useCreateMatrix";
@@ -17,7 +15,6 @@ interface Props {
 }
 
 function UpdateMatrix(props: Props) {
-  const [courseId, setCourseId] = useState(props.matrix.courseId);
   const [subjects, setSubjects] = useState(props.matrix.subjects);
   const [skillsDescription, setSkillsDescription] = useState(
     props.matrix.skillsDescription
@@ -29,7 +26,6 @@ function UpdateMatrix(props: Props) {
     event.preventDefault();
     await mutateAsync({
       id: props.matrix.id,
-      courseId,
       subjects,
       skillsDescription,
       semester,
@@ -38,7 +34,6 @@ function UpdateMatrix(props: Props) {
     toast.success("Matriz atualizada com sucesso!");
   };
   const resetForm = () => {
-    setCourseId(0);
     setSubjects([]);
     setSkillsDescription([]);
     setSemester(0);
@@ -66,13 +61,6 @@ function UpdateMatrix(props: Props) {
                 disabled
               />
               <NumberInput
-                label="ID do curso"
-                type="number"
-                placeholder="ID do curso"
-                value={courseId}
-                onChange={(value) => setCourseId(Number(value))}
-              />
-              <NumberInput
                 label="Semestre"
                 type="number"
                 placeholder="Semestre"
@@ -88,18 +76,17 @@ function UpdateMatrix(props: Props) {
                   setSkillsDescription(Array(event.target.value))
                 }
               />
-              <TextInput
-                label="Matérias"
-                type="text"
-                placeholder="Matérias"
-                value={subjects.map((subject) => subject.name).join(", ")}
-                onChange={(event) =>
-                  setSubjects(
-                    event.currentTarget.value
-                      .split(", ")
-                      .map((name) => ({ id: 0, name }))
-                  )
-                }
+             <MultiSelect
+                label="Matéria"
+                placeholder="Selecione a matéria"
+                data={subjects.map((subject) => ({
+                  value: subject.id.toString(), 
+                  label: subject.name,
+                }))}
+                required
+                maxDropdownHeight={80}
+                searchable
+                
               />
 
               <Button color="blue" type="submit" loading={isLoading}>

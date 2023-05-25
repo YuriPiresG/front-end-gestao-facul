@@ -80,6 +80,7 @@ function GetCourses() {
                 <Button
                   onClick={() => setselectedCourseToMatrix(course)}
                   color="green"
+                  disabled={isPermitedEdit}
                 >
                   Criar Matriz
                 </Button>

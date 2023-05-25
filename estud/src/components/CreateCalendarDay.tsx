@@ -14,6 +14,7 @@ import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";
 import { CalendarDay } from "../hooks/useGetCalendarDays";
 import { useGetSubjects } from "../hooks/useGetSubjects";
 import { useGetProfessors } from "../hooks/useGetProfessors";
+import { Periods } from "../constants/periods";
 
 enum DayOfTheWeek {
   MONDAY = "MONDAY",
@@ -24,21 +25,13 @@ enum DayOfTheWeek {
   SATURDAY = "SATURDAY",
 }
 
-enum Periods {
-  M1 = "M1",
-  M2 = "M2",
-  T1 = "T1",
-  T2 = "T2",
-  N1 = "N1",
-  N2 = "N2",
-}
 
 const createCalendarDayScheme = z.object({
   dayOfTheWeek: z.nativeEnum(DayOfTheWeek),
-  calendar: z.number().min(0),
+  calendarId: z.number().min(0),
   subject: z.string(),
-  period: z.nativeEnum(Periods).array().nonempty(),
-  professor: z.array(z.number().min(0)).nonempty(),
+  period: z.nativeEnum(Periods).array().min(1),
+  professor: z.array(z.string()).min(1),
 });
 
 type CreateCalendarDayForm = z.infer<typeof createCalendarDayScheme>;
@@ -76,7 +69,7 @@ function CreateCalendarDay(props: Props) {
   const handleSubmit = async (calendarDayForm: CreateCalendarDayForm) => {
     const formValues: CreateCalendarDayForm = {
       dayOfTheWeek: calendarDayForm.dayOfTheWeek,
-      calendar: calendarDayForm.calendar,
+      calendarId: calendarDayForm.calendarId,
       subject: calendarDayForm.subject,
       period: calendarDayForm.period,
       professor: calendarDayForm.professor,
@@ -89,14 +82,14 @@ function CreateCalendarDay(props: Props) {
   const form = useForm<CreateCalendarDayForm>({
     initialValues: {
       dayOfTheWeek: DayOfTheWeek.MONDAY,
-      calendar: 0,
+      calendarId: props.calendarDay.id,
       subject: "",
-      period: [Periods.M1],
-      professor: [0],
+      period: [],
+      professor: [],
     },
     validate: zodResolver(createCalendarDayScheme),
   });
-
+  console.log(form.values);
   return (
     <>
       <Modal
@@ -140,7 +133,7 @@ function CreateCalendarDay(props: Props) {
                 label="Matéria"
                 placeholder="Selecione a matéria"
                 data={subjects.map((subject) => ({
-                  value: subject.id.toString(), 
+                  value: subject.id.toString(),
                   label: subject.name,
                 }))}
                 required
@@ -152,8 +145,8 @@ function CreateCalendarDay(props: Props) {
                 label="Professores"
                 placeholder="Selecione os professores"
                 data={professors.map((professor) => ({
-                  value: professor.id.toString(), 
-                  label: professor.id.toString(),
+                  value: professor.id.toString(),
+                  label: professor.user.name.toString(),
                 }))}
                 required
                 maxDropdownHeight={80}

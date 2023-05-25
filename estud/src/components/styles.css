@@ -1,0 +1,9 @@
+.parent:hover {
+  .plusIcon {
+    display: block;
+  }
+}
+
+.plusIcon {
+  display: none;
+}

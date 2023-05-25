@@ -78,6 +78,10 @@ const router = createBrowserRouter([
         path: "subjects/get",
         element: <GetSubjects />,
       },
+      {
+        path: "calendar/:id/week",
+        element: <GetCalendarDays />,
+      },
     ],
   },
 ]);

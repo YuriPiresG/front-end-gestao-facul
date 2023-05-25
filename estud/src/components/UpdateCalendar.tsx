@@ -33,7 +33,7 @@ function UpdateCalendar(props: Props) {
       isActive,
     });
     props.close();
-    toast.success("Curso atualizado com sucesso!");
+    toast.success("Calendário atualizado com sucesso!");
   };
   const handleClose = () => {
     props.close();

@@ -4,7 +4,6 @@ import { Subject } from "./useGetSubjects";
 
 export interface Matrix {
   id: number;
-  courseId: number;
   subjects: Subject[];
   skillsDescription: string[];
   semester: number;

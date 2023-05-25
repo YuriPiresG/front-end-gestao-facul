@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { ProfessorWithUser } from "../components/GetProfessors";
 import { DayOfTheWeek } from "../constants/dayOfTheWeek";
 import { Periods } from "../constants/periods";
 import { api } from "../lib/api";
-import { Professor } from "./useCreateProfessor";
 import { Calendar } from "./useGetCalendars";
 import { Subject } from "./useGetSubjects";
 
@@ -12,7 +12,7 @@ export interface CalendarDay {
   period: Periods[];
   calendar: Calendar;
   subject: Subject;
-  professor: Professor[];
+  professor: ProfessorWithUser[];
 }
 
 export const useGetCalendarDays = () => {

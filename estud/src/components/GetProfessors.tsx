@@ -7,7 +7,7 @@ import { User } from "../hooks/useUser";
 import DeleteProfessor from "./DeleteProfessor";
 import { MdDeleteForever, MdEditSquare } from "react-icons/md";
 
-interface Professor {
+export interface ProfessorWithUser {
   id: number;
   user: User;
   periods: Periods[];
@@ -15,9 +15,9 @@ interface Professor {
 function GetProfessors() {
   const { data: professors, isLoading } = useGetProfessors();
   const [selectedProfessorToUpdate, setSelectedProfessorToUpdate] =
-    useState<Professor | null>(null);
+    useState<ProfessorWithUser | null>(null);
   const [selectedProfessorToDelete, setSelectedProfessorToDelete] =
-    useState<Professor | null>(null);
+    useState<ProfessorWithUser | null>(null);
   return (
     <div>
       <h2>Lista de professores</h2>
