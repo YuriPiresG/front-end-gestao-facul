@@ -21,7 +21,7 @@ function UpdateCalendar(props: Props) {
   );
   const [courseName, setCourseName] = useState(props.calendar.course?.name);
   const [semester, setSemester] = useState<number>(props.calendar?.semester);
-  const [isActive, setIsActive] = useState<boolean>(props.calendar?.isActive);
+  const [isActive] = useState<boolean>(props.calendar?.isActive);
 
   const { mutateAsync, isLoading } = useUpdateCalendar();
   const handleSubmit = async (event: FormEvent) => {

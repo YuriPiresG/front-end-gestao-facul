@@ -55,7 +55,7 @@ interface Props {
 }
 
 function CreateProfessor(props: Props) {
-  const [user, setUser] = useState<number>(props.user.id);
+  const [user] = useState<number>(props.user.id);
   const { mutateAsync, isLoading } = useCreateProfessor();
   const handleSubmit = async (professorForm: CreateProfessorForm) => {
     await mutateAsync(professorForm);

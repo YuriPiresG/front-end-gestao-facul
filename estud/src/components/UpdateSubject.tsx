@@ -1,14 +1,12 @@
 import {
   Button,
   Modal,
-  MultiSelect,
   NumberInput,
   Stack,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useUpdateCourse } from "../hooks/useUpdateCourse";
 import { Subject } from "../hooks/useGetSubjects";
 import { useUpdateSubject } from "../hooks/useUpdateSubject";
 
@@ -24,7 +22,6 @@ interface Props {
 
 function UpdateSubject(props: Props) {
   const [name, setName] = useState(props.subject.name);
-  const [subjectId, setSubjectId] = useState<number>(props.subject.id);
   const { mutateAsync, isLoading } = useUpdateSubject();
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();

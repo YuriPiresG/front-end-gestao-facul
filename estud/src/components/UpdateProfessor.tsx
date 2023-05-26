@@ -3,13 +3,10 @@ import {
   Modal,
   MultiSelect,
   NumberInput,
-  PasswordInput,
-  Stack,
-  TextInput,
+  Stack
 } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useUpdateUser } from "../hooks/useUpdateUser";
 import { Professor } from "../hooks/useCreateProfessor";
 import { useUpdateProfessor } from "../hooks/useUpdateProfessor";
 
@@ -33,7 +30,7 @@ const periodsOptions = [
 ];
 
 function UpdateProfessor(props: Props) {
-  const [periods, setPeriods] = useState(props.professor.periods);
+  const [periods] = useState(props.professor.periods);
   const { mutateAsync, isLoading } = useUpdateProfessor();
 
   const handleSubmit = async (event: FormEvent) => {

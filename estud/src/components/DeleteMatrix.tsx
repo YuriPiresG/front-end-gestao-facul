@@ -1,5 +1,4 @@
 import { Button, Modal, Stack } from "@mantine/core";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { Matrix } from "../hooks/useCreateMatrix";
 import { useDeleteMatrix } from "../hooks/useDeleteMatrix";

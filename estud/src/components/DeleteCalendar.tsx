@@ -1,7 +1,6 @@
-import { Button, Input, Modal, NumberInput, Stack } from "@mantine/core";
+import { Button, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useDeleteCourse } from "../hooks/useDeleteCourse";
 import { useDeleteCalendar } from "../hooks/useDeleteCalendar";
 
 interface Calendar{
@@ -15,7 +14,7 @@ interface Props {
 }
 
 function DeleteCalendar(props: Props) {
-  const [calendarId, setCalendarId] = useState<number>(props.calendar.id);
+  const [calendarId] = useState<number>(props.calendar.id);
   const { mutateAsync, isLoading } = useDeleteCalendar();
   const handleDelete = async () => {
     await mutateAsync(calendarId);

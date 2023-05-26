@@ -1,8 +1,8 @@
 import { Button, Modal, Stack } from "@mantine/core";
-import { Profiler, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { useDeleteProfessor } from "../hooks/useDeleteProfessor";
 import { Periods } from "../constants/periods";
+import { useDeleteProfessor } from "../hooks/useDeleteProfessor";
 import { User } from "../hooks/useUser";
 
 interface Props {
@@ -18,7 +18,7 @@ interface Professor {
 }
 
 function DeleteProfessor(props: Props) {
-  const [userId, setUserId] = useState<number>(props.professor.id);
+  const [userId] = useState<number>(props.professor.id);
   const { mutateAsync, isLoading } = useDeleteProfessor();
   const handleDelete = async () => {
     await mutateAsync(userId);

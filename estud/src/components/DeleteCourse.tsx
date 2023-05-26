@@ -1,4 +1,4 @@
-import { Button, Input, Modal, NumberInput, Stack } from "@mantine/core";
+import { Button, Modal, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteCourse } from "../hooks/useDeleteCourse";
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function DeleteCourse(props: Props) {
-  const [courseId, setCourseId] = useState<number>(props.course.id);
+  const [courseId] = useState<number>(props.course.id);
   const { mutateAsync, isLoading } = useDeleteCourse();
   const handleDelete = async () => {
     await mutateAsync(courseId);

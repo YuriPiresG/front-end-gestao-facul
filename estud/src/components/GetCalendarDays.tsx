@@ -35,9 +35,13 @@ function GetCalendarDays() {
     period: Periods;
     dayOfTheWeek: DayOfTheWeek;
   }>(null);
+  const [newDayToUpdate, setNewDayToUpdate] = useState<null | {
+    id: number;
+    calendarId: number;
+    period: Periods;
+    dayOfTheWeek: DayOfTheWeek;
+  }>(null);
   const { data: calendar, isLoading } = useGetCalendarById(params.id as string);
-  const [selectedCalendarDayToUpdate, setSelectedCalendarDayToUpdate] =
-    useState<CalendarDay | null>(null);
   const [selectedCalendarDayToDelete, setSelectedCalendarDayToDelete] =
     useState<CalendarDay | null>(null);
   const calendarDays = calendar?.calendarDays || [];
@@ -96,7 +100,16 @@ function GetCalendarDays() {
           <br />
         </div>
         <div>
-          <MdEditSquare />
+          <MdEditSquare
+            onClick={() =>
+              setNewDayToUpdate({
+                calendarId: calendar?.id as number,
+                period: value.period,
+                dayOfTheWeek: value.dayOfTheWeek as DayOfTheWeek,
+                id: value.calendarDay?.id as number,
+              })
+            }
+          />
           <MdDeleteForever
             onClick={() => {
               setSelectedCalendarDayToDelete(value.calendarDay);
@@ -123,6 +136,17 @@ function GetCalendarDays() {
           setSelectedCalendarDayToDelete(null);
         }}
         calendarDay={selectedCalendarDayToDelete as any}
+      />
+
+      <UpdateCalendarDay
+        open={!!newDayToUpdate}
+        close={() => {
+          setNewDayToUpdate(null);
+        }}
+        id={newDayToUpdate?.id as number}
+        calendarId={newDayToUpdate?.calendarId as number}
+        period={newDayToUpdate?.period as Periods}
+        dayOfTheWeek={newDayToUpdate?.dayOfTheWeek as DayOfTheWeek}
       />
 
       <br />
@@ -156,15 +180,6 @@ function GetCalendarDays() {
           </tbody>
         </Table>
       </Box>
-      {selectedCalendarDayToUpdate && (
-        <UpdateCalendarDay
-          open={!!selectedCalendarDayToUpdate}
-          close={() => {
-            setSelectedCalendarDayToUpdate(null);
-          }}
-          calendarDay={selectedCalendarDayToUpdate as any}
-        />
-      )}
       {selectedCalendarDayToDelete && (
         <DeleteCalendarDay
           open={!!selectedCalendarDayToDelete}

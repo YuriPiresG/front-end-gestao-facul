@@ -1,24 +1,19 @@
-import {
-  Button,
-  Modal,
-  MultiSelect,
-  NumberInput,
-  Select,
-  Stack
-} from "@mantine/core";
-import { useState } from "react";
+import { Button, Modal, Select, Stack } from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
 import { toast } from "react-toastify";
+import { z } from "zod";
 import { DayOfTheWeek } from "../constants/dayOfTheWeek";
 import { Periods } from "../constants/periods";
-import { Subject, useGetSubjects } from "../hooks/useGetSubjects";
+import { useGetProfessors } from "../hooks/useGetProfessors";
+import { useGetSubjects } from "../hooks/useGetSubjects";
 import { useUpdateCalendarDay } from "../hooks/useUpdateCalendarDay";
-import { CalendarDay } from "../hooks/useGetCalendarDays";
-import { Calendar } from "../hooks/useGetCalendars";
-import { Professor } from "../hooks/useCreateProfessor";
 
-interface FormEvent extends React.FormEvent<HTMLFormElement> {
-  target: HTMLFormElement;
-}
+const updateCalendarDayScheme = z.object({
+  subject: z.string().nonempty(),
+  professor: z.string().nonempty(),
+});
+
+type UpdateCalendarDayForm = z.infer<typeof updateCalendarDayScheme>;
 
 const periodsOptions = [
   { value: "M1", label: "M1" },
@@ -28,51 +23,51 @@ const periodsOptions = [
   { value: "N1", label: "N1" },
   { value: "N2", label: "N2" },
 ];
-const dayOfTheWeekOptions = [
-  { value: "MONDAY", label: "Segunda" },
-  { value: "TUESDAY", label: "Terça" },
-  { value: "THURSDAY", label: "Quarta" },
-  { value: "WEDNESDAY", label: "Quinta" },
-  { value: "FRIDAY", label: "Sexta" },
-  { value: "SATURDAY", label: "Sábado" },
-];
+
 
 interface Props {
-  calendarDay: CalendarDay;
+  id: number;
+  calendarId: number;
+  period: Periods;
+  dayOfTheWeek: DayOfTheWeek;
   open: boolean;
   close: () => void;
 }
 
 function UpdateCalendarDay(props: Props) {
-  const [dayOfTheWeek, setDayOfTheWeek] = useState<DayOfTheWeek>(
-    props.calendarDay.dayOfTheWeek
-  );
-  const [calendarId, setCalendarId] = useState<Calendar>(
-    props.calendarDay.calendar
-  );
-  const [subject, setSubject] = useState<Subject>(props.calendarDay.subject);
-  const [period, setPeriod] = useState<Periods[]>(props.calendarDay.period);
-  const [professor, setProfessor] = useState<Professor[]>(
-    props.calendarDay.professor
-  );
+  const { mutateAsync, isLoading } = useUpdateCalendarDay();
   const subjectsQuery = useGetSubjects();
   const subjects = subjectsQuery.data ?? [];
-  const { mutateAsync, isLoading } = useUpdateCalendarDay();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      dayOfTheWeek,
-      calendarId,
-      subject,
-      period,
-      professor,
-    });
-    props.close();
-    toast.success("Dia da semana atualizado com sucesso!");
+  const professorsQuery = useGetProfessors();
+  const professors = professorsQuery.data ?? [];
+  const form = useForm<UpdateCalendarDayForm>({
+    initialValues: {
+      subject: "",
+      professor: "",
+    },
+    validate: zodResolver(updateCalendarDayScheme),
+  });
+  const handleSubmit = async (calendarDayForm: UpdateCalendarDayForm) => {
+    const formValues = {
+      id: props.id,
+      dayOfTheWeek: props.dayOfTheWeek,
+      calendarId: props.calendarId,
+      subject: calendarDayForm.subject,
+      period: [props.period],
+      professor: [calendarDayForm.professor],
+    };
+    try {
+      await mutateAsync(formValues);
+      toast.success("Dia da semana atualizado com sucesso!");
+      handleClose();
+    } catch (error) {
+      toast.error("Erro ao atualizar dia da semana!");
+    }
   };
-  const handleClose = () => {
+  function handleClose() {
     props.close();
-  };
+    form.reset();
+  }
   return (
     <>
       <Modal
@@ -81,25 +76,20 @@ function UpdateCalendarDay(props: Props) {
         title="Atualizar um dia da semana"
       >
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((calendarDayForm) =>
+              handleSubmit(calendarDayForm)
+            )}
+          >
+            <Select
+              label="Período"
+              placeholder="Selecione os períodos"
+              data={periodsOptions}
+              value={props.period}
+              maxDropdownHeight={80}
+              disabled
+            />
             <Stack spacing="xs">
-              <Select
-                label="Dia da semana"
-                placeholder="Selecione o dia da semana"
-                data={dayOfTheWeekOptions}
-                multiple
-                required
-                maxDropdownHeight={80}
-                value={dayOfTheWeek}
-                onChange={(value) => setDayOfTheWeek(value as DayOfTheWeek)}
-              />
-              <NumberInput
-                label="Id do calendário"
-                type="number"
-                placeholder="Id do calendário"
-                value={calendarId.id}
-                disabled
-              />
               <Select
                 label="Matéria"
                 placeholder="Selecione a matéria"
@@ -108,18 +98,20 @@ function UpdateCalendarDay(props: Props) {
                   label: subject.name,
                 }))}
                 required
-                maxDropdownHeight={80}
+                maxDropdownHeight={100}
                 searchable
-                value={subject.id.toString()}
-                onChange={(value) => setSubject(value as unknown as Subject)}
+                {...form.getInputProps("subject")}
               />
-              <MultiSelect
-                label="Períodos"
-                placeholder="Selecione os períodos"
-                data={periodsOptions}
-                multiple
+              <Select
+                label="Professores"
+                placeholder="Selecione os professores"
+                data={professors.map((professor) => ({
+                  value: professor.id.toString(),
+                  label: professor.user.name.toString(),
+                }))}
                 required
-                maxDropdownHeight={80}
+                maxDropdownHeight={400}
+                {...form.getInputProps("professor")}
               />
 
               <Button color="blue" type="submit" loading={isLoading}>

@@ -1,7 +1,6 @@
 import { Button, Modal, Select, Stack } from "@mantine/core";
-import { useForm, zodResolver } from "@mantine/form";
-import { useState } from "react";
 import { toast } from "react-toastify";
+import { useForm, zodResolver } from "@mantine/form";
 import { z } from "zod";
 import { Periods } from "../constants/periods";
 import { useCreateCalendarDay } from "../hooks/useCreateCalendarDay";

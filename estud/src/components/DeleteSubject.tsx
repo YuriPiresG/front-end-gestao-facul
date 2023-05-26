@@ -13,7 +13,7 @@ interface Props {
 }
 
 function DeleteSubject(props: Props) {
-  const [userId, setUserId] = useState<number>(props.subject.id);
+  const [userId] = useState<number>(props.subject.id);
   const { mutateAsync, isLoading } = useDeleteSubject();
   const handleDelete = async () => {
     await mutateAsync(userId);

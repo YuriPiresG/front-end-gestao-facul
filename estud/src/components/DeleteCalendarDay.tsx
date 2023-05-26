@@ -1,5 +1,4 @@
 import { Button, Modal, Stack } from "@mantine/core";
-import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDeleteCalendarDay } from "../hooks/useDeleteCalendarDay";
 import { CalendarDay } from "../hooks/useGetCalendarDays";
