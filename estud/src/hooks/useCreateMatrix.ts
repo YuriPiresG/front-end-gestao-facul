@@ -9,7 +9,7 @@ export interface Matrix {
   semester: number;
 }
 
-interface CreateMatrix {
+export interface CreateMatrix {
   courseId: number;
   subjects: string[];
   skillsDescription: string;

@@ -1,47 +1,58 @@
-import { Button, Modal, MultiSelect, NumberInput, Stack, TextInput } from "@mantine/core";
-import { useState } from "react";
+import {
+  Button,
+  Modal,
+  MultiSelect,
+  NumberInput,
+  Stack,
+  TextInput,
+} from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
 import { toast } from "react-toastify";
-import { Matrix } from "../hooks/useCreateMatrix";
-import { useUpdateMatrix } from "../hooks/useUpdateMatrix";
+import { z } from "zod";
+import { useGetSubjects } from "../hooks/useGetSubjects";
+import { UpdateMatrix, useUpdateMatrix } from "../hooks/useUpdateMatrix";
 
-interface FormEvent extends React.FormEvent<HTMLFormElement> {
-  target: HTMLFormElement;
-}
+const updateMatrixSchema = z.object({
+  subject: z.array(z.string()),
+  skillsDescription: z.string().nonempty(),
+  semester: z.number(),
+});
+type UpdateMatrixForm = z.infer<typeof updateMatrixSchema>;
 
 interface Props {
-  matrix: Matrix;
+  matrix: UpdateMatrix;
   open: boolean;
   close: () => void;
 }
 
 function UpdateMatrix(props: Props) {
-  const [subjects, setSubjects] = useState(props.matrix.subjects);
-  const [skillsDescription, setSkillsDescription] = useState(
-    props.matrix.skillsDescription
-  );
-  const [semester, setSemester] = useState(props.matrix.semester);
+  const subjectsQuery = useGetSubjects();
+  const subjects = subjectsQuery.data ?? [];
   const { mutateAsync, isLoading } = useUpdateMatrix();
-
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
+  const form = useForm<UpdateMatrixForm>({
+    initialValues: {
+      subject: [""],
+      skillsDescription: "",
+      semester: 0,
+    },
+    validate: zodResolver(updateMatrixSchema),
+  });
+  const handleSubmit = async (matrixForm: UpdateMatrixForm) => {
+    const formValues = {
       id: props.matrix.id,
-      subjects,
-      skillsDescription,
-      semester,
-    });
-    props.close();
+      courseId: props.matrix.courseId,
+      semester: matrixForm.semester,
+      skillsDescription: matrixForm.skillsDescription,
+      subjects: matrixForm.subject,
+    };
+    await mutateAsync(formValues);
     toast.success("Matriz atualizada com sucesso!");
+    handleClose();
   };
-  const resetForm = () => {
-    setSubjects([]);
-    setSkillsDescription([]);
-    setSemester(0);
-  };
-  const handleClose = () => {
-    resetForm();
+  function handleClose() {
     props.close();
-  };
+    form.reset();
+  }
 
   return (
     <>
@@ -51,42 +62,33 @@ function UpdateMatrix(props: Props) {
         title="Atualizar uma Matriz"
       >
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((matrixForm) => handleSubmit(matrixForm))}
+          >
             <Stack spacing="xs">
-              <NumberInput
-                label="ID da Matriz"
-                type="number"
-                placeholder="ID da Matriz"
-                value={props.matrix.id}
-                disabled
-              />
               <NumberInput
                 label="Semestre"
                 type="number"
                 placeholder="Semestre"
-                value={semester}
-                onChange={(value) => setSemester(Number(value))}
+                {...form.getInputProps("semester")}
               />
               <TextInput
                 label="Descrição das habilidades"
                 type="text"
                 placeholder="Descrição das habilidades"
-                value={skillsDescription}
-                onChange={(event) =>
-                  setSkillsDescription(Array(event.target.value))
-                }
+                {...form.getInputProps("skillsDescription")}
               />
-             <MultiSelect
+              <MultiSelect
                 label="Matéria"
                 placeholder="Selecione a matéria"
                 data={subjects.map((subject) => ({
-                  value: subject.id.toString(), 
+                  value: subject.id.toString(),
                   label: subject.name,
                 }))}
                 required
-                maxDropdownHeight={80}
+                maxDropdownHeight={200}
                 searchable
-                
+                {...form.getInputProps("subject")}
               />
 
               <Button color="blue" type="submit" loading={isLoading}>

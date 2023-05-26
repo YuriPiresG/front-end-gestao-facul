@@ -15,6 +15,7 @@ import CreateMatrix from "./CreateMatrix";
 import DeleteMatrix from "./DeleteMatrix";
 import { Matrix } from "../hooks/useCreateMatrix";
 import { MdDeleteForever, MdEditSquare } from "react-icons/md";
+import UpdateMatrix from "./UpdateMatrix";
 
 function GetCourse() {
   const { id } = useParams<{ id: string }>();
@@ -23,6 +24,8 @@ function GetCourse() {
     courseId: number;
   }>(null);
   const [selectedMatrixToDelete, setSelectedMatrixToDelete] =
+    useState<Matrix | null>(null);
+  const [selectedMatrixToUpdate, setSelectedMatrixToUpdate] =
     useState<Matrix | null>(null);
 
   return (
@@ -51,7 +54,10 @@ function GetCourse() {
         <h3>Períodos: {course?.periods.join(", ")}</h3>
       </Box>
       <h1>Matrizes</h1>
-      <Button color="green" onClick={() => setNewMatrix({ courseId: course?.id as number })}>
+      <Button
+        color="green"
+        onClick={() => setNewMatrix({ courseId: course?.id as number })}
+      >
         Nova matriz
       </Button>
       <Table>
@@ -73,11 +79,19 @@ function GetCourse() {
               <td>
                 {matrix.subjects.map((subject) => subject.name).join(", ")}
               </td>
-              <td><Button
-              onClick={() => setSelectedMatrixToDelete(matrix)}>
-                <MdDeleteForever />
-              </Button></td>
-              <td><Button>DELETAR</Button></td>
+              <td>
+                <Button
+                  color="red"
+                  onClick={() => setSelectedMatrixToDelete(matrix)}
+                >
+                  <MdDeleteForever size={30} />
+                </Button>
+              </td>
+              <td>
+                <Button onClick={() => setSelectedMatrixToUpdate(matrix)}>
+                  <MdEditSquare size={30} />
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -92,8 +106,16 @@ function GetCourse() {
         close={() => setSelectedMatrixToDelete(null)}
         matrix={selectedMatrixToDelete as any}
       />
+      {selectedMatrixToUpdate && (
+        <UpdateMatrix
+          open={!!selectedMatrixToUpdate}
+          close={() => {
+            setSelectedMatrixToUpdate(null);
+          }}
+          matrix={selectedMatrixToUpdate as any}
+        />
+      )}{" "}
     </div>
   );
 }
-
 export default GetCourse;

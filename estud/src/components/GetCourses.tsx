@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useGetCourses } from "../hooks/useGetCourses";
 import { User, useUser } from "../hooks/useUser";
 import CreateCourse from "./CreateCourse";
-import CreateMatrix from "./CreateMatrix";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
 
@@ -23,8 +22,6 @@ function GetCourses() {
   const isPermitedEdit = user?.role === 0 || user?.role === 1;
   const { data: courses, isLoading } = useGetCourses();
   const [selectedCourseUpdate, setSelectedCourseUpdate] =
-    useState<Course | null>(null);
-  const [selectedCourseToMatrix, setselectedCourseToMatrix] =
     useState<Course | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   return (
