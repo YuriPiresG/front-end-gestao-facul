@@ -49,34 +49,34 @@ export const Layout = () => {
                 wrap="wrap"
               >
                 <Link to="/users/get" className="link">
-                  <Button color="yellow">Ver usuários</Button>
+                  <Button color="yellow" style={{width:"15rem"}}>Ver usuários</Button>
                 </Link>
 
                 <Link to="/get-courses" className="link">
-                  <Button color="yellow"> Ver cursos existentes </Button>
+                  <Button color="yellow" style={{width:"15rem"}}> Ver cursos existentes </Button>
                 </Link>
 
                 {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
                   <Link to="/calendars/get" className="link">
-                    <Button color="yellow"> Ver calendários </Button>
+                    <Button color="yellow" style={{width:"15rem"}}> Ver calendários </Button>
                   </Link>
                 )}
                 {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
                   <Link to="/professors/get" className="link">
-                    <Button color="yellow"> Ver professores </Button>
+                    <Button color="yellow" style={{width:"15rem"}}> Ver professores </Button>
                   </Link>
                 )}
                 <Button
                   onClick={handleLogout}
                   color="red"
-                  style={{ marginTop: "55vh" }}
+                  style={{ marginTop: "55vh", marginBottom: "auto", width:"15rem" }}
                 >
                   Sair do sistema
                 </Button>
                 <Button
                   onClick={handleHome}
                   color="blue"
-                  style={{ marginTop: "auto", marginBottom: "auto" }}
+                  style={{ marginTop: "auto", marginBottom: "auto", width:"15rem" }}
                 >
                   Voltar para o início
                 </Button>
