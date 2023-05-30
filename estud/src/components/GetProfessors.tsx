@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useState } from "react";
 import { useGetProfessors } from "../hooks/useGetProfessors";
 import UpdateProfessor from "./UpdateProfessor";
@@ -21,6 +21,7 @@ function GetProfessors() {
   return (
     <div>
       <h2>Lista de professores</h2>
+      <LoadingOverlay visible={isLoading} overlayBlur={1} />
       <Table>
         <thead>
           <tr>

@@ -15,6 +15,7 @@ export const useCourse = () => {
     mutationFn: async (data: Course) => {
       const response = await api.post("/course", data);
       queryClient.refetchQueries(["courses"]);
+      console.log(response);
     },
   });
 };

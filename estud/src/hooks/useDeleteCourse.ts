@@ -7,6 +7,7 @@ function useDeleteCourse() {
         mutationFn: async (id: number) => {
             const response = await api.delete(`/course/${id}`);
             queryClient.refetchQueries(["courses"]);
+            console.log(response);
         }
     });
 }

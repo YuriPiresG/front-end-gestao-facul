@@ -7,6 +7,7 @@ function useUpdateProfessor() {
     mutationFn: async (data: any) => {
       const response = await api.put(`/professor/${data.id}`, data);
       queryClient.refetchQueries(["professors"]);
+      console.log(response);
     },
   });
 }

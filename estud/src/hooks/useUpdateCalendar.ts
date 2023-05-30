@@ -7,6 +7,7 @@ function useUpdateCalendar() {
         mutationFn: async (data: any) => {
             const response = await api.put(`/calendar/${data.id}`, data);
             queryClient.refetchQueries(["calendars"]);
+            console.log(response);
         }
     });
 }

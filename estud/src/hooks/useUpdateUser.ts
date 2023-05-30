@@ -7,6 +7,7 @@ function useUpdateUser() {
     mutationFn: async (data: any) => {
       const response = await api.put(`/users/${data.id}`, data);
       queryClient.refetchQueries(["users"]);
+      console.log(response);
     },
   });
 }

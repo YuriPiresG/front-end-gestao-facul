@@ -21,6 +21,7 @@ export const useCreateCalendarDay = () => {
         professor: data.professor.map((professor) => +professor),
       });
       queryClient.refetchQueries(["calendar-day"]);
+      console.log(response);
     },
   });
 };

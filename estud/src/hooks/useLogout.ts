@@ -9,6 +9,7 @@ export const useLogout = () => {
       localStorage.removeItem("access_token");
       navigate("/");
     };
+    console.log(queryClient);
     return logout;
   };
   

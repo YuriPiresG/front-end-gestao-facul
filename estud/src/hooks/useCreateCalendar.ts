@@ -13,6 +13,7 @@ export const useCreateCalendar = () => {
     mutationFn: async (data: Calendar) => {
       const response = await api.post("/calendar", data);
       queryClient.refetchQueries(["calendars"]);
+      console.log(response);
     },
   });
 };

@@ -7,6 +7,7 @@ function useDeleteUser() {
     mutationFn: async (id: number) => {
       const response = await api.delete(`/users/${id}`);
       queryClient.refetchQueries(["users"]);
+      console.log(response);
     },
   });
 }

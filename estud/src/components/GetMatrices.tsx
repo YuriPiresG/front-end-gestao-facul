@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useGetMatrices } from "../hooks/useGetMatrices";
 import { useState } from "react";
 import { Matrix } from "../hooks/useCreateMatrix";
@@ -14,6 +14,7 @@ function GetMatrices() {
   return (
     <div>
       <h2>Lista de matrizes</h2>
+      <LoadingOverlay visible={isLoading} overlayBlur={1} />
       <Table>
         <thead>
           <tr>

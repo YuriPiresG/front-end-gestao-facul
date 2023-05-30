@@ -11,6 +11,7 @@ export const useCreateSubject = () => {
     mutationFn: async (data: Subject) => {
       const response = await api.post("/subjects", data);
       queryClient.refetchQueries(["subjects"]);
+      console.log(response);
     },
   });
 };

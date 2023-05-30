@@ -7,6 +7,7 @@ function useUpdateSubject() {
         mutationFn: async (data: any) => {
             const response = await api.put(`/subjects/${data.id}`, data);
             queryClient.refetchQueries(["subjects"]);
+            console.log(response);
         }
     });
 }

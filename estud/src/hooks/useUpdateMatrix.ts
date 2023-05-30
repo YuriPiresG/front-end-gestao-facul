@@ -19,6 +19,7 @@ function useUpdateMatrix() {
         skillsDescription: data.skillsDescription.split(", "),
       });
       queryClient.refetchQueries(["matrices"]);
+      console.log(response);
     },
   });
 }

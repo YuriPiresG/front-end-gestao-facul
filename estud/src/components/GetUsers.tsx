@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../lib/api";
 import DeleteUser from "./DeleteUser";
@@ -58,6 +58,7 @@ function GetUsers() {
 
       <br />
       <h2>Lista de usuários</h2>
+      <LoadingOverlay visible={isLoading} overlayBlur={1} />
       <Table>
         <thead>
           <tr>

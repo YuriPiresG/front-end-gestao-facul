@@ -7,6 +7,7 @@ function useUpdateCourse() {
         mutationFn: async (data: any) => {
             const response = await api.put(`/course/${data.id}`, data);
             queryClient.refetchQueries(["courses"]);
+            console.log(response);
         }
     });
 }

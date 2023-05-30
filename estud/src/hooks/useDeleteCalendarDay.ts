@@ -7,6 +7,7 @@ function useDeleteCalendarDay() {
     mutationFn: async (id: number) => {
       const response = await api.delete(`/calendar-day/${id}`);
       queryClient.refetchQueries(["calendar-day"]);
+      console.log(response);
     },
   });
 }

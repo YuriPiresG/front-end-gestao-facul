@@ -15,6 +15,7 @@ export const useCreateUser = () => {
     mutationFn: async (data: User) => {
       const response = await api.post("/users", data);
       queryClient.refetchQueries(["users"]);
+      console.log(response);
     },
   });
 };

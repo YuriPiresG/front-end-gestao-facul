@@ -7,6 +7,7 @@ function useDeleteProfessor() {
     mutationFn: async (id: number) => {
       const response = await api.delete(`/professor/${id}`);
       queryClient.refetchQueries(["professors"]);
+      console.log(response);
     },
   });
 }

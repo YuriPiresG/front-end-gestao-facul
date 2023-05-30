@@ -8,6 +8,7 @@ export const useHome = () => {
     const home = () => {
       navigate("/home");
     };
+    console.log(queryClient);
     return home;
   };
   

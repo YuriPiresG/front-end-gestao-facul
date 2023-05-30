@@ -1,4 +1,4 @@
-import { Button, Table } from "@mantine/core";
+import { Button, LoadingOverlay, Table } from "@mantine/core";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetCourses } from "../hooks/useGetCourses";
@@ -33,6 +33,7 @@ function GetCourses() {
       </Link>
 
       <h2>Lista de cursos</h2>
+      <LoadingOverlay visible={isLoading} overlayBlur={1} />
       <Table>
         <thead>
           <tr>

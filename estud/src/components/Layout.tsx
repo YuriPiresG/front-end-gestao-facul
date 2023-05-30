@@ -62,11 +62,6 @@ export const Layout = () => {
                   </Link>
                 )}
                 {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
-                  <Link to="/matrices/get" className="link">
-                    <Button color="yellow"> Ver matrizes </Button>
-                  </Link>
-                )}
-                {(userRole === "COORDINATOR" || userRole === "ADMIN") && (
                   <Link to="/professors/get" className="link">
                     <Button color="yellow"> Ver professores </Button>
                   </Link>

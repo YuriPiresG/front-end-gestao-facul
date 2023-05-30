@@ -7,6 +7,7 @@ function useDeleteSubject() {
     mutationFn: async (id: number) => {
       const response = await api.delete(`/subjects/${id}`);
       queryClient.refetchQueries(["subjects"]);
+      console.log(response);
     },
   });
 }
