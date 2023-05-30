@@ -1,19 +1,18 @@
-import React from "react";
 import {
   Button,
   Group,
   Modal,
   PasswordInput,
+  Select,
   Stack,
   TextInput,
-  Select,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import { AiOutlineUserAdd } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateUser } from "../hooks/useCreateUser";
-import { AiOutlineUserAdd } from "react-icons/ai";
 
 const createUserSchema = z.object({
   username: z.string().nonempty({ message: "Username não pode estar vazio" }),
