@@ -6,14 +6,17 @@ interface User {
   name: string;
   email: string;
   password: string;
-  role: number;
+  role: string;
 }
 
 export const useCreateUser = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (data: User) => {
-      const response = await api.post("/users", data);
+      const response = await api.post("/users",{
+        ...data,
+        role: +data.role,
+      });
       queryClient.refetchQueries(["users"]);
       console.log(response);
     },

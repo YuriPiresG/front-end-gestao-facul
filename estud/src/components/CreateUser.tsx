@@ -1,32 +1,34 @@
+import React from "react";
 import {
   Button,
   Group,
   Modal,
-  NumberInput,
   PasswordInput,
   Stack,
-  TextInput
+  TextInput,
+  Select,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateUser } from "../hooks/useCreateUser";
-import { AiOutlineUserAdd} from "react-icons/ai";
+import { AiOutlineUserAdd } from "react-icons/ai";
 
 const createUserSchema = z.object({
   username: z.string().nonempty({ message: "Username não pode estar vazio" }),
   name: z.string().nonempty({ message: "Nome não pode estar vazio" }),
   email: z.string().nonempty({ message: "Email não pode estar vazio" }),
   password: z.string().nonempty({ message: "Senha não pode estar vazio" }),
-  role: z
-    .number()
-    .min(0)
-    .max(3, { message: "Função tem que estar entre 0 e 3" })
-    .refine((value) => typeof value === "number", {
-      message: "O valor deve ser um número",
-    }),
+  role: z.string().nonempty({ message: "Função não pode estar vazio" }),
 });
+
+const enumOptions = [
+  { value: "0", label: "Administrador" },
+  { value: "1", label: "Diretor" },
+  { value: "2", label: "Coordenador" },
+  { value: "3", label: "Professor" },
+];
 
 type CreateUserForm = z.infer<typeof createUserSchema>;
 
@@ -39,7 +41,7 @@ function CreateUser() {
       name: createUserForm.name,
       email: createUserForm.email,
       password: createUserForm.password,
-      role: Number(createUserForm.role),
+      role: createUserForm.role,
     };
     await mutateAsync(formValues);
     close();
@@ -51,7 +53,7 @@ function CreateUser() {
       name: "",
       email: "",
       password: "",
-      role: 0,
+      role: "",
     },
     validate: zodResolver(createUserSchema),
   });
@@ -59,7 +61,6 @@ function CreateUser() {
     form.reset();
     close();
   };
-
 
   return (
     <>
@@ -94,12 +95,10 @@ function CreateUser() {
                 placeholder="Password"
                 {...form.getInputProps("password")}
               />
-              <NumberInput
+              <Select
                 label="Função"
-                min={0}
-                max={3}
-                type="number"
-                placeholder="Role"
+                placeholder="Selecione a função"
+                data={enumOptions}
                 {...form.getInputProps("role")}
               />
               <Button color="blue" type="submit" loading={isLoading}>
@@ -111,8 +110,9 @@ function CreateUser() {
       </Modal>
 
       <Group position="center">
-        <Button onClick={open} color="green" style={{ left: "60vh" }} >
-          <span>Criar um usuário </span><AiOutlineUserAdd size='4vh' />
+        <Button onClick={open} color="green" style={{ left: "60vh" }}>
+          <span>Criar um usuário </span>
+          <AiOutlineUserAdd size="4vh" />
         </Button>
       </Group>
     </>
