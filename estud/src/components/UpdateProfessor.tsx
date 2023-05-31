@@ -40,7 +40,7 @@ function UpdateProfessor(props: Props) {
       periods,
     });
     props.close();
-    toast.success("Usuário atualizado com sucesso!");
+    toast.success("Professor atualizado com sucesso!");
   };
 
   return (
