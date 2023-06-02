@@ -7,33 +7,46 @@ import {
   Stack,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateCalendar } from "../hooks/useCreateCalendar";
+import { useForm, zodResolver } from "@mantine/form";
+import { z } from "zod";
+import { useGetCourses } from "../hooks/useGetCourses";
 
-interface FormEvent extends React.FormEvent<HTMLFormElement> {
-  target: HTMLFormElement;
-}
+const createCalendarSchema = z.object({
+  course: z.string(),
+  semester: z.number(),
+  isActive: z.string(),
+});
+
+type CreateCalendarForm = z.infer<typeof createCalendarSchema>;
 
 function CreateCalendar() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [course, setCourse] = useState<number>(0);
-  const [semester, setSemester] = useState<number>(0);
-  const [isActive, setIsActive] = useState<string>("false");
-
+  const courseQuery = useGetCourses();
+  const courses = courseQuery.data ?? [];
   const { mutateAsync, isLoading } = useCreateCalendar();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      course,
-      semester,
-      isActive: isActive === "true",
-    });
-    close();
+  const handleSubmit = async (calendarForm: CreateCalendarForm) => {
+    const formValues: CreateCalendarForm = {
+      course: calendarForm.course,
+      semester: calendarForm.semester,
+      isActive: calendarForm.isActive,
+    };
+    await mutateAsync(formValues);
     toast.success("Calendario criado com sucesso!");
+    close();
   };
+  const form = useForm<CreateCalendarForm>({
+    initialValues: {
+      course: "",
+      semester: 0,
+      isActive: "",
+    },
+    validate: zodResolver(createCalendarSchema),
+  });
 
   const handleClose = () => {
+    form.reset();
     close();
   };
 
@@ -41,21 +54,26 @@ function CreateCalendar() {
     <>
       <Modal opened={opened} onClose={handleClose} title="Criar um calendario">
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((createCalendarForm) =>
+              handleSubmit(createCalendarForm)
+            )}
+          >
             <Stack spacing="xs">
-              <NumberInput
-                label="Id do curso"
-                type="number"
-                placeholder="Id do curso"
-                value={course}
-                onChange={(value) => setCourse(Number(value))}
+              <Select
+                label="Curso"
+                data={courses.map((course) => ({
+                  value: course.id.toString(),
+                  label: course.name,
+                }))}
+                placeholder="Curso"
+                {...form.getInputProps("course")}
               />
               <NumberInput
                 label="Semestre"
                 type="number"
                 placeholder="Semestre"
-                value={semester}
-                onChange={(value) => setSemester(Number(value))}
+                {...form.getInputProps("semester")}
               />
               <Select
                 label="Está ativo?"
@@ -64,8 +82,7 @@ function CreateCalendar() {
                   { value: "true", label: "Sim" },
                   { value: "false", label: "Não" },
                 ]}
-                value={isActive || ""}
-                onChange={(value) => setIsActive(value || "")}
+                {...form.getInputProps("isActive")}
                 required
               />
 
