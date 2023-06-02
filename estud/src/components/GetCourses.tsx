@@ -6,6 +6,7 @@ import { User, useUser } from "../hooks/useUser";
 import CreateCourse from "./CreateCourse";
 import DeleteCourse from "./DeleteCourse";
 import UpdateCourse from "./UpdateCourse";
+import { MdEditSquare, MdDeleteForever } from "react-icons/md";
 
 interface Course {
   id: number;
@@ -62,7 +63,7 @@ function GetCourses() {
                   onClick={() => setSelectedCourseUpdate(course)}
                   disabled={!isPermitedEdit}
                 >
-                  EDITAR
+                  <MdEditSquare size="2rem" />
                 </Button>
               </td>
               <td>
@@ -71,7 +72,7 @@ function GetCourses() {
                   color="red"
                   disabled={!isPermitedEdit}
                 >
-                  DELETAR
+                  <MdDeleteForever size="2rem" />
                 </Button>
               </td>
               <td>
