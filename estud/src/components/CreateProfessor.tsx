@@ -85,6 +85,7 @@ function CreateProfessor(props: Props) {
                 multiple
                 required
                 maxDropdownHeight={80}
+                {...form.getInputProps("periods")}
               />
               <Button color="green" type="submit" loading={isLoading}>
                 Criar

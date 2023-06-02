@@ -2,7 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "https://proj-gestao-facul-production.up.railway.app",
+  baseURL: "http://localhost:3000",
+  // baseURL: "https://proj-gestao-facul-production.up.railway.app",
 });
 api.interceptors.request.use((config) => {
   const accessToken = localStorage.getItem("access_token");

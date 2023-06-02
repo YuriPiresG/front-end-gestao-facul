@@ -1,14 +1,9 @@
-import {
-  Button,
-  Modal,
-  MultiSelect,
-  NumberInput,
-  Stack
-} from "@mantine/core";
+import { Button, Modal, MultiSelect, NumberInput, Stack } from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Professor } from "../hooks/useCreateProfessor";
 import { useUpdateProfessor } from "../hooks/useUpdateProfessor";
+import { Periods } from "../constants/periods";
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
@@ -30,7 +25,7 @@ const periodsOptions = [
 ];
 
 function UpdateProfessor(props: Props) {
-  const [periods] = useState(props.professor.periods);
+  const [periods, setPeriods] = useState(props.professor.periods);
   const { mutateAsync, isLoading } = useUpdateProfessor();
 
   const handleSubmit = async (event: FormEvent) => {
@@ -67,6 +62,12 @@ function UpdateProfessor(props: Props) {
                 multiple
                 required
                 maxDropdownHeight={80}
+                value={periods}
+                onChange={(value) => {
+                  if (value) {
+                    setPeriods(value as Periods[]);
+                  }
+                }}
               />
               <Button color="blue" type="submit" loading={isLoading}>
                 Atualizar

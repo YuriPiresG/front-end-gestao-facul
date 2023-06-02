@@ -77,6 +77,9 @@ function CreateCalendarDay(props: Props) {
     props.close();
     form.reset();
   }
+  const filteredProfessors = professors.filter((professor) =>
+    professor.periods.some((period) => period === props.period)
+  );
   return (
     <>
       <Modal
@@ -122,7 +125,7 @@ function CreateCalendarDay(props: Props) {
               <Select
                 label="Professores"
                 placeholder="Selecione os professores"
-                data={professors.map((professor) => ({
+                data={filteredProfessors.map((professor) => ({
                   value: professor.id.toString(),
                   label: professor.user.name.toString(),
                 }))}
