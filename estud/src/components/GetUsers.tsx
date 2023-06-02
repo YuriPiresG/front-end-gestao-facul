@@ -1,35 +1,15 @@
 import { Button, LoadingOverlay, Table } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../lib/api";
-import DeleteUser from "./DeleteUser";
-import CreateUser from "./CreateUser";
 import { useState } from "react";
-import UpdateUser from "./UpdateUser";
+import { MdDeleteForever, MdEditSquare } from "react-icons/md";
+import useGetUsers from "../hooks/useGetUsers";
+import { User, useUser } from "../hooks/useUser";
 import CreateProfessor from "./CreateProfessor";
-import { useUser } from "../hooks/useUser";
-import { MdEditSquare, MdDeleteForever } from "react-icons/md";
-
-interface User {
-  id: number;
-  username: string;
-  name: string;
-  email: string;
-  password: string;
-  role: number;
-}
-
-const useUsers = () => {
-  return useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const response = await api.get<User[]>("/users");
-      return response.data;
-    },
-  });
-};
+import CreateUser from "./CreateUser";
+import DeleteUser from "./DeleteUser";
+import UpdateUser from "./UpdateUser";
 
 function GetUsers() {
-  const { data: users, isLoading } = useUsers();
+  const { data: users, isLoading } = useGetUsers();
   const [selectedUserToDelete, setSelectedUserToDelete] = useState<User | null>(
     null
   );
@@ -83,7 +63,7 @@ function GetUsers() {
                   onClick={() => setSelectedUserToUpdate(user)}
                   disabled={!isPermitedEdit}
                 >
-                  <MdEditSquare size="4vh" />
+                  <MdEditSquare size="2rem" />
                 </Button>
               </td>
               <td>
@@ -92,7 +72,7 @@ function GetUsers() {
                   onClick={() => setSelectedUserToDelete(user)}
                   disabled={!isPermitedEdit}
                 >
-                  <MdDeleteForever size="4vh" />
+                  <MdDeleteForever size="2rem" />
                 </Button>
               </td>
               <td>
