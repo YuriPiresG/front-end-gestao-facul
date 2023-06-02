@@ -45,7 +45,7 @@ function CreateProfessor(props: Props) {
   const { mutateAsync, isLoading } = useCreateProfessor();
   const handleSubmit = async (professorForm: CreateProfessorForm) => {
     await mutateAsync(professorForm);
-    close();
+    props.close();
     toast.success("Professor criado com sucesso!");
   };
   const form = useForm<CreateProfessorForm>({
