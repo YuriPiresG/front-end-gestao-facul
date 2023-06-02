@@ -4,8 +4,6 @@ import { toast } from "react-toastify";
 import { useDeleteSubject } from "../hooks/useDeleteSubject";
 import { Subject } from "../hooks/useGetSubjects";
 
-
-
 interface Props {
   subject: Subject;
   open: boolean;
@@ -16,10 +14,13 @@ function DeleteSubject(props: Props) {
   const [userId] = useState<number>(props.subject.id);
   const { mutateAsync, isLoading } = useDeleteSubject();
   const handleDelete = async () => {
-    await mutateAsync(userId);
-    props.close();
-    toast.success("Matéria deletada com sucesso!");
-    toast.error("Erro ao deletar matéria!");
+    try {
+      await mutateAsync(userId);
+      props.close();
+      toast.success("Matéria deletada com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao deletar matéria!");
+    }
   };
 
   return (
@@ -33,7 +34,7 @@ function DeleteSubject(props: Props) {
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
               <Button color="red" type="submit" loading={isLoading}>
-              {`Sim, deletar ${props.subject.name}`}
+                {`Sim, deletar ${props.subject.name}`}
               </Button>
             </Stack>
           </form>

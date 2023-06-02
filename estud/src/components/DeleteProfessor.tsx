@@ -21,10 +21,13 @@ function DeleteProfessor(props: Props) {
   const [userId] = useState<number>(props.professor.id);
   const { mutateAsync, isLoading } = useDeleteProfessor();
   const handleDelete = async () => {
-    await mutateAsync(userId);
-    props.close();
-    toast.success("Professor deletado com sucesso!");
-    toast.error("Erro ao deletar professor!");
+    try {
+      await mutateAsync(userId);
+      props.close();
+      toast.success("Professor deletado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao deletar professor!");
+    }
   };
 
   return (

@@ -17,11 +17,15 @@ interface Props {
 function DeleteUser(props: Props) {
   const [userId] = useState<number>(props.user.id);
   const { mutateAsync, isLoading } = useDeleteUser();
-  const handleDelete = async () => {
-    await mutateAsync(userId);
-    props.close();
-    toast.success("Usuário deletado com sucesso!");
-    toast.error("Erro ao deletar usuário!");
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      await mutateAsync(userId);
+      props.close();
+      toast.success("Usuário deletado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao deletar usuário!");
+    }
   };
 
   return (

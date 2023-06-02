@@ -23,10 +23,13 @@ function DeleteCourse(props: Props) {
   const [courseId] = useState<number>(props.course.id);
   const { mutateAsync, isLoading } = useDeleteCourse();
   const handleDelete = async () => {
-    await mutateAsync(courseId);
-    props.close();
-    toast.success("Curso deletado com sucesso!");
-    toast.error("Erro ao deletar curso!");
+    try {
+      await mutateAsync(courseId);
+      props.close();
+      toast.success("Curso deletado com sucesso!");
+    } catch (error) {
+      toast.error("Erro ao deletar curso!");
+    }
   };
 
   return (
@@ -40,7 +43,7 @@ function DeleteCourse(props: Props) {
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
               <Button color="red" type="submit" loading={isLoading}>
-              {`Sim desejo deletar ${props.course.name}?`}
+                {`Sim desejo deletar ${props.course.name}?`}
               </Button>
             </Stack>
           </form>
