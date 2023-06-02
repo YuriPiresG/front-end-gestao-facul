@@ -80,16 +80,16 @@ function GetCourse() {
                 {matrix.subjects.map((subject) => subject.name).join(", ")}
               </td>
               <td>
+                <Button onClick={() => setSelectedMatrixToUpdate(matrix)}>
+                  <MdEditSquare size={30} />
+                </Button>
+              </td>
+              <td>
                 <Button
                   color="red"
                   onClick={() => setSelectedMatrixToDelete(matrix)}
                 >
                   <MdDeleteForever size={30} />
-                </Button>
-              </td>
-              <td>
-                <Button onClick={() => setSelectedMatrixToUpdate(matrix)}>
-                  <MdEditSquare size={30} />
                 </Button>
               </td>
             </tr>
