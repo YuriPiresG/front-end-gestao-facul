@@ -1,25 +1,11 @@
-import {
-  Button,
-  Modal,
-  MultiSelect,
-  NumberInput,
-  Stack
-} from "@mantine/core";
+import { Button, Modal, MultiSelect, NumberInput, Stack } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useCreateProfessor } from "../hooks/useCreateProfessor";
 import { User } from "../hooks/useUser";
-
-enum Periods {
-  M1 = "M1",
-  M2 = "M2",
-  T1 = "T1",
-  T2 = "T2",
-  N1 = "N1",
-  N2 = "N2",
-}
+import { Periods } from "../constants/periods";
 
 const createProfessorScheme = z.object({
   id: z

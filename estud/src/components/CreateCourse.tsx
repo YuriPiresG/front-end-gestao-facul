@@ -4,17 +4,27 @@ import {
   Modal,
   MultiSelect,
   NumberInput,
+  Select,
   Stack,
   TextInput,
 } from "@mantine/core";
+import { useForm, zodResolver } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import React, { useState } from "react";
 import { toast } from "react-toastify";
+import { z } from "zod";
 import { useCourse } from "../hooks/useCourse";
+import useGetUsers from "../hooks/useGetUsers";
 
-interface FormEvent extends React.FormEvent<HTMLFormElement> {
-  target: HTMLFormElement;
-}
+const createCourseSchema = z.object({
+  name: z.string().nonempty(),
+  durationHours: z.number().positive(),
+  quantityClass: z.number().positive(),
+  coordinatorId: z.string(),
+  quantitySemester: z.number().positive(),
+  periods: z.array(z.string()),
+});
+
+type CreateCourseForm = z.infer<typeof createCourseSchema>;
 
 const periodsOptions = [
   { value: "M1", label: "M1" },
@@ -27,81 +37,89 @@ const periodsOptions = [
 
 function CreateCourse() {
   const [opened, { open, close }] = useDisclosure(false);
-  const [name, setName] = useState("");
-  const [coordinatorId, setCoordinatorId] = useState<number>(0);
-  const [durationHours, setDurationHours] = useState<number>(0);
-  const [quantityClass, setQuantityClass] = useState<number>(0);
-  const [quantitySemester, setQuantitySemester] = useState<number>(0);
-  const [periods, setPeriods] = useState<string[]>([]);
-
+  const coordinatorsQuery = useGetUsers();
+  const coordinators =
+    coordinatorsQuery.data?.filter((user) => user.role === 2) ?? [];
   const { mutateAsync, isLoading } = useCourse();
-  const handleSubmit = async (event: FormEvent) => {
-    event.preventDefault();
-    await mutateAsync({
-      name,
-      coordinatorId,
-      durationHours,
-      quantityClass,
-      quantitySemester,
-      periods,
-    });
-    close();
+  const handleSubmit = async (courseForm: CreateCourseForm) => {
+    const formValues: CreateCourseForm = {
+      name: courseForm.name,
+      durationHours: courseForm.durationHours,
+      quantityClass: courseForm.quantityClass,
+      coordinatorId: courseForm.coordinatorId,
+      quantitySemester: courseForm.quantitySemester,
+      periods: courseForm.periods,
+    };
+    await mutateAsync(formValues);
     toast.success("Curso criado com sucesso!");
-  };
-  const resetForm = () => {
-    setName("");
-    setCoordinatorId(0);
-    setDurationHours(0);
-    setQuantityClass(0);
-    setQuantitySemester(0);
-    setPeriods([]);
-  };
-  const handleClose = () => {
-    resetForm();
     close();
   };
+  const form = useForm<CreateCourseForm>({
+    initialValues: {
+      name: "",
+      durationHours: 0,
+      quantityClass: 0,
+      coordinatorId: "",
+      quantitySemester: 0,
+      periods: [""],
+    },
+    validate: zodResolver(createCourseSchema),
+  });
+
+  const handleClose = () => {
+    form.reset();
+    close();
+  };
+
   return (
     <>
       <Modal opened={opened} onClose={handleClose} title="Criar um curso">
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={form.onSubmit((createCourseForm) =>
+              handleSubmit(createCourseForm)
+            )}
+          >
             <Stack spacing="xs">
               <TextInput
                 label="Nome do curso"
                 type="text"
                 placeholder="Engenharia de Software"
-                onChange={(event) => setName(event.target.value)}
+                {...form.getInputProps("name")}
               />
-              <NumberInput
-                label="ID do coordenador"
-                type="number"
-                placeholder="ID do coordenador"
-                onChange={(value) => setCoordinatorId(Number(value))}
+              <Select
+                label="Coordenador"
+                placeholder="Selecione o coordenador"
+                data={coordinators.map((coordinator) => ({
+                  value: coordinator.id.toString(),
+                  label: coordinator.name,
+                }))}
+                {...form.getInputProps("coordinatorId")}
+                required
               />
               <NumberInput
                 label="Duração do curso em horas"
                 type="number"
                 placeholder="Duração do curso em horas"
-                onChange={(value) => setDurationHours(Number(value))}
+                {...form.getInputProps("durationHours")}
               />
               <NumberInput
                 label="Quantidade de aulas"
                 type="number"
                 placeholder="Quantidade de aulas"
-                onChange={(value) => setQuantityClass(Number(value))}
+                {...form.getInputProps("quantityClass")}
               />
               <NumberInput
                 label="Quantidade de semestres"
                 type="number"
                 placeholder="Quantidade de semestres"
-                onChange={(value) => setQuantitySemester(Number(value))}
+                {...form.getInputProps("quantitySemester")}
               />
               <MultiSelect
                 label="Períodos"
                 placeholder="Selecione os períodos"
                 data={periodsOptions}
-                value={periods}
-                onChange={(values) => setPeriods(values)}
+                {...form.getInputProps("periods")}
                 multiple
                 required
               />
