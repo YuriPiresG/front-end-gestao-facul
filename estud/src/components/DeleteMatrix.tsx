@@ -12,7 +12,8 @@ interface Props {
 function DeleteMatrix(props: Props) {
   const matrixId = props.matrix?.id;
   const { mutateAsync, isLoading } = useDeleteMatrix();
-  const handleDelete = async () => {
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await mutateAsync(matrixId);
       toast.success("Matriz deletada com sucesso!");
@@ -33,7 +34,7 @@ function DeleteMatrix(props: Props) {
           <form onSubmit={handleDelete}>
             <Stack spacing="xs">
               <Button color="red" type="submit" loading={isLoading}>
-              {`Sim, tenho certeza que desejo deletar a matriz ${props.matrix?.id}`}
+                {`Sim, tenho certeza que desejo deletar a matriz ${props.matrix?.id}`}
               </Button>
             </Stack>
           </form>

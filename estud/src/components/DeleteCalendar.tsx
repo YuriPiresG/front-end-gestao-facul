@@ -16,7 +16,8 @@ interface Props {
 function DeleteCalendar(props: Props) {
   const [calendarId] = useState<number>(props.calendar.id);
   const { mutateAsync, isLoading } = useDeleteCalendar();
-  const handleDelete = async () => {
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await mutateAsync(calendarId);
       props.close();

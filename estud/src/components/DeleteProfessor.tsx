@@ -20,7 +20,8 @@ interface Professor {
 function DeleteProfessor(props: Props) {
   const [userId] = useState<number>(props.professor.id);
   const { mutateAsync, isLoading } = useDeleteProfessor();
-  const handleDelete = async () => {
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await mutateAsync(userId);
       props.close();

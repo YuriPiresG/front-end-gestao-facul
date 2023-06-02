@@ -22,7 +22,8 @@ interface Props {
 function DeleteCourse(props: Props) {
   const [courseId] = useState<number>(props.course.id);
   const { mutateAsync, isLoading } = useDeleteCourse();
-  const handleDelete = async () => {
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await mutateAsync(courseId);
       props.close();

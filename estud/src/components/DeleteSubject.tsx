@@ -13,7 +13,8 @@ interface Props {
 function DeleteSubject(props: Props) {
   const [userId] = useState<number>(props.subject.id);
   const { mutateAsync, isLoading } = useDeleteSubject();
-  const handleDelete = async () => {
+  const handleDelete = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       await mutateAsync(userId);
       props.close();
