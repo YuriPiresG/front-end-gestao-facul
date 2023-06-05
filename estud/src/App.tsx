@@ -17,7 +17,7 @@ import GetMatrices from "./components/GetMatrices";
 import GetSubjects from "./components/GetSubjects";
 import GetCalendarDays from "./components/GetCalendarDays";
 import GetProfessors from "./components/GetProfessors";
-
+import CreateCalendar from "./components/CreateCalendar";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +61,10 @@ const router = createBrowserRouter([
       {
         path: "professors/get",
         element: <GetProfessors />,
+      },
+      {
+        path: "calendars/create",
+        element: <CreateCalendar />,
       },
       {
         path: "calendars/get",
