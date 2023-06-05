@@ -6,7 +6,7 @@ function useDeleteMatrix() {
   return useMutation({
     mutationFn: async (id: number) => {
       const response = await api.delete(`/matrix/${id}`);
-      queryClient.refetchQueries(["matrix"]);
+      queryClient.refetchQueries(["course"]);
       console.log(response);
     },
   });
