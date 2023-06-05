@@ -79,6 +79,7 @@ function GetUsers() {
                 <Button
                   color="yellow"
                   onClick={() => setselectedUserToProf(user)}
+                  disabled={user.role === 3}
                 >
                   Tornar professor
                 </Button>
