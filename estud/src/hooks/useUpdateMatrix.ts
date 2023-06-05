@@ -18,7 +18,7 @@ function useUpdateMatrix() {
         subjects: data.subjects.map((subject) => +subject),
         skillsDescription: data.skillsDescription.split(", "),
       });
-      queryClient.refetchQueries(["matrices"]);
+      queryClient.refetchQueries(["matrix"]);
       console.log(response);
     },
   });

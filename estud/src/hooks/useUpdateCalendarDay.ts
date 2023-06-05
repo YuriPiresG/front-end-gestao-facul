@@ -21,7 +21,7 @@ function useUpdateCalendarDay() {
         subject: +data.subject,
         professor: data.professor.map((professor) => +professor),
       });
-      queryClient.refetchQueries(["calendar-days"]);
+      queryClient.refetchQueries(["calendar-day"]);
       console.log(response);
     },
   });

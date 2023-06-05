@@ -6,7 +6,7 @@ function useDeleteProfessor() {
   return useMutation({
     mutationFn: async (id: number) => {
       const response = await api.delete(`/professor/${id}`);
-      queryClient.refetchQueries(["professors"]);
+      queryClient.refetchQueries(["professor"]);
       console.log(response);
     },
   });
