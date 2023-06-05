@@ -14,9 +14,9 @@ export const useCreateCalendar = () => {
       const response = await api.post("/calendar", {
         ...data,
         course: +data.course,
-        isActive: (data.isActive === "true" ? true : false)
+        isActive: data.isActive === "true" ? true : false,
       });
-      queryClient.refetchQueries(["calendars"]);
+      queryClient.refetchQueries(["calendar"]);
       console.log(response);
     },
   });
