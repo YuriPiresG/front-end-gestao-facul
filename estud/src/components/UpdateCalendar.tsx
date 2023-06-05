@@ -1,9 +1,15 @@
-import { Button, Modal, NumberInput, Stack, TextInput } from "@mantine/core";
+import {
+  Button,
+  Modal,
+  NumberInput,
+  Select,
+  Stack,
+  TextInput,
+} from "@mantine/core";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { Calendar } from "../hooks/useGetCalendars";
 import { useUpdateCalendar } from "../hooks/useUpdateCalendar";
-
 
 interface FormEvent extends React.FormEvent<HTMLFormElement> {
   target: HTMLFormElement;
@@ -21,7 +27,12 @@ function UpdateCalendar(props: Props) {
   );
   const [courseName, setCourseName] = useState(props.calendar.course?.name);
   const [semester, setSemester] = useState<number>(props.calendar?.semester);
-  const [isActive] = useState<boolean>(props.calendar?.isActive);
+  const [isActive, setIsActive] = useState<string>(
+    props.calendar.isActive ? "true" : "false"
+  );
+  const handleChangeIsActive = (value: string) => {
+    setIsActive(value);
+  };
 
   const { mutateAsync, isLoading } = useUpdateCalendar();
   const handleSubmit = async (event: FormEvent) => {
@@ -62,6 +73,7 @@ function UpdateCalendar(props: Props) {
                 placeholder="Id do curso"
                 value={courseId}
                 onChange={(value) => setCourseId(Number(value))}
+                disabled
               />
               <TextInput
                 label="Nome do curso"
@@ -78,6 +90,15 @@ function UpdateCalendar(props: Props) {
                 placeholder="Semestre"
                 value={semester}
                 onChange={(value) => setSemester(Number(value))}
+              />
+              <Select
+                label="Ativo"
+                data={[
+                  { value: "true", label: "Sim" },
+                  { value: "false", label: "Não" },
+                ]}
+                value={isActive}
+                onChange={handleChangeIsActive}
               />
               <Button color="blue" type="submit" loading={isLoading}>
                 Atualizar
